@@ -1,0 +1,31 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# ageutils
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+ageutils provides a collection of efficient functions for working with
+individual ages and corresponding intervals. These functions allow for efficient
+conversion of ages to intervals, aggregation of ages and associated counts and
+the splitting of interval counts based on specified age distributions.
+
+::: {.pkgdown-devel}
+The development version of ageutils can be installed from GitHub with:
+```{r, eval = FALSE}
+remotes::install_github("TimTaylor/ageutils")
+```
+:::
