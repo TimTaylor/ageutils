@@ -1,0 +1,144 @@
+---
+title: "Utilities for Working with Age Categories"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Utilities for Working with Age Categories}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+ageutils provides a collection of functions for working with age intervals with
+underlying implementations that have been optimised for performance.
+
+## `breaks_to_interval()`
+
+`breaks_to_interval` provides a categorisation based on specified breaks which
+represent left-hand interval limits. The resultant groupings span from the
+minimum break through to `Inf` and will always be closed on the left and open on
+the right. Ages below the minimum break will be returned as NA. As an example,
+if `breaks = c(0, 1, 10, 30)` the interval categories would be [0, 1), [1, 10),
+[10, 30) and [30, Inf). Intervals are returned as a data frame with 3 entries;
+A factor with a character representation of the interval and two columns
+representing the numeric values of the corresponding lower (closed) and upper
+(open) bounds.
+
+```{r}
+library(ageutils)
+breaks_to_interval(breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+```
+
+## `cut_ages()`
+
+`cut_ages()` provides categorisation of ages based on specified breaks which
+represent the left-hand interval limits. Categorisation is based on the breaks
+and follows the approach of `breaks_to_interval`.
+
+```{r}
+cut_ages(ages = 0:9, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+cut_ages(1:10, breaks = 6L)
+x <- cut_ages(1:100, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+str(x)
+head(x$interval)
+```
+
+## `split_interval_counts()`
+
+`split_interval_counts()` splits counts within a age interval in to counts for
+individuals years based on a given weighting. Age intervals are specified by
+their lower (closed) and upper (open) bounds, i.e. intervals of the form
+[lower, upper).
+
+```{r}
+# by default counts are split equally across ages within intervals
+split_interval_counts(
+    lower_bounds = c(0L, 5L, 10L),
+    upper_bounds = c(5L, 10L, 20L),
+    counts = c(5L, 10L, 30L)
+)
+
+# Population weightings to apply for individual years can be specified by
+# the weights argument. If these are specified, they must be of length
+# `max_upper` and represent weights in the range 0:(max_upper - 1).
+max_upper <- 20L
+weights <- integer(max_upper)
+weights[c(TRUE, FALSE)] <- 1L
+split_interval_counts(
+    lower_bounds = c(0L, 5L, 10L),
+    upper_bounds = c(5L, 10L, 20L),
+    counts = c(5L, 10L, 30L),
+    max_upper = max_upper,
+    weights <- weights
+)
+```
+
+## `aggregate_age_counts()`
+
+`aggregate_age_counts()` provides aggregation of counts across ages (in years).
+It is similar to a `cut()` and `tapply()` pattern but optimised for speed over
+flexibility. Groupings are the same as in `ages_to_interval()` and counts will
+be provided across all natural numbers as well as for missing values.
+
+```{r}
+# default ages generated as 0:(length(counts) - 1L) if only counts provided.
+aggregate_age_counts(counts = 1:65, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+
+# Values below the minimum break are counted as NA
+aggregate_age_counts(counts = 1:65, breaks = 50L)
+
+# NA ages are also handled with their own grouping
+ages <- 1:65
+ages[1:44] <- NA
+aggregate_age_counts(
+    counts = 1:65,
+    ages = ages,
+    breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L)
+)
+```
+
+## `reaggregate_interval_counts()`
+
+`reaggregate_interval_counts()` is equivalent to, but more efficient than a call
+to to `split_interval_counts()` followed by `aggregate_age_counts()`.
+
+The example below shows how it can be used to redistribute counts across a
+desired set of age intervals. We use data included in the package that has been
+obtained from the 2021 census and modify this based on our desired interval
+limits. 
+
+```{r}
+# census data
+data(pop_dat)
+pop_dat
+
+# each row is for the same region so discard for moment
+dat <- subset(pop_dat, select = c(age_category, value))
+
+# extract upper and lower bounds
+dat <- transform(
+    dat,
+    lower_bound = as.numeric(sub("\\[([0-9]+), .+)", "\\1", age_category)),
+    upper_bound = as.numeric(sub(".+, (.+))", "\\1", age_category))
+)
+
+head(dat, n=10)
+
+# recategorise based on ages
+with(
+    dat,
+    reaggregate_interval_counts(
+        lower_bounds = lower_bound,
+        upper_bounds = upper_bound,
+        counts = value,
+        breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L),
+        max_upper = 100L,
+        weights = NULL
+    )
+)
+```
