@@ -10,7 +10,7 @@
 
 ageutils provides a collection of efficient functions for working with
 individual ages and corresponding intervals. These functions allow for
-efficient conversion of ages to intervals, aggregation of ages with
+efficient conversion of ages to intervals, the aggregation of ages with
 associated counts and the splitting of interval counts based on
 specified age distributions.
 
