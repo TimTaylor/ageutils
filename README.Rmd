@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # ageutils
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/TimTaylor/ageutils/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/TimTaylor/ageutils/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ageutils provides a collection of efficient functions for working with
