@@ -1,7 +1,7 @@
 Package: ageutils
 Type: Package
 Title: Collection of Functions for Working with Age Intervals
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     c(
       person(
@@ -13,10 +13,10 @@ Authors@R:
       )
     )
 Description: Provides a collection of efficient functions for working with
-  individual ages and corresponding intervals. These functions allow for
-  efficient conversion of ages to intervals, aggregation of ages with associated
-  counts and the splitting of interval counts based on specified age
-  distributions.
+  individual ages and corresponding intervals. These include functions for
+  efficient conversion from an age to an interval, aggregation of ages with
+  associated counts in to intervals and the splitting of interval counts based
+  on specified age distributions.
 License: GPL-2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
