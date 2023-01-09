@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/TimTaylor/ageutils/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/TimTaylor/ageutils/actions/workflows/R-CMD-check.yaml)
+<a href="https://CRAN.R-project.org/package=ageutils" class="pkgdown-release"><img src="https://www.r-pkg.org/badges/version/ageutils" alt="CRAN status" /></a>
 <!-- badges: end -->
 
 ageutils provides a collection of efficient functions for working with
@@ -18,6 +19,13 @@ Note that similar functionality is/was found in the
 [ympes](https://cran.r-project.org/package=ympes) package. Going
 forward, the intention is that this functionality will be removed from
 ympes in favour of this, more focussed, package.
+
+You can install the released version of ageutils from
+[CRAN](https://cran.r-project.org/) with:
+
+``` r
+install.packages("ageutils")
+```
 
 <div class="pkgdown-devel">
 
