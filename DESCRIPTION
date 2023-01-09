@@ -1,7 +1,7 @@
 Package: ageutils
 Type: Package
 Title: Collection of Functions for Working with Age Intervals
-Version: 0.0.1
+Version: 0.0.1.9000
 Authors@R: 
     c(
       person(
