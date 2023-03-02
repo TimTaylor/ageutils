@@ -1,9 +1,10 @@
 #' @useDynLib ageutils, .registration = TRUE, .fixes = "C_"
 NULL
 
+# -------------------------------------------------------------------------
 #' Utilities for Age Intervals
 #'
-#'
+# -------------------------------------------------------------------------
 #' @description
 #'
 #' This help page documents the utility functions provided for working with
@@ -39,7 +40,7 @@ NULL
 #' `reaggregate_interval_counts()` is equivalent to, but more efficient than,
 #' a call to `split_interval_counts()` followed by `aggregate_age_counts()`.
 #'
-#'
+# -------------------------------------------------------------------------
 #' @param ages `[numeric]`.
 #'
 #' Vector of age in years.
@@ -94,7 +95,7 @@ NULL
 #' If specified, must be of length `max_upper` and represent weights in the
 #' range 0:(max_upper - 1).
 #'
-#'
+# -------------------------------------------------------------------------
 #' @return
 #'
 #' `breaks_to_interval()` and `cut_ages()`:
@@ -113,7 +114,7 @@ NULL
 #' A data frame with 4 entries; `interval`, `lower_bound`, `upper_bound` and an
 #' associated `count`.
 #'
-#'
+# -------------------------------------------------------------------------
 #' @examples
 #'
 #' cut_ages(ages = 0:9, breaks = c(0L, 3L, 5L, 10L))
@@ -145,6 +146,7 @@ NULL
 #'     breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L)
 #' )
 #'
+# -------------------------------------------------------------------------
 #' @name ageutils
 NULL
 
