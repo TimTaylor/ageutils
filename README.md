@@ -29,7 +29,7 @@ install.packages("ageutils")
 
 <div class="pkgdown-devel">
 
-The development version of ageutils can be installed from GitHub with:
+The development version of {ageutils} can be installed from GitHub with:
 
 ``` r
 remotes::install_github("TimTaylor/ageutils")
