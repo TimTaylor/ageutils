@@ -1,5 +1,7 @@
 # ageutils (development version)
 
+* Documentation formatting.
+
 # ageutils 0.0.1
 
 Initial release of `ageutils` which provides a collection of efficient functions

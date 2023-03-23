@@ -89,52 +89,52 @@ range 0:(max_upper - 1).}
 }
 \value{
 \code{breaks_to_interval()} and \code{cut_ages()}:
-
-A data frame with an ordered factor column (\code{interval}), as well as columns
+\itemize{
+\item A data frame with an ordered factor column (\code{interval}), as well as columns
 corresponding to the explicit bounds (\code{lower_bound} and \code{upper_bound}).
+}
 
 \code{split_interval_counts()}:
-
-A data frame with entries \code{age} (in years) and \code{count}.
+\itemize{
+\item A data frame with entries \code{age} (in years) and \code{count}.
+}
 
 \code{aggregate_age_counts()} and \code{reaggregate_interval_counts()}:
-
-A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bound} and an
-associated \code{count}.
+\itemize{
+\item A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bound} and
+an associated \code{count}.
+}
 }
 \description{
 This help page documents the utility functions provided for working with
 individual ages and associated intervals:
-
-\code{breaks_to_interval()} takes a specified set of breaks representing the left
-hand limits of a closed open interval, i.e [x, y), and returns the
+\itemize{
+\item \code{breaks_to_interval()} takes a specified set of breaks representing the
+left hand limits of a closed open interval, i.e [x, y), and returns the
 corresponding interval and upper bounds. The resulting intervals span from
 the minimum break through to \code{Inf}.
-
-\code{cut_ages()} provides categorisation of ages based on specified breaks which
-represent the left-hand interval limits. The resultant groupings will span
-from the minimum break through to \code{Inf} and will always be closed on the left
-and open on the right. Ages below the minimum break will be returned as NA.
-As an example, if \code{breaks = c(0, 1, 10, 30)} the possible groupings would be
-[0, 1), [1, 10), [10, 30) and [30, Inf). This is roughly comparable
-to a call of \code{cut(ages, right = FALSE, breaks = c(limits, Inf))} but with
-both the resultant interval and the start and end points returned as entries
-in a list.
-
-\code{split_interval_counts()} splits counts of a given age interval in to counts
-for individual years based on a given weighting. Age intervals are specified
-by their lower (closed) and upper (open) bounds, i.e. intervals of the form
-[lower, upper).
-
-\code{aggregate_age_counts()} provides aggregation of counts across ages (in
+\item \code{cut_ages()} provides categorisation of ages based on specified breaks
+which represent the left-hand interval limits. The resultant groupings will
+span from the minimum break through to \code{Inf} and will always be closed on
+the left and open on the right. Ages below the minimum break will be
+returned as NA. As an example, if \code{breaks = c(0, 1, 10, 30)} the possible
+groupings would be [0, 1), [1, 10), [10, 30) and [30, Inf). This is roughly
+comparable to a call of \code{cut(ages, right = FALSE, breaks = c(limits, Inf))}
+but with both the resultant interval and the start and end points returned
+as entries in a list.
+\item \code{split_interval_counts()} splits counts of a given age interval in to
+counts for individual years based on a given weighting. Age intervals are
+specified by their lower (closed) and upper (open) bounds, i.e. intervals
+of the form [lower, upper).
+\item \code{aggregate_age_counts()} provides aggregation of counts across ages (in
 years). It is similar to a \code{cut()} and \code{tapply()} pattern but optimised for
 speed over flexibility. Groupings are the same as in \code{ages_to_interval()}
 and counts will be provided across all natural numbers grater than the
 minimum break. Missing values, and those less than the minimum break, are
 grouped as NA.
-
-\code{reaggregate_interval_counts()} is equivalent to, but more efficient than,
+\item \code{reaggregate_interval_counts()} is equivalent to, but more efficient than,
 a call to \code{split_interval_counts()} followed by \code{aggregate_age_counts()}.
+}
 }
 \examples{
 

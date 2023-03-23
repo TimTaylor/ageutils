@@ -10,35 +10,35 @@ NULL
 #' This help page documents the utility functions provided for working with
 #' individual ages and associated intervals:
 #'
-#' `breaks_to_interval()` takes a specified set of breaks representing the left
-#' hand limits of a closed open interval, i.e [x, y), and returns the
-#' corresponding interval and upper bounds. The resulting intervals span from
-#' the minimum break through to `Inf`.
+#' - `breaks_to_interval()` takes a specified set of breaks representing the
+#'   left hand limits of a closed open interval, i.e [x, y), and returns the
+#'   corresponding interval and upper bounds. The resulting intervals span from
+#'   the minimum break through to `Inf`.
 #'
-#' `cut_ages()` provides categorisation of ages based on specified breaks which
-#' represent the left-hand interval limits. The resultant groupings will span
-#' from the minimum break through to `Inf` and will always be closed on the left
-#' and open on the right. Ages below the minimum break will be returned as NA.
-#' As an example, if `breaks = c(0, 1, 10, 30)` the possible groupings would be
-#' [0, 1), [1, 10), [10, 30) and [30, Inf). This is roughly comparable
-#' to a call of `cut(ages, right = FALSE, breaks = c(limits, Inf))` but with
-#' both the resultant interval and the start and end points returned as entries
-#' in a list.
+#' - `cut_ages()` provides categorisation of ages based on specified breaks
+#'   which represent the left-hand interval limits. The resultant groupings will
+#'   span from the minimum break through to `Inf` and will always be closed on
+#'   the left and open on the right. Ages below the minimum break will be
+#'   returned as NA. As an example, if `breaks = c(0, 1, 10, 30)` the possible
+#'   groupings would be [0, 1), [1, 10), [10, 30) and [30, Inf). This is roughly
+#'   comparable to a call of `cut(ages, right = FALSE, breaks = c(limits, Inf))`
+#'   but with both the resultant interval and the start and end points returned
+#'   as entries in a list.
 #'
-#' `split_interval_counts()` splits counts of a given age interval in to counts
-#' for individual years based on a given weighting. Age intervals are specified
-#' by their lower (closed) and upper (open) bounds, i.e. intervals of the form
-#' [lower, upper).
+#' - `split_interval_counts()` splits counts of a given age interval in to
+#'   counts for individual years based on a given weighting. Age intervals are
+#'   specified by their lower (closed) and upper (open) bounds, i.e. intervals
+#'   of the form [lower, upper).
 #'
-#' `aggregate_age_counts()` provides aggregation of counts across ages (in
-#' years). It is similar to a `cut()` and `tapply()` pattern but optimised for
-#' speed over flexibility. Groupings are the same as in `ages_to_interval()`
-#' and counts will be provided across all natural numbers grater than the
-#' minimum break. Missing values, and those less than the minimum break, are
-#' grouped as NA.
+#' - `aggregate_age_counts()` provides aggregation of counts across ages (in
+#'   years). It is similar to a `cut()` and `tapply()` pattern but optimised for
+#'   speed over flexibility. Groupings are the same as in `ages_to_interval()`
+#'   and counts will be provided across all natural numbers grater than the
+#'   minimum break. Missing values, and those less than the minimum break, are
+#'   grouped as NA.
 #'
-#' `reaggregate_interval_counts()` is equivalent to, but more efficient than,
-#' a call to `split_interval_counts()` followed by `aggregate_age_counts()`.
+#' - `reaggregate_interval_counts()` is equivalent to, but more efficient than,
+#'   a call to `split_interval_counts()` followed by `aggregate_age_counts()`.
 #'
 # -------------------------------------------------------------------------
 #' @param ages `[numeric]`.
@@ -99,20 +99,15 @@ NULL
 #' @return
 #'
 #' `breaks_to_interval()` and `cut_ages()`:
+#' - A data frame with an ordered factor column (`interval`), as well as columns
+#'   corresponding to the explicit bounds (`lower_bound` and `upper_bound`).
 #'
-#' A data frame with an ordered factor column (`interval`), as well as columns
-#' corresponding to the explicit bounds (`lower_bound` and `upper_bound`).
-#'
-#'
-#' `split_interval_counts()`:
-#'
-#' A data frame with entries `age` (in years) and `count`.
-#'
+#'`split_interval_counts()`:
+#' - A data frame with entries `age` (in years) and `count`.
 #'
 #' `aggregate_age_counts()` and `reaggregate_interval_counts()`:
-#'
-#' A data frame with 4 entries; `interval`, `lower_bound`, `upper_bound` and an
-#' associated `count`.
+#' - A data frame with 4 entries; `interval`, `lower_bound`, `upper_bound` and
+#'   an associated `count`.
 #'
 # -------------------------------------------------------------------------
 #' @examples
