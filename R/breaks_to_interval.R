@@ -58,7 +58,7 @@ breaks_to_interval <- function(breaks, max_upper = Inf) {
         stop("`breaks` must be in strictly increasing order.")
 
     # check max_upper
-    if (!is.numeric(max_upper) || is.na(max_upper) || length(max_upper) > 1L)
+    if (!is.numeric(max_upper) || length(max_upper) > 1L || is.na(max_upper))
         stop("`max_upper` must be a numeric scalar and not NA.")
 
     # convert to double for consistency across bounds
@@ -79,3 +79,4 @@ breaks_to_interval <- function(breaks, max_upper = Inf) {
     )
 
 }
+

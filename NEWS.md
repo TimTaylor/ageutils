@@ -1,7 +1,8 @@
 # ageutils (development version)
 
-* `breaks_to_interval()` gains an argument, `max_upper`, to explicitly set the
-  maximum upper bound.
+* `breaks_to_interval()` and `cut_ages()` both gain an argument, `max_upper`
+  which allows users to explicitly set the maximum upper bound.
+
 * Documentation formatting.
 
 # ageutils 0.0.1

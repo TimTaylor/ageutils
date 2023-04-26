@@ -10,16 +10,6 @@ NULL
 #' This help page documents the utility functions provided for working with
 #' individual ages and associated intervals:
 #'
-#' - `cut_ages()` provides categorisation of ages based on specified breaks
-#'   which represent the left-hand interval limits. The resultant groupings will
-#'   span from the minimum break through to `Inf` and will always be closed on
-#'   the left and open on the right. Ages below the minimum break will be
-#'   returned as NA. As an example, if `breaks = c(0, 1, 10, 30)` the possible
-#'   groupings would be [0, 1), [1, 10), [10, 30) and [30, Inf). This is roughly
-#'   comparable to a call of `cut(ages, right = FALSE, breaks = c(limits, Inf))`
-#'   but with both the resultant interval and the start and end points returned
-#'   as entries in a list.
-#'
 #' - `split_interval_counts()` splits counts of a given age interval in to
 #'   counts for individual years based on a given weighting. Age intervals are
 #'   specified by their lower (closed) and upper (open) bounds, i.e. intervals
@@ -93,10 +83,6 @@ NULL
 # -------------------------------------------------------------------------
 #' @return
 #'
-#' `cut_ages()`:
-#' - A data frame with an ordered factor column (`interval`), as well as columns
-#'   corresponding to the explicit bounds (`lower_bound` and `upper_bound`).
-#'
 #'`split_interval_counts()`:
 #' - A data frame with entries `age` (in years) and `count`.
 #'
@@ -106,9 +92,6 @@ NULL
 #'
 # -------------------------------------------------------------------------
 #' @examples
-#'
-#' cut_ages(ages = 0:9, breaks = c(0L, 3L, 5L, 10L))
-#' cut_ages(ages = 0:9, breaks = 5L)
 #'
 #' split_interval_counts(
 #'     lower_bounds = c(0, 5, 10),
@@ -139,14 +122,6 @@ NULL
 # -------------------------------------------------------------------------
 #' @name ageutils
 NULL
-
-
-# -------------------------------------------------------------------------
-#' @rdname ageutils
-#' @export
-cut_ages <- function(ages, breaks) {
-    .Call(C_cut_ages, ages, breaks)
-}
 
 # -------------------------------------------------------------------------
 #' @rdname ageutils
@@ -186,3 +161,9 @@ reaggregate_interval_counts <- function(
 ) {
     .Call(C_reaggregate_interval_counts, lower_bounds, upper_bounds, counts, breaks, max_upper, weights)
 }
+
+# -------------------------------------------------------------------------
+cut_ages_old <- function(ages, breaks) {
+    .Call(C_cut_ages, ages, breaks)
+}
+
