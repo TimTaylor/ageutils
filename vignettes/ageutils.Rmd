@@ -21,10 +21,12 @@ underlying implementations that have been optimised for performance.
 
 `breaks_to_interval` provides a categorisation based on specified breaks which
 represent left-hand interval limits. The resultant groupings span from the
-minimum break through to `Inf` and will always be closed on the left and open on
-the right. Ages below the minimum break will be returned as NA. As an example,
-if `breaks = c(0, 1, 10, 30)` the interval categories would be [0, 1), [1, 10),
-[10, 30) and [30, Inf). Intervals are returned as a data frame with 3 entries;
+minimum break through to a specified `max_upper` and will always be closed on
+the left and open on the right. As an example, if `breaks = c(0, 1, 10, 30)` the
+interval categories would be [0, 1), [1, 10), [10, 30) and [30, Inf). Ages below
+the minimum break or above `max_upper` will be returned as NA.
+
+The returned value is as a data frame with 3 entries;
 A factor with a character representation of the interval and two columns
 representing the numeric values of the corresponding lower (closed) and upper
 (open) bounds.
@@ -32,6 +34,7 @@ representing the numeric values of the corresponding lower (closed) and upper
 ```{r}
 library(ageutils)
 breaks_to_interval(breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+breaks_to_interval(breaks = c(1L, 5L, 15L), max_upper = 25L)
 ```
 
 ## `cut_ages()`
@@ -42,7 +45,7 @@ and follows the approach of `breaks_to_interval`.
 
 ```{r}
 cut_ages(ages = 0:9, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
-cut_ages(1:10, breaks = 6L)
+cut_ages(1:10, breaks = 4L, max_upper = 9L)
 x <- cut_ages(1:100, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
 str(x)
 head(x$interval)
