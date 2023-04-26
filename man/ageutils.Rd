@@ -5,7 +5,7 @@
 \alias{split_interval_counts}
 \alias{aggregate_age_counts}
 \alias{reaggregate_interval_counts}
-\title{Utilities for Age Intervals}
+\title{Utilities for splitting and aggregating age intervals}
 \usage{
 split_interval_counts(
   lower_bounds,

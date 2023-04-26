@@ -2,7 +2,7 @@
 NULL
 
 # -------------------------------------------------------------------------
-#' Utilities for Age Intervals
+#' Utilities for splitting and aggregating age intervals
 #'
 # -------------------------------------------------------------------------
 #' @description
