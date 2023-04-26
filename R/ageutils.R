@@ -10,11 +10,6 @@ NULL
 #' This help page documents the utility functions provided for working with
 #' individual ages and associated intervals:
 #'
-#' - `breaks_to_interval()` takes a specified set of breaks representing the
-#'   left hand limits of a closed open interval, i.e [x, y), and returns the
-#'   corresponding interval and upper bounds. The resulting intervals span from
-#'   the minimum break through to `Inf`.
-#'
 #' - `cut_ages()` provides categorisation of ages based on specified breaks
 #'   which represent the left-hand interval limits. The resultant groupings will
 #'   span from the minimum break through to `Inf` and will always be closed on
@@ -98,7 +93,7 @@ NULL
 # -------------------------------------------------------------------------
 #' @return
 #'
-#' `breaks_to_interval()` and `cut_ages()`:
+#' `cut_ages()`:
 #' - A data frame with an ordered factor column (`interval`), as well as columns
 #'   corresponding to the explicit bounds (`lower_bound` and `upper_bound`).
 #'
@@ -144,41 +139,6 @@ NULL
 # -------------------------------------------------------------------------
 #' @name ageutils
 NULL
-
-# -------------------------------------------------------------------------
-#' @rdname ageutils
-#' @export
-breaks_to_interval <- function(breaks) {
-
-    # check breaks are numeric
-    if (!is.numeric(breaks))
-        stop("`breaks` must be numeric.")
-
-    # coerce breaks to integer
-    breaks <- as.integer(breaks)
-
-    # ensure valid
-    if (anyNA(breaks))
-        stop("`breaks` must be non-missing, finite, and, coercible to integer.")
-
-    # check strictly increasing
-    if (is.unsorted(breaks, strictly = TRUE))
-        stop("`breaks` must be in strictly increasing order.")
-
-    # convert to double for consistency across bounds
-    breaks <- as.double(breaks)
-    upper <- c(breaks[-1L], Inf)
-    intervals <- sprintf("[%.f, %.f)", breaks, upper)
-    intervals <- factor(intervals, levels = intervals, ordered = TRUE)
-    list2DF(
-        list(
-            interval = intervals,
-            lower_bound = breaks,
-            upper_bound = upper
-        )
-    )
-
-}
 
 
 # -------------------------------------------------------------------------

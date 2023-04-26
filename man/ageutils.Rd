@@ -2,15 +2,12 @@
 % Please edit documentation in R/ageutils.R
 \name{ageutils}
 \alias{ageutils}
-\alias{breaks_to_interval}
 \alias{cut_ages}
 \alias{split_interval_counts}
 \alias{aggregate_age_counts}
 \alias{reaggregate_interval_counts}
 \title{Utilities for Age Intervals}
 \usage{
-breaks_to_interval(breaks)
-
 cut_ages(ages, breaks)
 
 split_interval_counts(
@@ -33,15 +30,6 @@ reaggregate_interval_counts(
 )
 }
 \arguments{
-\item{breaks}{\verb{[numeric]}.
-
-1 or more non-negative cut points in increasing (strictly) order.
-
-These correspond to the left hand side of the desired intervals (e.g. the
-closed side of [x, y).
-
-Double values are coerced to integer prior to categorisation.}
-
 \item{ages}{\verb{[numeric]}.
 
 Vector of age in years.
@@ -52,6 +40,15 @@ For \code{aggregate_age_counts()}, these must corresponding to the \code{counts}
 and will defaults to 0:(N-1) where \code{N} is the number of counts present.
 
 \code{ages} >= 200 are not permitted due to the internal implementation.}
+
+\item{breaks}{\verb{[numeric]}.
+
+1 or more non-negative cut points in increasing (strictly) order.
+
+These correspond to the left hand side of the desired intervals (e.g. the
+closed side of [x, y).
+
+Double values are coerced to integer prior to categorisation.}
 
 \item{lower_bounds, upper_bounds}{\verb{[integerish]}.
 
@@ -88,7 +85,7 @@ If specified, must be of length \code{max_upper} and represent weights in the
 range 0:(max_upper - 1).}
 }
 \value{
-\code{breaks_to_interval()} and \code{cut_ages()}:
+\code{cut_ages()}:
 \itemize{
 \item A data frame with an ordered factor column (\code{interval}), as well as columns
 corresponding to the explicit bounds (\code{lower_bound} and \code{upper_bound}).
@@ -109,10 +106,6 @@ an associated \code{count}.
 This help page documents the utility functions provided for working with
 individual ages and associated intervals:
 \itemize{
-\item \code{breaks_to_interval()} takes a specified set of breaks representing the
-left hand limits of a closed open interval, i.e [x, y), and returns the
-corresponding interval and upper bounds. The resulting intervals span from
-the minimum break through to \code{Inf}.
 \item \code{cut_ages()} provides categorisation of ages based on specified breaks
 which represent the left-hand interval limits. The resultant groupings will
 span from the minimum break through to \code{Inf} and will always be closed on

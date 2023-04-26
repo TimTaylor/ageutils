@@ -1,5 +1,7 @@
 # ageutils (development version)
 
+* `breaks_to_interval()` gains an argument, `max_upper`, to explicitly set the
+  maximum upper bound.
 * Documentation formatting.
 
 # ageutils 0.0.1
