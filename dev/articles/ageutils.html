@@ -161,13 +161,13 @@ Categorisation is based on the breaks and follows the approach of
 <h2 id="split_interval_counts">
 <code>split_interval_counts()</code><a class="anchor" aria-label="anchor" href="#split_interval_counts"></a>
 </h2>
-<p><code><a href="../reference/ageutils.html">split_interval_counts()</a></code> splits counts within a age
+<p><code><a href="../reference/split_interval_counts.html">split_interval_counts()</a></code> splits counts within a age
 interval in to counts for individuals years based on a given weighting.
 Age intervals are specified by their lower (closed) and upper (open)
 bounds, i.e. intervals of the form [lower, upper).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># by default counts are split equally across ages within intervals</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">split_interval_counts</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/split_interval_counts.html">split_interval_counts</a></span><span class="op">(</span></span>
 <span>    lower_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">5L</span>, <span class="fl">10L</span><span class="op">)</span>,</span>
 <span>    upper_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5L</span>, <span class="fl">10L</span>, <span class="fl">20L</span><span class="op">)</span>,</span>
 <span>    counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5L</span>, <span class="fl">10L</span>, <span class="fl">30L</span><span class="op">)</span></span>
@@ -200,7 +200,7 @@ bounds, i.e. intervals of the form [lower, upper).</p>
 <span><span class="va">max_upper</span> <span class="op">&lt;-</span> <span class="fl">20L</span></span>
 <span><span class="va">weights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="va">max_upper</span><span class="op">)</span></span>
 <span><span class="va">weights</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">split_interval_counts</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/split_interval_counts.html">split_interval_counts</a></span><span class="op">(</span></span>
 <span>    lower_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">5L</span>, <span class="fl">10L</span><span class="op">)</span>,</span>
 <span>    upper_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5L</span>, <span class="fl">10L</span>, <span class="fl">20L</span><span class="op">)</span>,</span>
 <span>    counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5L</span>, <span class="fl">10L</span>, <span class="fl">30L</span><span class="op">)</span>,</span>
@@ -281,7 +281,7 @@ values.</p>
 <code>reaggregate_interval_counts()</code><a class="anchor" aria-label="anchor" href="#reaggregate_interval_counts"></a>
 </h2>
 <p><code><a href="../reference/ageutils.html">reaggregate_interval_counts()</a></code> is equivalent to, but more
-efficient than a call to to <code><a href="../reference/ageutils.html">split_interval_counts()</a></code>
+efficient than a call to to <code><a href="../reference/split_interval_counts.html">split_interval_counts()</a></code>
 followed by <code><a href="../reference/ageutils.html">aggregate_age_counts()</a></code>.</p>
 <p>The example below shows how it can be used to redistribute counts
 across a desired set of age intervals. We use data included in the
