@@ -233,7 +233,7 @@ bounds, i.e. intervals of the form [lower, upper).</p>
 <h2 id="aggregate_age_counts">
 <code>aggregate_age_counts()</code><a class="anchor" aria-label="anchor" href="#aggregate_age_counts"></a>
 </h2>
-<p><code><a href="../reference/ageutils.html">aggregate_age_counts()</a></code> provides aggregation of counts
+<p><code><a href="../reference/count_aggregation.html">aggregate_age_counts()</a></code> provides aggregation of counts
 across ages (in years). It is similar to a <code><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut()</a></code> and
 <code><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply()</a></code> pattern but optimised for speed over flexibility.
 Groupings are the same as in <code>ages_to_interval()</code> and counts
@@ -241,7 +241,7 @@ will be provided across all natural numbers as well as for missing
 values.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># default ages generated as 0:(length(counts) - 1L) if only counts provided.</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">aggregate_age_counts</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/count_aggregation.html">aggregate_age_counts</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    interval lower_bound upper_bound count</span></span>
 <span><span class="co">#&gt; 1    [0, 1)           0           1     1</span></span>
 <span><span class="co">#&gt; 2    [1, 5)           1           5    14</span></span>
@@ -253,7 +253,7 @@ values.</p>
 <span><span class="co">#&gt; 8      &lt;NA&gt;          NA          NA     0</span></span>
 <span></span>
 <span><span class="co"># Values below the minimum break are counted as NA</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">aggregate_age_counts</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>, breaks <span class="op">=</span> <span class="fl">50L</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/count_aggregation.html">aggregate_age_counts</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>, breaks <span class="op">=</span> <span class="fl">50L</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    interval lower_bound upper_bound count</span></span>
 <span><span class="co">#&gt; 1 [50, Inf)          50         Inf   870</span></span>
 <span><span class="co">#&gt; 2      &lt;NA&gt;          NA          NA  1275</span></span>
@@ -261,7 +261,7 @@ values.</p>
 <span><span class="co"># NA ages are also handled with their own grouping</span></span>
 <span><span class="va">ages</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span></span>
 <span><span class="va">ages</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">44</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">aggregate_age_counts</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/count_aggregation.html">aggregate_age_counts</a></span><span class="op">(</span></span>
 <span>    counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>,</span>
 <span>    ages <span class="op">=</span> <span class="va">ages</span>,</span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span></span>
@@ -280,9 +280,9 @@ values.</p>
 <h2 id="reaggregate_interval_counts">
 <code>reaggregate_interval_counts()</code><a class="anchor" aria-label="anchor" href="#reaggregate_interval_counts"></a>
 </h2>
-<p><code><a href="../reference/ageutils.html">reaggregate_interval_counts()</a></code> is equivalent to, but more
+<p><code><a href="../reference/count_aggregation.html">reaggregate_interval_counts()</a></code> is equivalent to, but more
 efficient than a call to to <code><a href="../reference/split_interval_counts.html">split_interval_counts()</a></code>
-followed by <code><a href="../reference/ageutils.html">aggregate_age_counts()</a></code>.</p>
+followed by <code><a href="../reference/count_aggregation.html">aggregate_age_counts()</a></code>.</p>
 <p>The example below shows how it can be used to redistribute counts
 across a desired set of age intervals. We use data included in the
 package that has been obtained from the 2021 census and modify this
@@ -338,7 +338,7 @@ based on our desired interval limits.</p>
 <span><span class="co"># recategorise based on ages</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span></span>
 <span>    <span class="va">dat</span>,</span>
-<span>    <span class="fu"><a href="../reference/ageutils.html">reaggregate_interval_counts</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="../reference/count_aggregation.html">reaggregate_interval_counts</a></span><span class="op">(</span></span>
 <span>        lower_bounds <span class="op">=</span> <span class="va">lower_bound</span>,</span>
 <span>        upper_bounds <span class="op">=</span> <span class="va">upper_bound</span>,</span>
 <span>        counts <span class="op">=</span> <span class="va">value</span>,</span>

@@ -19,10 +19,13 @@
     <loc>https://timtaylor.github.io/ageutils/dev/news/index.html</loc>
   </url>
   <url>
-    <loc>https://timtaylor.github.io/ageutils/dev/reference/ageutils.html</loc>
+    <loc>https://timtaylor.github.io/ageutils/dev/reference/ageutils-package.html</loc>
   </url>
   <url>
     <loc>https://timtaylor.github.io/ageutils/dev/reference/breaks_to_interval.html</loc>
+  </url>
+  <url>
+    <loc>https://timtaylor.github.io/ageutils/dev/reference/count_aggregation.html</loc>
   </url>
   <url>
     <loc>https://timtaylor.github.io/ageutils/dev/reference/cut_ages.html</loc>
