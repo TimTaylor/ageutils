@@ -1,24 +1,25 @@
-#' @useDynLib ageutils, .registration = TRUE, .fixes = "C_"
-NULL
-
 # -------------------------------------------------------------------------
-#' Utilities for splitting and aggregating age intervals
+#' Aggregating counts across intervals
 #'
 # -------------------------------------------------------------------------
 #' @description
 #'
-#' This help page documents the utility functions provided for working with
-#' individual ages and associated intervals:
+#' ageutils provides two functions focussed on aggregation:
 #'
 #' - `aggregate_age_counts()` provides aggregation of counts across ages (in
 #'   years). It is similar to a `cut()` and `tapply()` pattern but optimised for
-#'   speed over flexibility. Groupings are the same as in `ages_to_interval()`
-#'   and counts will be provided across all natural numbers grater than the
-#'   minimum break. Missing values, and those less than the minimum break, are
-#'   grouped as NA.
+#'   speed over flexibility. It takes a specified set of breaks representing the
+#'   left hand limits of a closed open interval, i.e [x, y), and returns the
+#'   corresponding interval and upper bounds. The resulting intervals span from
+#'   the minimum break through to the maximum age. Missing values, and
+#'   those less than the minimum break, are grouped as NA.
 #'
-#' - `reaggregate_interval_counts()` is equivalent to, but more efficient than,
-#'   a call to `split_interval_counts()` followed by `aggregate_age_counts()`.
+#' - `reaggregate_interval_counts()` first splits counts of a given age interval
+#'   in to counts for individual years based on a given weighting. Age intervals
+#'   are specified by their lower (closed) and upper (open) bounds, i.e.
+#'   intervals of the form [lower, upper). Functionally this is equivalent to,
+#'   but more efficient than, a call to `split_interval_counts()` followed by
+#'   `aggregate_age_counts()`.
 #'
 # -------------------------------------------------------------------------
 #' @param ages `[numeric]`.
@@ -88,12 +89,6 @@ NULL
 # -------------------------------------------------------------------------
 #' @examples
 #'
-#' split_interval_counts(
-#'     lower_bounds = c(0, 5, 10),
-#'     upper_bounds = c(5, 10, 20),
-#'     counts = c(5, 10, 30)
-#' )
-#'
 #' # default ages generated if only counts provided (here ages will be 0:64)
 #' aggregate_age_counts(counts = 1:65, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
 #' aggregate_age_counts(counts = 1:65, breaks = 50L)
@@ -115,11 +110,11 @@ NULL
 #' )
 #'
 # -------------------------------------------------------------------------
-#' @name ageutils
+#' @name count_aggregation
 NULL
 
 # -------------------------------------------------------------------------
-#' @rdname ageutils
+#' @rdname count_aggregation
 #' @export
 aggregate_age_counts <- function(
     counts,
@@ -130,7 +125,7 @@ aggregate_age_counts <- function(
 }
 
 # -------------------------------------------------------------------------
-#' @rdname ageutils
+#' @rdname count_aggregation
 #' @export
 reaggregate_interval_counts <- function(
     lower_bounds,
@@ -142,9 +137,3 @@ reaggregate_interval_counts <- function(
 ) {
     .Call(C_reaggregate_interval_counts, lower_bounds, upper_bounds, counts, breaks, max_upper, weights)
 }
-
-# -------------------------------------------------------------------------
-cut_ages_old <- function(ages, breaks) {
-    .Call(C_cut_ages, ages, breaks)
-}
-
