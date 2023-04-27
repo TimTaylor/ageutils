@@ -236,9 +236,8 @@ bounds, i.e. intervals of the form [lower, upper).</p>
 <p><code><a href="../reference/count_aggregation.html">aggregate_age_counts()</a></code> provides aggregation of counts
 across ages (in years). It is similar to a <code><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut()</a></code> and
 <code><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply()</a></code> pattern but optimised for speed over flexibility.
-Groupings are the same as in <code>ages_to_interval()</code> and counts
-will be provided across all natural numbers as well as for missing
-values.</p>
+Groupings are the same as in <code><a href="../reference/cut_ages.html">cut_ages()</a></code> and counts will be
+provided across all natural numbers as well as for missing values.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># default ages generated as 0:(length(counts) - 1L) if only counts provided.</span></span>
 <span><span class="fu"><a href="../reference/count_aggregation.html">aggregate_age_counts</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span>
