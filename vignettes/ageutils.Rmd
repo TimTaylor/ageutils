@@ -85,7 +85,7 @@ split_interval_counts(
 
 `aggregate_age_counts()` provides aggregation of counts across ages (in years).
 It is similar to a `cut()` and `tapply()` pattern but optimised for speed over
-flexibility. Groupings are the same as in `ages_to_interval()` and counts will
+flexibility. Groupings are the same as in `cut_ages()` and counts will
 be provided across all natural numbers as well as for missing values.
 
 ```{r}
