@@ -2,19 +2,10 @@
 % Please edit documentation in R/ageutils.R
 \name{ageutils}
 \alias{ageutils}
-\alias{split_interval_counts}
 \alias{aggregate_age_counts}
 \alias{reaggregate_interval_counts}
 \title{Utilities for splitting and aggregating age intervals}
 \usage{
-split_interval_counts(
-  lower_bounds,
-  upper_bounds,
-  counts,
-  max_upper = 100L,
-  weights = NULL
-)
-
 aggregate_age_counts(counts, ages = 0:(length(counts) - 1L), breaks)
 
 reaggregate_interval_counts(
@@ -27,39 +18,9 @@ reaggregate_interval_counts(
 )
 }
 \arguments{
-\item{lower_bounds, upper_bounds}{\verb{[integerish]}.
-
-A pair of vectors representing the bounds of the intervals.
-
-\code{lower_bounds} must be strictly less than \code{upper_bounds} and greater than or
-equal to zero.
-
-Missing (NA) bounds are not permitted.
-
-Double vectors will be coerced to integer.}
-
 \item{counts}{\verb{[numeric]}.
 
 Vector of counts to be aggregated.}
-
-\item{max_upper}{\verb{[integerish]}
-
-Represents the maximum upper bounds permitted upon splitting the data.
-
-Used to replace \code{Inf} upper bounds prior to splitting.
-
-If any \code{upper_bound} is greater than \code{max_upper} the function will error.
-
-Double vectors will be coerced to integer.}
-
-\item{weights}{\verb{[numeric]}
-
-Population weightings to apply for individual years.
-
-If \code{NULL} (default) counts will be split evenly based on interval size.
-
-If specified, must be of length \code{max_upper} and represent weights in the
-range 0:(max_upper - 1).}
 
 \item{ages}{\verb{[numeric]}.
 
@@ -80,6 +41,36 @@ These correspond to the left hand side of the desired intervals (e.g. the
 closed side of [x, y).
 
 Double values are coerced to integer prior to categorisation.}
+
+\item{lower_bounds, upper_bounds}{\verb{[integerish]}.
+
+A pair of vectors representing the bounds of the intervals.
+
+\code{lower_bounds} must be strictly less than \code{upper_bounds} and greater than or
+equal to zero.
+
+Missing (NA) bounds are not permitted.
+
+Double vectors will be coerced to integer.}
+
+\item{max_upper}{\verb{[integerish]}
+
+Represents the maximum upper bounds permitted upon splitting the data.
+
+Used to replace \code{Inf} upper bounds prior to splitting.
+
+If any \code{upper_bound} is greater than \code{max_upper} the function will error.
+
+Double vectors will be coerced to integer.}
+
+\item{weights}{\verb{[numeric]}
+
+Population weightings to apply for individual years.
+
+If \code{NULL} (default) counts will be split evenly based on interval size.
+
+If specified, must be of length \code{max_upper} and represent weights in the
+range 0:(max_upper - 1).}
 }
 \value{
 \code{split_interval_counts()}:
@@ -97,10 +88,6 @@ an associated \code{count}.
 This help page documents the utility functions provided for working with
 individual ages and associated intervals:
 \itemize{
-\item \code{split_interval_counts()} splits counts of a given age interval in to
-counts for individual years based on a given weighting. Age intervals are
-specified by their lower (closed) and upper (open) bounds, i.e. intervals
-of the form [lower, upper).
 \item \code{aggregate_age_counts()} provides aggregation of counts across ages (in
 years). It is similar to a \code{cut()} and \code{tapply()} pattern but optimised for
 speed over flexibility. Groupings are the same as in \code{ages_to_interval()}

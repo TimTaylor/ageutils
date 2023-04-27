@@ -10,11 +10,6 @@ NULL
 #' This help page documents the utility functions provided for working with
 #' individual ages and associated intervals:
 #'
-#' - `split_interval_counts()` splits counts of a given age interval in to
-#'   counts for individual years based on a given weighting. Age intervals are
-#'   specified by their lower (closed) and upper (open) bounds, i.e. intervals
-#'   of the form [lower, upper).
-#'
 #' - `aggregate_age_counts()` provides aggregation of counts across ages (in
 #'   years). It is similar to a `cut()` and `tapply()` pattern but optimised for
 #'   speed over flexibility. Groupings are the same as in `ages_to_interval()`
@@ -122,20 +117,6 @@ NULL
 # -------------------------------------------------------------------------
 #' @name ageutils
 NULL
-
-# -------------------------------------------------------------------------
-#' @rdname ageutils
-#' @export
-split_interval_counts <- function(
-    lower_bounds,
-    upper_bounds,
-    counts,
-    max_upper = 100L,
-    weights = NULL
-) {
-
-    .Call(C_split_interval_counts, lower_bounds, upper_bounds, counts, max_upper, weights)
-}
 
 # -------------------------------------------------------------------------
 #' @rdname ageutils
