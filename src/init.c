@@ -1,7 +1,6 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <stdlib.h> // for NULL
-#include <ageutils.h>
 #include <R_ext/Rdynload.h>
 
 /* FIXME:

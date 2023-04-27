@@ -1,6 +1,5 @@
 #include <R.h>
 #include <Rinternals.h>
-#include <ageutils.h>
 
 //
 // TODO - This file should be refactored to avoid code duplication
