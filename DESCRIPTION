@@ -10,13 +10,20 @@ Authors@R:
         role = c("aut", "cre", "cph"),
         email = "tim.taylor@hiddenelephants.co.uk", 
         comment = c(ORCID = "0000-0002-8587-7113")
+      ),
+      person(
+        given = "Edwin",
+        family = "van Leeuwen",
+        role = "ctb",
+        email = "edwinvanl@gmail.com", 
+        comment = c(ORCID = "0000-0002-2383-5305")
       )
     )
 Description: Provides a collection of efficient functions for working with
   individual ages and corresponding intervals. These include functions for
-  efficient conversion from an age to an interval, aggregation of ages with
-  associated counts in to intervals and the splitting of interval counts based
-  on specified age distributions.
+  conversion from an age to an interval, aggregation of ages with associated
+  counts in to intervals and the splitting of interval counts based on
+  specified age distributions.
 License: GPL-2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
