@@ -2,8 +2,10 @@
 
 * `breaks_to_interval()` and `cut_ages()` both gain an argument, `max_upper`
   which allows users to explicitly set the maximum upper bound.
+  
+* New function `reaggregate_interval_rates()`.
 
-* Documentation formatting.
+* Restructuring of documentation and internal workings.
 
 # ageutils 0.0.1
 
