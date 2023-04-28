@@ -15,11 +15,6 @@ efficient conversion from an age to an interval, aggregation of ages
 with associated counts in to intervals and the splitting of interval
 counts based on specified age distributions.
 
-Note that similar functionality is/was found in the
-[{ympes}](https://cran.r-project.org/package=ympes) package. Going
-forward, the intention is that this functionality will be removed from
-{ympes} in favour of this, more focussed, package.
-
 You can install the released version of {ageutils} from
 [CRAN](https://cran.r-project.org/) with:
 
