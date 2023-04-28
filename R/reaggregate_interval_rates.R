@@ -1,5 +1,13 @@
 # -------------------------------------------------------------------------
-#' Reaggregate rates across an interval
+#' Reaggregate rates across intervals
+#'
+# -------------------------------------------------------------------------
+#' @description
+#'
+#' `reaggregate_interval_rates()` enables the reweighting of interval rates in
+#' to different intervals ranges. It first replicates the rates of a given
+#' age interval into the individual years of said interval. These are then
+#' aggregated allowing for a user specified weight vector.
 #'
 # -------------------------------------------------------------------------
 #' @param lower_bounds,upper_bounds `[integerish]`.
@@ -45,8 +53,10 @@
 #'
 #' If `NULL` (default) rates will be split based on interval size.
 #'
-#' If specified, must be of length `max_upper` and represent weights in the
+#' If specified, must be of length most `max_upper` and represent weights in the
 #' range 0:(max_upper - 1).
+#'
+#' `weights` of length less than `max_upper` will be padded with 0.
 #'
 # -------------------------------------------------------------------------
 #' @return
@@ -119,8 +129,11 @@ reaggregate_interval_rates <- function(
 
     # check bounds and rates have compatible lengths
     n_bounds <- length(lower_bounds)
-    if (is.null(upper_bounds))
+    if (is.null(upper_bounds)) {
+        if (max_upper <= lower_bounds[length(lower_bounds)])
+            stop("`max_upper` must be greater than all lower bounds")
         upper_bounds <- c(lower_bounds[-1L], max_upper)
+    }
 
     n_upper_bounds <- length(upper_bounds)
     if (n_bounds != n_upper_bounds)
@@ -153,7 +166,7 @@ reaggregate_interval_rates <- function(
 
     # Ensure valid weights and extend to cover length max_upper
     if (is.null(weights)) {
-        weights <- numeric(length = max_upper)
+        weights <- numeric(length = max_upper) + 1
     } else {
         n_weights <- length(weights)
         if (n_weights == 0L)
@@ -175,7 +188,7 @@ reaggregate_interval_rates <- function(
         stop("`breaks` must be non-negative and in strictly increasing order.");
     n_breaks <- length(breaks)
     if (breaks[n_breaks] >= max_upper)
-        stopf("`breaks` must be less than %d.", max_upper)
+        stopf("`breaks` must all be less than `max_upper` (%d).", max_upper)
 
     # coerce bounds to integer
     lower_bounds <- as.integer(lower_bounds)
@@ -209,8 +222,9 @@ reaggregate_interval_rates <- function(
         group_totals[group_index] <- group_totals[group_index] + weights[i]
         current_age <- ages[i+1]
     }
-
+    set_to_zero <- group_totals == 0
     rates_out <- group_rates / group_totals
+    rates_out[set_to_zero] <- 0
 
     # calculate returned intervals
     lower_out <- breaks[-n_breaks]

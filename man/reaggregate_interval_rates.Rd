@@ -2,7 +2,7 @@
 % Please edit documentation in R/reaggregate_interval_rates.R
 \name{reaggregate_interval_rates}
 \alias{reaggregate_interval_rates}
-\title{Reaggregate rates across an interval}
+\title{Reaggregate rates across intervals}
 \usage{
 reaggregate_interval_rates(
   lower_bounds,
@@ -57,15 +57,20 @@ Population weightings to apply for individual years.
 
 If \code{NULL} (default) rates will be split based on interval size.
 
-If specified, must be of length \code{max_upper} and represent weights in the
-range 0:(max_upper - 1).}
+If specified, must be of length most \code{max_upper} and represent weights in the
+range 0:(max_upper - 1).
+
+\code{weights} of length less than \code{max_upper} will be padded with 0.}
 }
 \value{
 A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bound} and an
 associated \code{count}.
 }
 \description{
-Reaggregate rates across an interval
+\code{reaggregate_interval_rates()} enables the reweighting of interval rates in
+to different intervals ranges. It first replicates the rates of a given
+age interval into the individual years of said interval. These are then
+aggregated allowing for a user specified weight vector.
 }
 \examples{
 reaggregate_interval_rates(
