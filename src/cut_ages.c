@@ -29,7 +29,7 @@ SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
         }
     }
 
-    // check max_upper is scale and appropriately bounded
+    // check max_upper is scalar and appropriately bounded
     int n_max_upper = LENGTH(max_upper);
     if (n_max_upper != 1)
         error("`max_upper` must be a numeric scalar.");
@@ -74,7 +74,7 @@ SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
         index[j] = n_breaks - 1;
     }
 
-    // set the upper bound to infinite
+    // set the upper bound to max_upper
     upper[n_breaks - 1] = max;
 
     // create factors and output bounds corresponding to ages

@@ -41,6 +41,13 @@
 #'
 #' @export
 breaks_to_interval <- function(breaks, max_upper = Inf) {
+    .Call(C_breaks_to_interval, breaks, max_upper)
+}
+
+# -------------------------------------------------------------------------
+# R implementation for testing
+# -------------------------------------------------------------------------
+breaks_to_interval_r <- function(breaks, max_upper = Inf) {
 
     # check breaks are numeric
     if (!is.numeric(breaks))
