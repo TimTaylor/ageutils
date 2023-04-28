@@ -6,13 +6,13 @@
 SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
 
     // check ages and breaks are numeric
-    if (!isNumeric(ages))
+    if (!(isReal(ages) || isInteger(ages)))
         error("`ages` must be numeric.");
 
-    if (!isNumeric(breaks))
+    if (!(isReal(breaks) || isInteger(breaks)))
         error("`breaks` must be numeric.");
 
-    if (!isNumeric(max_upper))
+    if (!(isReal(max_upper) || isInteger(max_upper)))
         error("`max_upper` must be numeric.");
 
     // coerce ages and breaks to integer

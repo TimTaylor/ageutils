@@ -6,13 +6,13 @@
 SEXP split_interval_counts(SEXP lower_bounds, SEXP upper_bounds, SEXP counts, SEXP max_upper, SEXP weights) {
 
     // ensure numeric bounds, counts, max_upper and weights
-    if (!isNumeric(lower_bounds))
+    if (!(isReal(lower_bounds) || isInteger(lower_bounds)))
         error("`lower_bounds` must be numeric.");
-    if (!isNumeric(upper_bounds))
+    if (!(isReal(upper_bounds) || isInteger(upper_bounds)))
         error("`upper_bounds` must be numeric.");
-    if (!isNumeric(counts))
+    if (!(isReal(counts) || isInteger(counts)))
         error("`counts` must be numeric.");
-    if (!isNumeric(max_upper) || LENGTH(max_upper) != 1)
+    if ((!(isReal(max_upper) || isInteger(max_upper))) || LENGTH(max_upper) != 1)
         error("`max_upper` must be an integer of length 1.");
 
     // check max_upper

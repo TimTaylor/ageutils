@@ -4,7 +4,7 @@
 SEXP breaks_to_interval(SEXP breaks, SEXP max_upper) {
 
     // check breaks are numeric
-    if (!isNumeric(breaks))
+    if (!(isReal(breaks) || isInteger(breaks)))
         error("`breaks` must be numeric.");
 
     // coerce breaks to integer
@@ -29,7 +29,10 @@ SEXP breaks_to_interval(SEXP breaks, SEXP max_upper) {
         }
     }
 
-    // check max_upper is scalar and appropriately bounded
+    // check max_upper is numeric scalar and appropriately bounded
+    if (!(isReal(max_upper) || isInteger(max_upper)))
+        error("`max_upper` must be a numeric scalar.");
+    max_upper = PROTECT(coerceVector(max_upper, REALSXP));
     int n_max_upper = LENGTH(max_upper);
     if (n_max_upper != 1)
         error("`max_upper` must be a numeric scalar.");
