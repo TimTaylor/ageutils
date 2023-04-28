@@ -25,7 +25,7 @@ Defaults to \code{Inf}.}
 \value{
 A data frame with an ordered factor column (\code{interval}), as well as columns
 corresponding to the explicit bounds (\code{lower_bound} and \code{upper_bound}). Note
-these bounds are returned as \if{html}{\out{<numeric>}} to allow the maximum upper bound to
+these bounds are returned as \verb{<numeric>} to allow the maximum upper bound to
 be \code{Inf}.
 }
 \description{

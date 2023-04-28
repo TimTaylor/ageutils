@@ -30,7 +30,7 @@
 #'
 #' A data frame with an ordered factor column (`interval`), as well as columns
 #' corresponding to the explicit bounds (`lower_bound` and `upper_bound`). Note
-#' these bounds are returned as <numeric> to allow the maximum upper bound to
+#' these bounds are returned as `<numeric>` to allow the maximum upper bound to
 #' be `Inf`.
 #'
 # -------------------------------------------------------------------------
