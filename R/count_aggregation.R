@@ -4,7 +4,7 @@
 # -------------------------------------------------------------------------
 #' @description
 #'
-#' ageutils provides two functions focussed on aggregation:
+#' ageutils provides two functions focussed on count aggregation:
 #'
 #' - `aggregate_age_counts()` provides aggregation of counts across ages (in
 #'   years). It is similar to a `cut()` and `tapply()` pattern but optimised for

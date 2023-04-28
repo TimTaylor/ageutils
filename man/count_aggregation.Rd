@@ -85,7 +85,7 @@ an associated \code{count}.
 }
 }
 \description{
-ageutils provides two functions focussed on aggregation:
+ageutils provides two functions focussed on count aggregation:
 \itemize{
 \item \code{aggregate_age_counts()} provides aggregation of counts across ages (in
 years). It is similar to a \code{cut()} and \code{tapply()} pattern but optimised for
