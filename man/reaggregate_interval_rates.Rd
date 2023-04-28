@@ -9,7 +9,6 @@ reaggregate_interval_rates(
   upper_bounds = NULL,
   rates,
   breaks,
-  max_upper = 150L,
   weights = NULL
 )
 }
@@ -41,26 +40,17 @@ closed side of [x, y).
 
 Double values are coerced to integer prior to categorisation.}
 
-\item{max_upper}{\verb{[integerish]}
-
-Represents the maximum upper bounds permitted upon splitting the data.
-
-Used to replace \code{Inf} upper bounds prior to splitting.
-
-If any \code{upper_bound} is greater than \code{max_upper} the function will error.
-
-Double vectors will be coerced to integer.}
-
 \item{weights}{\verb{[numeric]}
 
 Population weightings to apply for individual years.
 
-If \code{NULL} (default) rates will be split based on interval size.
+If \code{NULL} (default) weights will be allocated proportional to the interval
+size.
 
-If specified, must be of length most \code{max_upper} and represent weights in the
-range 0:(max_upper - 1).
+If specified, must be of length most 200 and represent weights in the
+range 0:199.
 
-\code{weights} of length less than \code{max_upper} will be padded with 0.}
+\code{weights} of length less than 200 will be padded with 0.}
 }
 \value{
 A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bound} and an
@@ -85,8 +75,7 @@ reaggregate_interval_rates(
   lower_bounds = c(0, 5, 13),
   rates = c(1, 0.1, 0.01),
   breaks = c(0, 1, 9, 15),
-  weights = round(runif(70, 10, 30)),
-  max_upper = 100
+  weights = round(runif(70, 10, 30))
 )
 
 

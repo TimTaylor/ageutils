@@ -37,26 +37,17 @@
 #'
 #' Double values are coerced to integer prior to categorisation.
 #'
-#' @param max_upper `[integerish]`
-#'
-#' Represents the maximum upper bounds permitted upon splitting the data.
-#'
-#' Used to replace `Inf` upper bounds prior to splitting.
-#'
-#' If any `upper_bound` is greater than `max_upper` the function will error.
-#'
-#' Double vectors will be coerced to integer.
-#'
 #' @param weights `[numeric]`
 #'
 #' Population weightings to apply for individual years.
 #'
-#' If `NULL` (default) rates will be split based on interval size.
+#' If `NULL` (default) weights will be allocated proportional to the interval
+#' size.
 #'
-#' If specified, must be of length most `max_upper` and represent weights in the
-#' range 0:(max_upper - 1).
+#' If specified, must be of length most 200 and represent weights in the
+#' range 0:199.
 #'
-#' `weights` of length less than `max_upper` will be padded with 0.
+#' `weights` of length less than 200 will be padded with 0.
 #'
 # -------------------------------------------------------------------------
 #' @return
@@ -77,8 +68,7 @@
 #'   lower_bounds = c(0, 5, 13),
 #'   rates = c(1, 0.1, 0.01),
 #'   breaks = c(0, 1, 9, 15),
-#'   weights = round(runif(70, 10, 30)),
-#'   max_upper = 100
+#'   weights = round(runif(70, 10, 30))
 #' )
 #'
 #'
@@ -89,7 +79,6 @@ reaggregate_interval_rates <- function(
     upper_bounds = NULL,
     rates,
     breaks,
-    max_upper = 150L,
     weights = NULL
 ){
 
@@ -114,25 +103,10 @@ reaggregate_interval_rates <- function(
         }
     }
 
-    # check max_upper is scalar integer(ish) and less than .MAXBOUND
-    if (length(max_upper) != 1L || !is.numeric(max_upper))
-        stop("`max_upper` must be a scalar integer")
-
-    if (!is.integer(max_upper))
-        max_upper <- as.integer(max_upper)
-
-    if (is.na(max_upper))
-        stop("`max_upper` must be coercible to integer and not NA")
-
-    if (is.finite(max_upper) && max_upper >= .MAXBOUND)
-        stopf("unless infinite, `max_upper` must be less than %d.", .MAXBOUND)
-
     # check bounds and rates have compatible lengths
     n_bounds <- length(lower_bounds)
     if (is.null(upper_bounds)) {
-        if (max_upper <= lower_bounds[length(lower_bounds)])
-            stop("`max_upper` must be greater than all lower bounds")
-        upper_bounds <- c(lower_bounds[-1L], max_upper)
+        upper_bounds <- c(lower_bounds[-1L], Inf)
     }
 
     n_upper_bounds <- length(upper_bounds)
@@ -157,24 +131,24 @@ reaggregate_interval_rates <- function(
     # Ensure reasonable upper bound
     top_bound <- upper_bounds[n_bounds]
     finite_top <- is.finite(top_bound)
-    if (finite_top && top_bound > max_upper) {
-        stopf("unless infinite, `upper_bounds` must be less than %d (`max_upper`).", max_upper)
+    if (finite_top && top_bound >= .MAXBOUND) {
+        stopf("unless infinite, `upper_bounds` must be less than %d.", .MAXBOUND)
     } else if (!finite_top) {
-        upper_bounds[n_bounds] <- max_upper
-        top_bound <- max_upper
+        upper_bounds[n_bounds] <- .MAXBOUND
+        top_bound <- .MAXBOUND
     }
 
-    # Ensure valid weights and extend to cover length max_upper
+    # Ensure valid weights and extend to cover length .MAXBOUND
     if (is.null(weights)) {
-        weights <- numeric(length = max_upper) + 1
+        weights <- numeric(length = .MAXBOUND) + 1L
     } else {
         n_weights <- length(weights)
         if (n_weights == 0L)
             stop("Zero length `weights` not permitted")
-        if (n_weights > max_upper)
-            stopf("`weights` must be a vector of length %d (`max_upper`) at most.", max_upper)
-        if (n_weights < max_upper) {
-            tmp <- numeric(length = max_upper)
+        if (n_weights > .MAXBOUND)
+            stopf("`weights` must be a vector of length %d at most.", .MAXBOUND)
+        if (n_weights < .MAXBOUND) {
+            tmp <- numeric(length = .MAXBOUND)
             tmp[seq_len(n_weights)] <- weights
             weights <- tmp
         }
@@ -187,8 +161,8 @@ reaggregate_interval_rates <- function(
     if (is.unsorted(breaks, strictly = TRUE) || any(breaks < 0))
         stop("`breaks` must be non-negative and in strictly increasing order.");
     n_breaks <- length(breaks)
-    if (breaks[n_breaks] >= max_upper)
-        stopf("`breaks` must all be less than `max_upper` (%d).", max_upper)
+    if (breaks[n_breaks] >= .MAXBOUND)
+        stopf("`breaks` must all be less than %d.", .MAXBOUND)
 
     # coerce bounds to integer
     lower_bounds <- as.integer(lower_bounds)
@@ -196,8 +170,8 @@ reaggregate_interval_rates <- function(
 
     # Expand and rates across ages
     interval_lengths <- upper_bounds - lower_bounds
-    ages <- seq_len(max_upper) - 1L
-    age_rates <- numeric(length = max_upper)
+    ages <- seq_len(.MAXBOUND) - 1L
+    age_rates <- numeric(length = .MAXBOUND)
     for (i in seq_along(rates)) {
         idx <- lower_bounds[i]:(upper_bounds[i] - 1L)
         age_rates[idx + 1L] <- rates[i]
@@ -205,7 +179,7 @@ reaggregate_interval_rates <- function(
 
     # coerce breaks to integer
     breaks <- as.integer(breaks)
-    breaks <- c(breaks, max_upper)
+    breaks <- c(breaks, .MAXBOUND)
     n_breaks <- n_breaks + 1L
 
     # calculate the aggregate rates
@@ -230,13 +204,15 @@ reaggregate_interval_rates <- function(
     lower_out <- breaks[-n_breaks]
     upper_out <- breaks[-1L]
     intervals <- sprintf("[%d, %d)", lower_out, upper_out)
+    upper_out[n_breaks - 1] <- Inf
+    intervals[n_breaks - 1] <- sprintf("[%d, Inf)", lower_out[n_breaks - 1])
     intervals <- factor(intervals, levels = intervals, ordered = TRUE)
 
     # return as data frame
     list2DF(
         list(
             interval = intervals,
-            lower_bound = lower_out,
+            lower_bound = as.numeric(lower_out),
             upper_bound = upper_out,
             rate = rates_out
         )
