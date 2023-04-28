@@ -51,7 +51,7 @@ breaks_to_interval <- function(breaks, max_upper = Inf) {
 
     # ensure valid
     if (anyNA(breaks))
-        stop("`breaks` must be non-missing, finite, and, coercible to integer.")
+        stop("`breaks` must be finite, and, coercible to integer.")
 
     # check strictly increasing breaks
     if (is.unsorted(breaks, strictly = TRUE))
@@ -60,6 +60,8 @@ breaks_to_interval <- function(breaks, max_upper = Inf) {
     # check max_upper
     if (!is.numeric(max_upper) || length(max_upper) > 1L || is.na(max_upper))
         stop("`max_upper` must be a numeric scalar and not NA.")
+    if (max_upper <= max(breaks))
+        stop("`max_upper` must be greater than all `breaks`")
 
     # convert to double for consistency across bounds
     breaks <- as.double(breaks)
