@@ -37,7 +37,7 @@ SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
     if (ISNA(max))
         error("`max_upper` must be a numeric scalar.");
     if (max < 0 || (max >= MAXBOUND && R_FINITE(max)))
-        error("`ages` must be in the interval `[0, %d)` or Inf.", MAXBOUND);
+        error("`max_upper` must be in the interval `[0, %d)` or Inf.", MAXBOUND);
 
 
     // create vector of lower and upper bounds by looping over breaks using
