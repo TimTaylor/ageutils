@@ -14,6 +14,7 @@ expected <- data.frame(
 )
 
 expect_identical(cut_ages(dat, c(0L, limit)), expected)
+expect_identical(cut_ages(dat, c(0L, limit)), ageutils:::cut_ages_r(dat, c(0L, limit)))
 
 # multiple limits
 dat <- c(1:5, 99:102)
@@ -30,6 +31,7 @@ expected <- data.frame(
     upper_bound = upper_bound
 )
 expect_identical(cut_ages(dat, c(0L, limit)), expected)
+expect_identical(cut_ages(dat, c(0L, limit)), ageutils:::cut_ages_r(dat, c(0L, limit)))
 
 # multiple limits with ages below minimum
 dat <- c(1:5, 99:102)
@@ -44,6 +46,7 @@ expected <- data.frame(
     upper_bound = upper_bound
 )
 expect_identical(cut_ages(dat, limit), expected)
+expect_identical(cut_ages(dat, limit), ageutils:::cut_ages_r(dat, limit))
 
 # NA handled correctly
 dat <- c(1:5, 99:102)
@@ -66,6 +69,7 @@ expected <- data.frame(
     upper_bound = upper_bound
 )
 expect_identical(cut_ages(dat, c(0L, limit)), expected)
+expect_identical(cut_ages(dat, c(0L, limit)), ageutils:::cut_ages_r(dat, c(0L, limit)))
 
 # limits greater than values
 dat <- 1:5
@@ -83,6 +87,7 @@ expected <- data.frame(
     upper_bound = upper_bound
 )
 expect_identical(cut_ages(dat, c(0L, limits)), expected)
+expect_identical(cut_ages(dat, c(0L, limits)), ageutils:::cut_ages_r(dat, c(0L, limits)))
 
 # all NA ages handled correctly
 dat <- rep.int(NA_real_, 5L)
@@ -97,6 +102,16 @@ expected <- data.frame(
     upper_bound = dat
 )
 expect_identical(cut_ages(dat, c(0L, limits)), expected)
+expect_identical(cut_ages(dat, c(0L, limits)), ageutils:::cut_ages_r(dat, c(0L, limits)))
+
+# single age
+expected <- data.frame(
+    interval = factor("[1, 2)", levels = "[1, 2)", ordered = TRUE),
+    lower_bound = 1,
+    upper_bound = 2
+)
+expect_identical(cut_ages(1,1,2), expected)
+expect_identical(cut_ages(1,1,2), ageutils:::cut_ages_r(1,1,2))
 
 # error messaging
 expect_error(cut_ages("bob"))
@@ -104,6 +119,32 @@ expect_error(cut_ages("bob"))
 expect_error(
     cut_ages("bob", 3),
     "`ages` must be numeric.",
+    fixed = TRUE
+)
+
+
+
+expect_error(
+    cut_ages(3, 3, TRUE),
+    "`max_upper` must be numeric.",
+    fixed = TRUE
+)
+
+expect_error(
+    cut_ages(3, 3, NA_real_),
+    "`max_upper` must be a numeric scalar.",
+    fixed = TRUE
+)
+
+expect_error(
+    cut_ages(3, 3, 1:2),
+    "`max_upper` must be a numeric scalar.",
+    fixed = TRUE
+)
+
+expect_error(
+    cut_ages(10, 10, 300),
+    "`max_upper` must be in the interval `[0, 200)` or Inf.",
     fixed = TRUE
 )
 
