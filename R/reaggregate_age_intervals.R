@@ -1,38 +1,16 @@
 # -------------------------------------------------------------------------
-#' Aggregating counts across intervals
+#' Reaggregate age intervals
 #'
 # -------------------------------------------------------------------------
 #' @description
 #'
-#' ageutils provides two functions focussed on count aggregation:
-#'
-#' - `aggregate_age_counts()` provides aggregation of counts across ages (in
-#'   years). It is similar to a `cut()` and `tapply()` pattern but optimised for
-#'   speed over flexibility. It takes a specified set of breaks representing the
-#'   left hand limits of a closed open interval, i.e [x, y), and returns the
-#'   corresponding interval and upper bounds. The resulting intervals span from
-#'   the minimum break through to the maximum age. Missing values, and
-#'   those less than the minimum break, are grouped as NA.
-#'
-#' - `reaggregate_interval_counts()` first splits counts of a given age interval
-#'   in to counts for individual years based on a given weighting. Age intervals
-#'   are specified by their lower (closed) and upper (open) bounds, i.e.
-#'   intervals of the form [lower, upper). Functionally this is equivalent to,
-#'   but more efficient than, a call to `split_interval_counts()` followed by
-#'   `aggregate_age_counts()`.
+#' `reaggregate_interval_counts()` converts counts over one interval range to
+#' another. It first splits counts of a given age interval in to counts for
+#' individual years based on a given weighting. These are then aggregated to the
+#' desired breaks. Functionally this is equivalent to, but more efficient than,
+#' a call to `split_interval_counts()` followed by `aggregate_age_counts()`.
 #'
 # -------------------------------------------------------------------------
-#' @param ages `[numeric]`.
-#'
-#' Vector of age in years.
-#'
-#' Double values are coerced to integer prior to categorisation / aggregation.
-#'
-#' For `aggregate_age_counts()`, these must corresponding to the `counts` entry
-#' and will defaults to 0:(N-1) where `N` is the number of counts present.
-#'
-#' `ages` >= 200 are not permitted due to the internal implementation.
-#'
 #' @param breaks `[numeric]`.
 #'
 #' 1 or more non-negative cut points in increasing (strictly) order.
@@ -79,12 +57,8 @@
 # -------------------------------------------------------------------------
 #' @return
 #'
-#'`split_interval_counts()`:
-#' - A data frame with entries `age` (in years) and `count`.
-#'
-#' `aggregate_age_counts()` and `reaggregate_interval_counts()`:
-#' - A data frame with 4 entries; `interval`, `lower_bound`, `upper_bound` and
-#'   an associated `count`.
+#' A data frame with 4 entries; `interval`, `lower_bound`, `upper_bound` and an
+#' associated `count`.
 #'
 # -------------------------------------------------------------------------
 #' @examples
@@ -110,30 +84,14 @@
 #' )
 #'
 # -------------------------------------------------------------------------
-#' @name count_aggregation
-NULL
-
-# -------------------------------------------------------------------------
-#' @rdname count_aggregation
-#' @export
-aggregate_age_counts <- function(
-    counts,
-    ages = 0:(length(counts) - 1L),
-    breaks
-) {
-    .Call(C_aggregate_age_counts, counts, ages, breaks)
-}
-
-# -------------------------------------------------------------------------
-#' @rdname count_aggregation
 #' @export
 reaggregate_interval_counts <- function(
-    lower_bounds,
-    upper_bounds,
-    counts,
-    breaks,
-    max_upper = 100L,
-    weights = NULL
+        lower_bounds,
+        upper_bounds,
+        counts,
+        breaks,
+        max_upper = 100L,
+        weights = NULL
 ) {
     .Call(C_reaggregate_interval_counts, lower_bounds, upper_bounds, counts, breaks, max_upper, weights)
 }

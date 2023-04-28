@@ -20,7 +20,14 @@
 #' `ages` >= 200 are not permitted due to the internal implementation and the
 #' fact that we have yet to encounter a 200 year old, living, individual.
 #'
-#' @inheritParams breaks_to_interval
+#' @param breaks `[integerish]`.
+#'
+#' 1 or more non-negative cut points in increasing (strictly) order.
+#'
+#' These correspond to the left hand side of the desired intervals (e.g. the
+#' closed side of [x, y).
+#'
+#' Double values are coerced to integer prior to categorisation.
 #'
 #' @param max_upper `[numeric]`
 #'
