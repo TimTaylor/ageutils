@@ -121,12 +121,12 @@ expect_error(
 
 expect_error(
     cut_ages(1:10, breaks = NA_integer_),
-    "`breaks` must be in the interval [0, 200).",
+    "`breaks` must be non-negative and coercible to integer.",
     fixed = TRUE
 )
 
 expect_error(
     cut_ages(1:10, breaks = c(2L, 2L)),
-    "`breaks` must be in strictly increasing order.",
+    "`breaks` must be in strictly increasing order and not NA.",
     fixed = TRUE
 )

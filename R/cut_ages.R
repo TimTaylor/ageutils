@@ -60,6 +60,13 @@
 # -------------------------------------------------------------------------
 #' @export
 cut_ages <- function(ages, breaks, max_upper = Inf) {
+    .Call(C_cut_ages, ages, breaks, max_upper)
+}
+
+# -------------------------------------------------------------------------
+# R implementation for testing
+# -------------------------------------------------------------------------
+cut_ages_r <- function(ages, breaks, max_upper = Inf) {
 
     .MAXBOUND <- 200
 
@@ -131,9 +138,4 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
             upper_bound = upper_bounds
         )
     )
-
-
 }
-
-
-
