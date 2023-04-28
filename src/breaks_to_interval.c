@@ -117,6 +117,6 @@ SEXP breaks_to_interval(SEXP breaks, SEXP max_upper) {
     INTEGER(rnms)[1] = -n_breaks;
     setAttrib(out, R_RowNamesSymbol, rnms);
 
-    UNPROTECT(9);
+    UNPROTECT(10);
     return out;
 }
