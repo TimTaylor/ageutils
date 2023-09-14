@@ -103,9 +103,9 @@ closed side of [x, y).</p>
 <p>Population weightings to apply for individual years.</p>
 <p>If <code>NULL</code> (default) weights will be allocated proportional to the interval
 size.</p>
-<p>If specified, must be of length most 200 and represent weights in the
-range 0:199.</p>
-<p><code>weights</code> of length less than 200 will be padded with 0.</p></dd>
+<p>If specified, must be of length most 2000 and represent weights in the
+range 0:1999.</p>
+<p><code>weights</code> of length less than 2000 will be padded with 0.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -127,8 +127,8 @@ associated <code>count</code>.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound       rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    [0, 1)           0           1 1.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [1, 9)           1           9 0.58040541</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   [9, 15)           9          15 0.06721854</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [1, 9)           1           9 0.50555556</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   [9, 15)           9          15 0.06933333</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 [15, Inf)          15         Inf 0.01000000</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">reaggregate_interval_rates</span><span class="op">(</span></span></span>
@@ -139,8 +139,8 @@ associated <code>count</code>.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound       rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    [0, 1)           0           1 1.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [1, 9)           1           9 0.58308824</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   [9, 15)           9          15 0.06576087</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [1, 9)           1           9 0.49537572</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   [9, 15)           9          15 0.07485294</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 [15, Inf)          15         Inf 0.01000000</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
