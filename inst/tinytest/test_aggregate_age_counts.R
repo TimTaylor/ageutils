@@ -102,7 +102,7 @@ expect_error(
 
 expect_error(
     aggregate_age_counts(ages = -1:10, counts = seq_along(ages), breaks = 2L),
-    "`ages` must be in the interval `[0, 200)` or NA.",
+    "`ages` must be in the interval `[0, 2000)` or NA.",
     fixed = TRUE
 )
 
@@ -135,7 +135,7 @@ ages[1] <- -1L
 counts <- 1:10
 expect_error(
     aggregate_age_counts(counts, ages, breaks = 1),
-    "`ages` must be in the interval `[0, 200)` or NA.",
+    "`ages` must be in the interval `[0, 2000)` or NA.",
     fixed = TRUE
 )
 

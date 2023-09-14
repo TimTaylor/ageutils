@@ -20,7 +20,7 @@ Double values are coerced to integer prior to categorisation / aggregation.
 For \code{aggregate_age_counts()}, these must corresponding to the \code{counts} entry
 and will defaults to 0:(N-1) where \code{N} is the number of counts present.
 
-\code{ages} >= 200 are not permitted due to the internal implementation.}
+\code{ages} >= 2000 are not permitted due to the internal implementation.}
 
 \item{breaks}{\verb{[numeric]}.
 

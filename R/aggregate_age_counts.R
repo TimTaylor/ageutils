@@ -22,7 +22,7 @@
 #' For `aggregate_age_counts()`, these must corresponding to the `counts` entry
 #' and will defaults to 0:(N-1) where `N` is the number of counts present.
 #'
-#' `ages` >= 200 are not permitted due to the internal implementation.
+#' `ages` >= 2000 are not permitted due to the internal implementation.
 #'
 #' @param breaks `[numeric]`.
 #'

@@ -1,7 +1,7 @@
 #include <R.h>
 #include <Rinternals.h>
 
-#define MAXBOUND 200
+#define MAXBOUND 2000
 
 SEXP split_interval_counts(SEXP lower_bounds, SEXP upper_bounds, SEXP counts, SEXP max_upper, SEXP weights) {
 

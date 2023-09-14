@@ -17,8 +17,8 @@
 #'
 #' Double values are coerced to integer prior to categorisation / aggregation.
 #'
-#' `ages` >= 200 are not permitted due to the internal implementation and the
-#' fact that we have yet to encounter a 200 year old, living, individual.
+#' `ages` >= 2000 are not permitted due to the internal implementation and the
+#' fact that we have yet to encounter a 2000 year old, living, individual.
 #'
 #' @param breaks `[integerish]`.
 #'
@@ -68,7 +68,7 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
 # -------------------------------------------------------------------------
 cut_ages_r <- function(ages, breaks, max_upper = Inf) {
 
-    .MAXBOUND <- 200
+    .MAXBOUND <- 2000
 
     # ensure numeric ages, breaks and max_upper
     if (!is.numeric(ages))

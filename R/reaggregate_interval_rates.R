@@ -44,10 +44,10 @@
 #' If `NULL` (default) weights will be allocated proportional to the interval
 #' size.
 #'
-#' If specified, must be of length most 200 and represent weights in the
-#' range 0:199.
+#' If specified, must be of length most 2000 and represent weights in the
+#' range 0:1999.
 #'
-#' `weights` of length less than 200 will be padded with 0.
+#' `weights` of length less than 2000 will be padded with 0.
 #'
 # -------------------------------------------------------------------------
 #' @return
@@ -83,7 +83,7 @@ reaggregate_interval_rates <- function(
 ){
 
     # For consistency with other C implementations set a MAXBOUND
-    .MAXBOUND = 200L
+    .MAXBOUND = 2000L
 
     # ensure numeric input that isn't NA
     if (!is.numeric(lower_bounds) || anyNA(lower_bounds))

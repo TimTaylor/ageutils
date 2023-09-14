@@ -13,8 +13,8 @@ Vector of age in years.
 
 Double values are coerced to integer prior to categorisation / aggregation.
 
-\code{ages} >= 200 are not permitted due to the internal implementation and the
-fact that we have yet to encounter a 200 year old, living, individual.}
+\code{ages} >= 2000 are not permitted due to the internal implementation and the
+fact that we have yet to encounter a 2000 year old, living, individual.}
 
 \item{breaks}{\verb{[integerish]}.
 

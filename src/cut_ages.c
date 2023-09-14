@@ -1,7 +1,7 @@
 #include <R.h>
 #include <Rinternals.h>
 
-#define MAXBOUND 200
+#define MAXBOUND 2000
 
 SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
 

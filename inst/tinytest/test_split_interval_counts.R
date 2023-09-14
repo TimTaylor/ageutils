@@ -132,9 +132,9 @@ expect_error(
         lower_bounds = c(1, 2, NA,  2, 1, NA, 4),
         upper_bounds = c(3, 3,  1, NA, 3, NA, 6),
         counts =       c(1, 1,  1,  1, 1,  1, NA_real_),
-        max_upper = 201
+        max_upper = 2001
     ),
-    "`max_upper` must be less than or equal to 200.",
+    "`max_upper` must be less than or equal to 2000.",
     fixed = TRUE
 )
 

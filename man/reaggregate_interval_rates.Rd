@@ -47,10 +47,10 @@ Population weightings to apply for individual years.
 If \code{NULL} (default) weights will be allocated proportional to the interval
 size.
 
-If specified, must be of length most 200 and represent weights in the
-range 0:199.
+If specified, must be of length most 2000 and represent weights in the
+range 0:1999.
 
-\code{weights} of length less than 200 will be padded with 0.}
+\code{weights} of length less than 2000 will be padded with 0.}
 }
 \value{
 A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bound} and an
