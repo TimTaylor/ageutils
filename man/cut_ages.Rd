@@ -9,12 +9,10 @@ cut_ages(ages, breaks, max_upper = Inf)
 \arguments{
 \item{ages}{\verb{[numeric]}.
 
-Vector of age in years.
+Vector of age values.
 
 Double values are coerced to integer prior to categorisation / aggregation.
-
-\code{ages} >= 2000 are not permitted due to the internal implementation and the
-fact that we have yet to encounter a 2000 year old, living, individual.}
+#'}
 
 \item{breaks}{\verb{[integerish]}.
 

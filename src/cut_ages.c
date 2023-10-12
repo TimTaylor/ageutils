@@ -1,51 +1,20 @@
 #include <R.h>
 #include <Rinternals.h>
 
-#define MAXBOUND 2000
+SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper, SEXP max_bound) {
 
-SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
 
-    // check ages and breaks are numeric
-    if (!(isReal(ages) || isInteger(ages)))
-        error("`ages` must be numeric.");
-
-    if (!(isReal(breaks) || isInteger(breaks)))
-        error("`breaks` must be numeric.");
-
-    if (!(isReal(max_upper) || isInteger(max_upper)))
-        error("`max_upper` must be numeric.");
-
-    // coerce ages and breaks to integer
-    ages = PROTECT(coerceVector(ages, INTSXP));
-    breaks = PROTECT(coerceVector(breaks, INTSXP));
-
-    // check the ages are appropriately bounded or NA
+    int n_breaks = LENGTH(breaks);
     int n_ages = LENGTH(ages);
+    int max = INTEGER(max_bound)[0];
     int* p_ages = INTEGER(ages);
-    for (int i = 0; i < n_ages; i++) {
-        int age = p_ages[i];
-        if (age != NA_INTEGER && (age < 0 || age >= MAXBOUND)) {
-            error("`ages` must be in the interval `[0, %d)` or NA.", MAXBOUND);
-        }
-    }
-
-    // check max_upper is scalar and appropriately bounded
-    int n_max_upper = LENGTH(max_upper);
-    if (n_max_upper != 1)
-        error("`max_upper` must be a numeric scalar.");
-    double max = asReal(max_upper);
-    if (ISNA(max))
-        error("`max_upper` must be a numeric scalar.");
-    if (max < 0 || (max >= MAXBOUND && R_FINITE(max)))
-        error("`max_upper` must be in the interval `[0, %d)` or Inf.", MAXBOUND);
-
+    int* p_breaks= INTEGER(breaks);
+    int first_break = p_breaks[0];
 
     // create vector of lower and upper bounds by looping over breaks using
     // index as a pointer that maps an age to a corresponding bound
-    int index[MAXBOUND];
-
-    int n_breaks = LENGTH(breaks);
-    int* p_breaks = INTEGER(breaks);
+    int* index;
+    index = (int *) R_alloc(INTEGER(max_bound)[0], sizeof(int));
 
     double* lower;
     lower = (double *) R_alloc(n_breaks, sizeof(double));
@@ -53,16 +22,9 @@ SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
     double* upper;
     upper = (double *) R_alloc(n_breaks, sizeof(double));
 
-    int first_break = p_breaks[0];
-    if (first_break == NA_INTEGER || first_break < 0)
-        error("`breaks` must be non-negative and coercible to integer.");
-
     lower[0] = first_break;
     for (int i = 0; i < n_breaks - 1; ++i) {
         int tmp = p_breaks[i + 1];
-        if (tmp == NA_INTEGER || tmp <= lower[i]) {
-            error("`breaks` must be in strictly increasing order and not NA.");
-        }
         lower[i + 1] = tmp;
         upper[i] = tmp;
         for (int j = lower[i]; j < upper[i]; j++)
@@ -70,12 +32,11 @@ SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
     }
 
     // set the last index pointers
-    for (int j = lower[n_breaks - 1]; j < MAXBOUND; j++) {
+    for (int j = lower[n_breaks - 1]; j < max; j++)
         index[j] = n_breaks - 1;
-    }
 
     // set the upper bound to max_upper
-    upper[n_breaks - 1] = max;
+    upper[n_breaks - 1] = asReal(max_upper);
 
     // create factors and output bounds corresponding to ages
     SEXP factor = PROTECT(allocVector(INTSXP, n_ages));
@@ -114,16 +75,17 @@ SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
     }
 
     // create last level name allowing for "[%d, Inf)"
-    if (!R_FINITE(max)) {
+    double max_tmp = asReal(max_upper);
+    if (!R_FINITE(max_tmp)) {
         int bufsz = snprintf(NULL, 0, "[%d, Inf)", (int) p_breaks[n_breaks - 1]);
         char* buf = R_Calloc(bufsz + 1, char);
         snprintf(buf, bufsz + 1, "[%d, Inf)", (int) p_breaks[n_breaks - 1]);
         SET_STRING_ELT(lvls, n_breaks - 1, mkChar(buf));
         R_Free(buf);
     } else {
-        int bufsz = snprintf(NULL, 0, "[%d, %d)", (int) p_breaks[n_breaks - 1], (int) max);
+        int bufsz = snprintf(NULL, 0, "[%d, %.f)", (int) p_breaks[n_breaks - 1], max_tmp);
         char* buf = R_Calloc(bufsz + 1, char);
-        snprintf(buf, bufsz + 1, "[%d, %d)", (int) p_breaks[n_breaks - 1], (int) max);
+        snprintf(buf, bufsz + 1, "[%d, %.f)", (int) p_breaks[n_breaks - 1], max_tmp);
         SET_STRING_ELT(lvls, n_breaks - 1, mkChar(buf));
         R_Free(buf);
     }
@@ -155,6 +117,6 @@ SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
     setAttrib(out, R_RowNamesSymbol, rnms);
 
 
-    UNPROTECT(10);
+    UNPROTECT(8);
     return out;
 }

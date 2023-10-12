@@ -142,11 +142,6 @@ expect_error(
     fixed = TRUE
 )
 
-expect_error(
-    cut_ages(10, 10, 3000),
-    "`max_upper` must be in the interval `[0, 2000)` or Inf.",
-    fixed = TRUE
-)
 
 expect_error(
     cut_ages(1:10, breaks = "5L"),
@@ -156,7 +151,7 @@ expect_error(
 
 expect_error(
     cut_ages(-1:10, 5L),
-    "`ages` must be in the interval `[0, 2000)` or NA.",
+    "`ages` must be non-negative or NA.",
     fixed = TRUE
 )
 

@@ -13,13 +13,10 @@
 # -------------------------------------------------------------------------
 #' @param ages `[numeric]`.
 #'
-#' Vector of age in years.
+#' Vector of age values.
 #'
 #' Double values are coerced to integer prior to categorisation / aggregation.
-#'
-#' `ages` >= 2000 are not permitted due to the internal implementation and the
-#' fact that we have yet to encounter a 2000 year old, living, individual.
-#'
+#'#'
 #' @param breaks `[integerish]`.
 #'
 #' 1 or more non-negative cut points in increasing (strictly) order.
@@ -60,15 +57,6 @@
 # -------------------------------------------------------------------------
 #' @export
 cut_ages <- function(ages, breaks, max_upper = Inf) {
-    .Call(C_cut_ages, ages, breaks, max_upper)
-}
-
-# -------------------------------------------------------------------------
-# R implementation for testing
-# -------------------------------------------------------------------------
-cut_ages_r <- function(ages, breaks, max_upper = Inf) {
-
-    .MAXBOUND <- 2000
 
     # ensure numeric ages, breaks and max_upper
     if (!is.numeric(ages))
@@ -79,27 +67,69 @@ cut_ages_r <- function(ages, breaks, max_upper = Inf) {
         stop("`max_upper` must be numeric.")
 
     # check ages are appropriately bounded or NA
+    ages <- as.integer(ages)
     na_ages <- is.na(ages)
-    if (any((ages < 0 | ages >= .MAXBOUND) & !na_ages))
-        stopf("`ages` must be in the interval `[0, %d)` or NA.", .MAXBOUND)
+    if(!all(na_ages) && min(ages, na.rm = TRUE) < 0)
+        stop("`ages` must be non-negative or NA.")
 
     # check max_upper is appropriately bounded or Inf
     if (!is.numeric(max_upper) || length(max_upper) > 1L || is.na(max_upper))
         stop("`max_upper` must be a numeric scalar.")
-    if ((max_upper < 0) ||(max_upper >= .MAXBOUND && is.finite(max_upper)))
-        stopf("`max_upper` must be in the interval `[0, %d)` or Inf.", .MAXBOUND)
+    if (max_upper <= 0)
+        stop("`max_upper` must be positive.")
 
     # check breaks
-    if (anyNA(breaks) || any(breaks < 0 | breaks >= .MAXBOUND))
-        stopf("`breaks` must be in the interval [0, %d).", .MAXBOUND)
+    breaks <- as.integer(breaks)
+    if (anyNA(breaks) || min(breaks, na.rm = TRUE) < 0)
+        stopf("`breaks` must be non-negative and coercible to integer.")
     if (is.unsorted(breaks, strictly = TRUE))
-        stop("`breaks` must be in strictly increasing order.")
+        stop("`breaks` must be in strictly increasing order and not NA.")
     if (breaks[length(breaks)] >= max_upper)
         stop("all `breaks` must be less than `max_upper`.")
 
-    # ensure integer input
+    # calculate the maximum bound
+    max_bound <- max(c(ages, breaks[length(breaks)]), na.rm = TRUE) + 1L
+
+    .Call(C_cut_ages, ages, breaks, round(max_upper), max_bound)
+
+}
+
+# -------------------------------------------------------------------------
+# R implementation for testing
+# -------------------------------------------------------------------------
+cut_ages_r <- function(ages, breaks, max_upper = Inf) {
+
+    # ensure numeric ages, breaks and max_upper
+    if (!is.numeric(ages))
+        stop("`ages` must be numeric.")
+    if (!is.numeric(breaks))
+        stop("`breaks` must be numeric.")
+    if (!is.numeric(max_upper))
+        stop("`max_upper` must be numeric.")
+
+    # check ages are appropriately bounded or NA
     ages <- as.integer(ages)
+    na_ages <- is.na(ages)
+    if(!all(na_ages) && min(ages, na.rm = TRUE) < 0)
+         stop("`ages` must be non-negative or NA.")
+
+    # check max_upper is appropriately bounded or Inf
+    if (!is.numeric(max_upper) || length(max_upper) > 1L || is.na(max_upper))
+        stop("`max_upper` must be a numeric scalar.")
+    if (max_upper <= 0)
+        stop("`max_upper` must be positive.")
+
+    # check breaks
     breaks <- as.integer(breaks)
+    if (anyNA(breaks) || min(breaks, na.rm = TRUE) < 0)
+        stopf("`breaks` must be non-negative and coercible to integer.")
+    if (is.unsorted(breaks, strictly = TRUE))
+        stop("`breaks` must be in strictly increasing order and not NA.")
+    if (breaks[length(breaks)] >= max_upper)
+        stop("all `breaks` must be less than `max_upper`.")
+
+    # specify a maximum
+    .MAXBOUND <- max(ages, breaks[length(breaks)], na.rm = TRUE) + 1L
 
     # allow for breaks which do not start at zero
     lower <- c(0L, breaks)
