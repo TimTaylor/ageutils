@@ -30,6 +30,8 @@
 #'
 #' Represents the maximum upper bound for the resulting intervals.
 #'
+#' Double values are rounded to the nearest (numeric) integer.
+#'
 #' Defaults to `Inf`.
 #'
 # -------------------------------------------------------------------------
@@ -87,11 +89,7 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
     if (breaks[length(breaks)] >= max_upper)
         stop("all `breaks` must be less than `max_upper`.")
 
-    # calculate the maximum bound
-    max_bound <- max(c(ages, breaks[length(breaks)]), na.rm = TRUE) + 1L
-
-    .Call(C_cut_ages, ages, breaks, round(max_upper), max_bound)
-
+    .Call(C_cut_ages, ages, breaks, max_upper)
 }
 
 # -------------------------------------------------------------------------
