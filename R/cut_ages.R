@@ -57,41 +57,7 @@
 # -------------------------------------------------------------------------
 #' @export
 cut_ages <- function(ages, breaks, max_upper = Inf) {
-
-    # ensure numeric ages, breaks and max_upper
-    if (!is.numeric(ages))
-        stop("`ages` must be numeric.")
-    if (!is.numeric(breaks))
-        stop("`breaks` must be numeric.")
-    if (!is.numeric(max_upper))
-        stop("`max_upper` must be numeric.")
-
-    # check ages are appropriately bounded or NA
-    ages <- as.integer(ages)
-    na_ages <- is.na(ages)
-    if(!all(na_ages) && min(ages, na.rm = TRUE) < 0)
-        stop("`ages` must be non-negative or NA.")
-
-    # check max_upper is appropriately bounded or Inf
-    if (!is.numeric(max_upper) || length(max_upper) > 1L || is.na(max_upper))
-        stop("`max_upper` must be a numeric scalar.")
-    if (max_upper <= 0)
-        stop("`max_upper` must be positive.")
-
-    # check breaks
-    breaks <- as.integer(breaks)
-    if (anyNA(breaks) || min(breaks, na.rm = TRUE) < 0)
-        stopf("`breaks` must be non-negative and coercible to integer.")
-    if (is.unsorted(breaks, strictly = TRUE))
-        stop("`breaks` must be in strictly increasing order and not NA.")
-    if (breaks[length(breaks)] >= max_upper)
-        stop("all `breaks` must be less than `max_upper`.")
-
-    # calculate the maximum bound
-    max_bound <- max(c(ages, breaks[length(breaks)]), na.rm = TRUE) + 1L
-
-    .Call(C_cut_ages, ages, breaks, round(max_upper), max_bound)
-
+    .Call(C_cut_ages, ages, breaks, max_upper)
 }
 
 # -------------------------------------------------------------------------
