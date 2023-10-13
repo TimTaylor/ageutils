@@ -87,13 +87,12 @@ than the minimum break, are grouped as NA.</p>
 <p>Vector of age in years.</p>
 <p>Double values are coerced to integer prior to categorisation / aggregation.</p>
 <p>For <code>aggregate_age_counts()</code>, these must corresponding to the <code>counts</code> entry
-and will defaults to 0:(N-1) where <code>N</code> is the number of counts present.</p>
-<p><code>ages</code> &gt;= 2000 are not permitted due to the internal implementation.</p></dd>
+and will defaults to 0:(N-1) where <code>N</code> is the number of counts present.</p></dd>
 
 
 <dt>breaks</dt>
 <dd><p><code>[numeric]</code>.</p>
-<p>1 or more non-negative cut points in increasing (strictly) order.</p>
+<p>1 or more cut points in increasing (strictly) order.</p>
 <p>These correspond to the left hand side of the desired intervals (e.g. the
 closed side of [x, y).</p>
 <p>Double values are coerced to integer prior to categorisation.</p></dd>

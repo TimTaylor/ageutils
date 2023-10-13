@@ -91,8 +91,8 @@ equal to zero.</p>
 <dt>max_upper</dt>
 <dd><p><code>[integerish]</code></p>
 <p>Represents the maximum upper bounds permitted upon splitting the data.</p>
-<p>Used to replace <code>Inf</code> upper bounds prior to splitting.</p>
-<p>If any <code>upper_bound</code> is greater than <code>max_upper</code> the function will error.</p>
+<p>Any upper bound greater than this will be replaced with this value prior to
+splitting.</p>
 <p>Double vectors will be coerced to integer.</p></dd>
 
 
@@ -147,6 +147,7 @@ range 0:(max_upper - 1).</p></dd>
 <span class="r-in"><span>    counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    max_upper <span class="op">=</span> <span class="fl">15</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`upper_bounds` greater than `max_upper` (15) have been replaced prior to splitting.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    age count</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    0     1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    1     1</span>

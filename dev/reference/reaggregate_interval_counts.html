@@ -94,7 +94,7 @@ equal to zero.</p>
 
 <dt>breaks</dt>
 <dd><p><code>[numeric]</code>.</p>
-<p>1 or more non-negative cut points in increasing (strictly) order.</p>
+<p>1 or more cut points in increasing (strictly) order.</p>
 <p>These correspond to the left hand side of the desired intervals (e.g. the
 closed side of [x, y).</p>
 <p>Double values are coerced to integer prior to categorisation.</p></dd>
@@ -103,8 +103,8 @@ closed side of [x, y).</p>
 <dt>max_upper</dt>
 <dd><p><code>[integerish]</code></p>
 <p>Represents the maximum upper bounds permitted upon splitting the data.</p>
-<p>Used to replace <code>Inf</code> upper bounds prior to splitting.</p>
-<p>If any <code>upper_bound</code> is greater than <code>max_upper</code> the function will error.</p>
+<p>Any upper bound greater than this will be replaced with this value prior to
+splitting.</p>
 <p>Double vectors will be coerced to integer.</p></dd>
 
 
@@ -127,40 +127,6 @@ associated <code>count</code>.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># default ages generated if only counts provided (here ages will be 0:64)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="aggregate_age_counts.html">aggregate_age_counts</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound count</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    [0, 1)           0           1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [1, 5)           1           5    14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   [5, 15)           5          15   105</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  [15, 25)          15          25   205</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  [25, 45)          25          45   710</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  [45, 65)          45          65  1110</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 [65, Inf)          65         Inf     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8      &lt;NA&gt;          NA          NA     0</span>
-<span class="r-in"><span><span class="fu"><a href="aggregate_age_counts.html">aggregate_age_counts</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>, breaks <span class="op">=</span> <span class="fl">50L</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound count</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 [50, Inf)          50         Inf   870</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      &lt;NA&gt;          NA          NA  1275</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># NA ages are handled with their own grouping</span></span></span>
-<span class="r-in"><span><span class="va">ages</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>;</span></span>
-<span class="r-in"><span><span class="va">ages</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">44</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="aggregate_age_counts.html">aggregate_age_counts</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>,</span></span>
-<span class="r-in"><span>    ages <span class="op">=</span> <span class="va">ages</span>,</span></span>
-<span class="r-in"><span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound count</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    [0, 1)           0           1     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [1, 5)           1           5     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   [5, 15)           5          15     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  [15, 25)          15          25     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  [25, 45)          25          45     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  [45, 65)          45          65  1090</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 [65, Inf)          65         Inf    65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8      &lt;NA&gt;          NA          NA   990</span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">reaggregate_interval_counts</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    lower_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    upper_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span>,</span></span>
