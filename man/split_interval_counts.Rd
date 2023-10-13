@@ -32,9 +32,8 @@ Vector of counts to be aggregated.}
 
 Represents the maximum upper bounds permitted upon splitting the data.
 
-Used to replace \code{Inf} upper bounds prior to splitting.
-
-If any \code{upper_bound} is greater than \code{max_upper} the function will error.
+Any upper bound greater than this will be replaced with this value prior to
+splitting.
 
 Double vectors will be coerced to integer.}
 

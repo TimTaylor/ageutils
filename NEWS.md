@@ -1,5 +1,8 @@
 # ageutils (development version)
 
+* `split_interval_counts()` now matches the documentation and disallows missing
+  (NA) bounds.
+
 * `breaks_to_interval()` and `cut_ages()` both gain an argument, `max_upper`
   which allows users to explicitly set the maximum upper bound.
   

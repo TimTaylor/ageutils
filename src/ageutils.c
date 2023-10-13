@@ -5,159 +5,88 @@
 
 SEXP split_interval_counts(SEXP lower_bounds, SEXP upper_bounds, SEXP counts, SEXP max_upper, SEXP weights) {
 
-    // ensure numeric bounds, counts, max_upper and weights
-    if (!(isReal(lower_bounds) || isInteger(lower_bounds)))
-        error("`lower_bounds` must be numeric.");
-    if (!(isReal(upper_bounds) || isInteger(upper_bounds)))
-        error("`upper_bounds` must be numeric.");
-    if (!(isReal(counts) || isInteger(counts)))
-        error("`counts` must be numeric.");
-    if ((!(isReal(max_upper) || isInteger(max_upper))) || LENGTH(max_upper) != 1)
-        error("`max_upper` must be an integer of length 1.");
+    int protected = 0;
 
-    // check max_upper
-    max_upper = PROTECT(coerceVector(max_upper, INTSXP));
-    int max = INTEGER(max_upper)[0];
-    if (max > MAXBOUND || max == NA_INTEGER)
-        error("`max_upper` must be less than or equal to %d.", MAXBOUND);
-
-    // check bounds have compatible lengths
-    int n_lower_bounds = LENGTH(lower_bounds);
-    int n_upper_bounds = LENGTH(upper_bounds);
-    if (n_lower_bounds != n_upper_bounds)
-        error("`lower_bounds` and `upper_bounds` must be the same length.");
-
-    // check upper bounds are valid and replace infinite values with max_upper
-    upper_bounds = PROTECT(coerceVector(upper_bounds, REALSXP));
-    double* p_upper_bounds = REAL(upper_bounds);
-    lower_bounds = PROTECT(coerceVector(lower_bounds, INTSXP));
-    int* p_lower_bounds = INTEGER(lower_bounds);
-    for (int i = 0; i < n_upper_bounds; i++) {
-
-        double ubound = p_upper_bounds[i];
-        int lbound = p_lower_bounds[i];
-
-        if (R_FINITE(ubound) && ubound > max) {
-            error("`upper_bounds` can not be greater than `max_upper` unless infinite.");
-        }
-
-        if (ubound == R_PosInf) {
-            p_upper_bounds[i] = max;
-        }
-
-        if (lbound != NA_INTEGER && lbound >= ubound) {
-            error("`lower_bounds` must be less than `upper_bounds`.");
-        }
-
-    }
-    upper_bounds = PROTECT(coerceVector(upper_bounds, INTSXP));
-
-    // coerce counts and check lengths
-    counts = PROTECT(coerceVector(counts, REALSXP));
-    double* p_counts = REAL(counts);
-    if (n_upper_bounds != LENGTH(counts))
-        error("`bounds` and `counts` must be the same length.");
-
-    // check weights
-    int null_weights = 1;
-    double* p_weights;
-    if (TYPEOF(weights) == NILSXP) {
-        double value = 1.0 / max;
-        p_weights = (double *) R_alloc(max, sizeof(double));
-        for (int i = 0; i < max; i++)
-            p_weights[i] = value;
-    } else if (!isNumeric(weights)) {
-        error("`weights` must be numeric.");
-    } else {
-        null_weights = 0;
-        weights = PROTECT(coerceVector(weights, REALSXP));
-        int n_weights = LENGTH(weights);
-        if (n_weights != max) {
-            error("`weights` must be a vector of length %d (`max_upper`) representing ages 0:%d", max, max - 1);
-        }
-        p_weights = REAL(weights);
-        for (int i = 0; i < n_weights; i++) {
-            if (ISNA(p_weights[i]) || p_weights[i] < 0) {
-                error("`weights` must be positive and not missing (NA).");
-            }
-
-        }
-    }
-
-    // pointers to bounds
+    // pointers to bounds, counts and weights
     int* p_lower = INTEGER(lower_bounds);
     int* p_upper = INTEGER(upper_bounds);
+    double* p_counts = REAL(counts);
+    double* p_weights;
 
-    // calculate length of output
-    int total = 0;
-    for (int i = 0; i < n_lower_bounds; ++i) {
-        if (p_upper[i] == NA_INTEGER || p_lower[i] == NA_INTEGER)
-            total += 1;
-        else
-            total += (p_upper[i] - p_lower[i]);
+    // get the maximum upper bound
+    int max_upper_bound = asInteger(max_upper);
+
+    // create weights if NULL
+    if (TYPEOF(weights) == NILSXP) {
+        double value = 1.0 / max_upper_bound;
+        p_weights = (double *) R_alloc(max_upper_bound, sizeof(double));
+        for (int i = 0; i < max_upper_bound; i++)
+            p_weights[i] = value;
+    } else {
+        p_weights = REAL(weights);
     }
 
+    // calculate length of output
+    int n_bounds = LENGTH(lower_bounds);
+    int total = 0;
+    for (int i = 0; i < n_bounds; ++i)
+        total += (p_upper[i] - p_lower[i]);
+
     // allocate space for ages
-    SEXP age = PROTECT(allocVector(INTSXP, total));
+    SEXP age = PROTECT(allocVector(INTSXP, total)); protected++;
     int* p_age = INTEGER(age);
 
     // allocate space for count
-    SEXP count = PROTECT(allocVector(REALSXP, total));
+    SEXP count = PROTECT(allocVector(REALSXP, total));  protected++;
     double* p_count = REAL(count);
 
     // loop over inputs
     int index = 0;
-    for (int i = 0; i < n_lower_bounds; ++i) {
+    for (int i = 0; i < n_bounds; ++i) {
         int interval_start = p_lower[i];
         int interval_end = p_upper[i];
         double ct = p_counts[i];
-        if (interval_start != NA_INTEGER && interval_end != NA_INTEGER) {
-            double sum = 0;
-            int new_index = index;
+        double sum = 0;
+        int new_index = index;
+        for (int j = interval_start; j < interval_end; j++) {
+            sum += p_weights[j];
+            p_age[new_index] = j;
+            new_index++;
+        }
+        new_index = index;
+        if (fabs(sum) > sqrt(DBL_EPSILON)) {
             for (int j = interval_start; j < interval_end; j++) {
-                sum += p_weights[j];
-                p_age[new_index] = j;
+                p_count[new_index] = ct * p_weights[j] / sum;
                 new_index++;
             }
-            new_index = index;
-            if (fabs(sum) > sqrt(DBL_EPSILON)) {
-                for (int j = interval_start; j < interval_end; j++) {
-                    p_count[new_index] = ct * p_weights[j] / sum;
-                    new_index++;
-                }
-            } else {
-                for (int j = interval_start; j < interval_end; j++) {
-                    p_count[new_index] = ct * p_weights[j];
-                    new_index++;
-                }
-            }
-            index = new_index;
         } else {
-            p_age[index] = NA_INTEGER;
-            p_count[index] = ct;
-            index++;
+            for (int j = interval_start; j < interval_end; j++) {
+                p_count[new_index] = ct * p_weights[j];
+                new_index++;
+            }
         }
+        index = new_index;
     }
 
     // create list with age and count entries
     const char *names[] = {"age", "count", ""};
-    SEXP out = PROTECT(mkNamed(VECSXP, names));
+    SEXP out = PROTECT(mkNamed(VECSXP, names)); protected++;
     SET_VECTOR_ELT(out, 0, age);
     SET_VECTOR_ELT(out, 1, count);
 
     // add the data frame class
-    SEXP class = PROTECT(allocVector(STRSXP, 1));
+    SEXP class = PROTECT(allocVector(STRSXP, 1)); protected++;
     SET_STRING_ELT(class, 0, mkChar("data.frame"));
     classgets(out, class);
 
     // add row names in short form
     // this format can be seen in the R function .set_row_names()
-    SEXP rnms = PROTECT(allocVector(INTSXP, 2));
+    SEXP rnms = PROTECT(allocVector(INTSXP, 2)); protected++;
     INTEGER(rnms)[0] = NA_INTEGER;
     INTEGER(rnms)[1] = -total;
     setAttrib(out, R_RowNamesSymbol, rnms);
 
-    UNPROTECT(11 - null_weights);
+    UNPROTECT(protected);
     return out;
 }
 
