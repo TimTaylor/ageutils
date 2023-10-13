@@ -41,6 +41,28 @@
 #'
 #' @export
 breaks_to_interval <- function(breaks, max_upper = Inf) {
+
+    # check breaks are numeric
+    if (!is.numeric(breaks))
+        stop("`breaks` must be numeric.")
+
+    # coerce breaks to integer
+    breaks <- as.integer(breaks)
+
+    # ensure valid
+    if (anyNA(breaks))
+        stop("`breaks` must be finite, and, coercible to integer.")
+
+    # check strictly increasing breaks
+    if (is.unsorted(breaks, strictly = TRUE))
+        stop("`breaks` must be in strictly increasing order.")
+
+    # check max_upper
+    if (!is.numeric(max_upper) || length(max_upper) > 1L || is.na(max_upper))
+        stop("`max_upper` must be a numeric scalar and not NA.")
+    if (max_upper <= max(breaks))
+        stop("`max_upper` must be greater than all `breaks`.")
+
     .Call(C_breaks_to_interval, breaks, max_upper)
 }
 
@@ -68,13 +90,13 @@ breaks_to_interval_r <- function(breaks, max_upper = Inf) {
     if (!is.numeric(max_upper) || length(max_upper) > 1L || is.na(max_upper))
         stop("`max_upper` must be a numeric scalar and not NA.")
     if (max_upper <= max(breaks))
-        stop("`max_upper` must be greater than all `breaks`")
+        stop("`max_upper` must be greater than all `breaks`.")
 
     # convert to double for consistency across bounds
     breaks <- as.double(breaks)
 
     # generate intervals
-    upper <- c(breaks[-1L], max_upper)
+    upper <- c(breaks[-1L], round(max_upper))
     intervals <- sprintf("[%.f, %.f)", breaks, upper)
     intervals <- factor(intervals, levels = intervals, ordered = TRUE)
 
