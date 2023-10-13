@@ -13,7 +13,7 @@
 # -------------------------------------------------------------------------
 #' @param breaks `[numeric]`.
 #'
-#' 1 or more non-negative cut points in increasing (strictly) order.
+#' 1 or more cut points in increasing (strictly) order.
 #'
 #' These correspond to the left hand side of the desired intervals (e.g. the
 #' closed side of [x, y).
@@ -39,9 +39,8 @@
 #'
 #' Represents the maximum upper bounds permitted upon splitting the data.
 #'
-#' Used to replace `Inf` upper bounds prior to splitting.
-#'
-#' If any `upper_bound` is greater than `max_upper` the function will error.
+#' Any upper bound greater than this will be replaced with this value prior to
+#' splitting.
 #'
 #' Double vectors will be coerced to integer.
 #'
@@ -63,19 +62,6 @@
 # -------------------------------------------------------------------------
 #' @examples
 #'
-#' # default ages generated if only counts provided (here ages will be 0:64)
-#' aggregate_age_counts(counts = 1:65, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
-#' aggregate_age_counts(counts = 1:65, breaks = 50L)
-#'
-#' # NA ages are handled with their own grouping
-#' ages <- 1:65;
-#' ages[1:44] <- NA
-#' aggregate_age_counts(
-#'     counts = 1:65,
-#'     ages = ages,
-#'     breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L)
-#' )
-#'
 #' reaggregate_interval_counts(
 #'     lower_bounds = c(0, 5, 10),
 #'     upper_bounds = c(5, 10, 20),
@@ -93,5 +79,77 @@ reaggregate_interval_counts <- function(
         max_upper = 100L,
         weights = NULL
 ) {
+    # ensure numeric bounds, counts and weights
+    if (!is.numeric(lower_bounds))
+        stop("`lower_bounds` must be numeric.")
+    if (!is.numeric(upper_bounds))
+        stop("`upper_bounds` must be numeric.")
+    if (!is.numeric(counts))
+        stop("`counts` must be numeric.")
+    if (!(is.numeric(max_upper) && length(max_upper) == 1L))
+        stop("`max_upper` must be an integer of length 1.")
+
+    # Ensure max_upper is coercible to integer
+    max_upper <- as.integer(max_upper)
+    if (anyNA(max_upper))
+        stop("`max_upper` must be finite, and, coercible to integer.")
+
+    # Ensure bounds and counts have compatible lengths
+    n_bounds <- length(upper_bounds)
+    if (length(lower_bounds) != n_bounds)
+        stop("`lower_bounds` and `upper_bounds` must be the same length.")
+    if (length(counts) != n_bounds)
+        stop("`bounds` and `counts` must be the same length.")
+
+    # Ensure lower bounds are coercible to integer
+    lower_bounds <- as.integer(lower_bounds)
+    if (anyNA(lower_bounds))
+        stop("`lower_bounds` must be finite, non-missing (not NA) and coercible to integer.")
+
+    # Replace upper bounds greater than max_upper then ensure coercible to integer
+    if (anyNA(upper_bounds))
+        stop("`upper_bounds` must be non-missing (not NA).")
+    idx <- upper_bounds > max_upper
+    if (isTRUE(any(idx))) {
+        upper_bounds[idx] <- max_upper
+        warningf(
+            "`upper_bounds` greater than `max_upper` (%d) have been replaced prior to splitting.",
+            max_upper
+        )
+    }
+    upper_bounds <- as.integer(upper_bounds)
+
+    # Ensure lower bounds less than upper bounds
+    if (any(lower_bounds >= upper_bounds))
+        stop("`lower_bounds` must be less than `upper_bounds`.")
+
+    # Coerce counts to double prior to calling C function
+    counts <- as.double(counts)
+
+    # check weights if not NULL
+    if (!is.null(weights)) {
+        if (!is.numeric(weights))
+            stop("`weights` must be numeric.")
+        if (anyNA(weights) || min(weights, na.rm = TRUE) < 0)
+            stop("`weights` must be non-negative and not missing (NA).")
+        if (length(weights) != max_upper) {
+            stopf(
+                "`weights` must be a vector of length %d (`max_upper`) representing ages 0:%d",
+                max_upper,
+                max_upper - 1
+            )
+        }
+        weights <- as.double(weights)
+    }
+
+    # coerce breaks to integer and ensure not NA
+    breaks <- as.integer(breaks)
+    if (anyNA(breaks))
+        stop("`breaks` must be non-missing (not NA) and coercible to integer.")
+
+    # check strictly increasing breaks
+    if (is.unsorted(breaks, strictly = TRUE))
+        stop("`breaks` must be in strictly increasing order.")
+
     .Call(C_reaggregate_interval_counts, lower_bounds, upper_bounds, counts, breaks, max_upper, weights)
 }

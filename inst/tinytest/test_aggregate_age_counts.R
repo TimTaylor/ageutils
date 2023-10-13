@@ -78,7 +78,7 @@ counts <- ages <- c(10, 1)
 breaks <- c(0, counts)
 expect_error(
     aggregate_age_counts(counts, ages, breaks),
-    "`breaks` must be non-negative and in strictly increasing order.",
+    "`breaks` must be in strictly increasing order.",
     fixed = TRUE
 )
 
@@ -101,41 +101,20 @@ expect_error(
 )
 
 expect_error(
-    aggregate_age_counts(ages = -1:10, counts = seq_along(ages), breaks = 2L),
-    "`ages` must be in the interval `[0, 2000)` or NA.",
-    fixed = TRUE
-)
-
-expect_error(
     aggregate_age_counts(1:10, breaks = NA_integer_),
-    "`breaks` must be non-negative and coercible to integer.",
+    "`breaks` must be non-missing (not NA) and coercible to integer.",
     fixed = TRUE
 )
 
 expect_error(
     aggregate_age_counts(1:10, breaks = c(2L, 2L)),
-    "`breaks` must be non-negative and in strictly increasing order.",
-    fixed = TRUE
-)
-
-expect_error(
-    aggregate_age_counts(1:10, breaks = -1),
-    "`breaks` must be non-negative and coercible to integer.",
+    "`breaks` must be in strictly increasing order.",
     fixed = TRUE
 )
 
 expect_error(
     aggregate_age_counts(1:10, breaks = "5"),
     "`breaks` must be numeric.",
-    fixed = TRUE
-)
-
-ages <- 1:10
-ages[1] <- -1L
-counts <- 1:10
-expect_error(
-    aggregate_age_counts(counts, ages, breaks = 1),
-    "`ages` must be in the interval `[0, 2000)` or NA.",
     fixed = TRUE
 )
 

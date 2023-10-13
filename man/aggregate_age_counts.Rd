@@ -18,13 +18,11 @@ Vector of age in years.
 Double values are coerced to integer prior to categorisation / aggregation.
 
 For \code{aggregate_age_counts()}, these must corresponding to the \code{counts} entry
-and will defaults to 0:(N-1) where \code{N} is the number of counts present.
-
-\code{ages} >= 2000 are not permitted due to the internal implementation.}
+and will defaults to 0:(N-1) where \code{N} is the number of counts present.}
 
 \item{breaks}{\verb{[numeric]}.
 
-1 or more non-negative cut points in increasing (strictly) order.
+1 or more cut points in increasing (strictly) order.
 
 These correspond to the left hand side of the desired intervals (e.g. the
 closed side of [x, y).

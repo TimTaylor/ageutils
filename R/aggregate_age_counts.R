@@ -22,11 +22,9 @@
 #' For `aggregate_age_counts()`, these must corresponding to the `counts` entry
 #' and will defaults to 0:(N-1) where `N` is the number of counts present.
 #'
-#' `ages` >= 2000 are not permitted due to the internal implementation.
-#'
 #' @param breaks `[numeric]`.
 #'
-#' 1 or more non-negative cut points in increasing (strictly) order.
+#' 1 or more cut points in increasing (strictly) order.
 #'
 #' These correspond to the left hand side of the desired intervals (e.g. the
 #' closed side of [x, y).
@@ -62,9 +60,38 @@
 # -------------------------------------------------------------------------
 #' @export
 aggregate_age_counts <- function(
-        counts,
-        ages = 0:(length(counts) - 1L),
-        breaks
+    counts,
+    ages = 0:(length(counts) - 1L),
+    breaks
 ) {
+
+    # ensure numeric counts, ages, breaks and max_upper
+    if (!is.numeric(counts))
+        stop("`counts` must be numeric.")
+    if (!is.numeric(ages))
+        stop("`ages` must be numeric.")
+    if (!is.numeric(breaks))
+        stop("`breaks` must be numeric.")
+
+        # coerce ages to integer
+    ages <- as.integer(ages)
+
+    # coerce counts to double
+    counts <- as.double(counts)
+
+    # coerce breaks to integer and ensure not NA
+    breaks <- as.integer(breaks)
+    if (anyNA(breaks))
+        stop("`breaks` must be non-missing (not NA) and coercible to integer.")
+
+    # check strictly increasing breaks
+    if (is.unsorted(breaks, strictly = TRUE))
+        stop("`breaks` must be in strictly increasing order.")
+
+    # ensure counts and ages are the same length
+    n <- length(ages)
+    if (n != length(counts))
+        stop("`ages` and `counts` must be the same length.")
+
     .Call(C_aggregate_age_counts, counts, ages, breaks)
 }

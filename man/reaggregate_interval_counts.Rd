@@ -31,7 +31,7 @@ Vector of counts to be aggregated.}
 
 \item{breaks}{\verb{[numeric]}.
 
-1 or more non-negative cut points in increasing (strictly) order.
+1 or more cut points in increasing (strictly) order.
 
 These correspond to the left hand side of the desired intervals (e.g. the
 closed side of [x, y).
@@ -42,9 +42,8 @@ Double values are coerced to integer prior to categorisation.}
 
 Represents the maximum upper bounds permitted upon splitting the data.
 
-Used to replace \code{Inf} upper bounds prior to splitting.
-
-If any \code{upper_bound} is greater than \code{max_upper} the function will error.
+Any upper bound greater than this will be replaced with this value prior to
+splitting.
 
 Double vectors will be coerced to integer.}
 
@@ -69,19 +68,6 @@ desired breaks. Functionally this is equivalent to, but more efficient than,
 a call to \code{split_interval_counts()} followed by \code{aggregate_age_counts()}.
 }
 \examples{
-
-# default ages generated if only counts provided (here ages will be 0:64)
-aggregate_age_counts(counts = 1:65, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
-aggregate_age_counts(counts = 1:65, breaks = 50L)
-
-# NA ages are handled with their own grouping
-ages <- 1:65;
-ages[1:44] <- NA
-aggregate_age_counts(
-    counts = 1:65,
-    ages = ages,
-    breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L)
-)
 
 reaggregate_interval_counts(
     lower_bounds = c(0, 5, 10),
