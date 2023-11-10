@@ -251,12 +251,6 @@ provided across all natural numbers as well as for missing values.</p>
 <span><span class="co">#&gt; 7 [65, Inf)          65         Inf     0</span></span>
 <span><span class="co">#&gt; 8      &lt;NA&gt;          NA          NA     0</span></span>
 <span></span>
-<span><span class="co"># Values below the minimum break are counted as NA</span></span>
-<span><span class="fu"><a href="../reference/aggregate_age_counts.html">aggregate_age_counts</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>, breaks <span class="op">=</span> <span class="fl">50L</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    interval lower_bound upper_bound count</span></span>
-<span><span class="co">#&gt; 1 [50, Inf)          50         Inf   870</span></span>
-<span><span class="co">#&gt; 2      &lt;NA&gt;          NA          NA  1275</span></span>
-<span></span>
 <span><span class="co"># NA ages are also handled with their own grouping</span></span>
 <span><span class="va">ages</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span></span>
 <span><span class="va">ages</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">44</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
