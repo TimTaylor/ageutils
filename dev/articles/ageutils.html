@@ -91,8 +91,7 @@ resultant groupings span from the minimum break through to a specified
 <code>max_upper</code> and will always be closed on the left and open on
 the right. As an example, if <code>breaks = c(0, 1, 10, 30)</code> the
 interval categories would be [0, 1), [1, 10), [10, 30) and [30, Inf).
-Ages below the minimum break or above <code>max_upper</code> will be
-returned as NA.</p>
+Ages above <code>max_upper</code> will be returned as NA.</p>
 <p>The returned value is as a data frame with 3 entries; A factor with a
 character representation of the interval and two columns representing
 the numeric values of the corresponding lower (closed) and upper (open)
@@ -135,11 +134,11 @@ Categorisation is based on the breaks and follows the approach of
 <span><span class="co">#&gt; 8   [5, 15)           5          15</span></span>
 <span><span class="co">#&gt; 9   [5, 15)           5          15</span></span>
 <span><span class="co">#&gt; 10  [5, 15)           5          15</span></span>
-<span><span class="fu"><a href="../reference/cut_ages.html">cut_ages</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, breaks <span class="op">=</span> <span class="fl">4L</span>, max_upper <span class="op">=</span> <span class="fl">9L</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/cut_ages.html">cut_ages</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">4L</span><span class="op">)</span>, max_upper <span class="op">=</span> <span class="fl">9L</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    interval lower_bound upper_bound</span></span>
-<span><span class="co">#&gt; 1      &lt;NA&gt;          NA          NA</span></span>
-<span><span class="co">#&gt; 2      &lt;NA&gt;          NA          NA</span></span>
-<span><span class="co">#&gt; 3      &lt;NA&gt;          NA          NA</span></span>
+<span><span class="co">#&gt; 1    [0, 4)           0           4</span></span>
+<span><span class="co">#&gt; 2    [0, 4)           0           4</span></span>
+<span><span class="co">#&gt; 3    [0, 4)           0           4</span></span>
 <span><span class="co">#&gt; 4    [4, 9)           4           9</span></span>
 <span><span class="co">#&gt; 5    [4, 9)           4           9</span></span>
 <span><span class="co">#&gt; 6    [4, 9)           4           9</span></span>

@@ -74,8 +74,8 @@ above <code>max_upper</code> will be returned as NA.</p>
     <dl><dt>ages</dt>
 <dd><p><code>[numeric]</code>.</p>
 <p>Vector of age values.</p>
-<p>Double values are coerced to integer prior to categorisation / aggregation.
-#'</p></dd>
+<p>Double values are coerced to integer prior to categorisation / aggregation.</p>
+<p>Must not be NA.</p></dd>
 
 
 <dt>breaks</dt>
@@ -117,13 +117,13 @@ corresponding to the explicit bounds (<code>lower_bound</code> and <code>upper_b
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9   [5, 10)           5          10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10  [5, 10)           5          10</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">9</span>, breaks <span class="op">=</span> <span class="fl">5L</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">9</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">5L</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      &lt;NA&gt;          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      &lt;NA&gt;          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      &lt;NA&gt;          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      &lt;NA&gt;          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      &lt;NA&gt;          NA          NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    [0, 5)           0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [0, 5)           0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    [0, 5)           0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    [0, 5)           0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    [0, 5)           0           5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6  [5, Inf)           5         Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7  [5, Inf)           5         Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8  [5, Inf)           5         Inf</span>
@@ -147,14 +147,14 @@ corresponding to the explicit bounds (<code>lower_bound</code> and <code>upper_b
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9  [30, Inf)          30         Inf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10 [30, Inf)          30         Inf</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># values below the minimum break and above max_upper treated as NA</span></span></span>
-<span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">10</span>, breaks <span class="op">=</span> <span class="fl">5</span>, max_upper <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># values above max_upper treated as NA</span></span></span>
+<span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">10</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">5</span><span class="op">)</span>, max_upper <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      &lt;NA&gt;          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      &lt;NA&gt;          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      &lt;NA&gt;          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      &lt;NA&gt;          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      &lt;NA&gt;          NA          NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    [0, 5)           0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [0, 5)           0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    [0, 5)           0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    [0, 5)           0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    [0, 5)           0           5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6    [5, 7)           5           7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7    [5, 7)           5           7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8      &lt;NA&gt;          NA          NA</span>
