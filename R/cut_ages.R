@@ -16,7 +16,9 @@
 #' Vector of age values.
 #'
 #' Double values are coerced to integer prior to categorisation / aggregation.
-#'#'
+#'
+#' Must not be NA.
+#'
 #' @param breaks `[integerish]`.
 #'
 #' 1 or more non-negative cut points in increasing (strictly) order.
@@ -45,7 +47,7 @@
 #'
 #' cut_ages(ages = 0:9, breaks = c(0L, 3L, 5L, 10L))
 #'
-#' cut_ages(ages = 0:9, breaks = 5L)
+#' cut_ages(ages = 0:9, breaks = c(0L, 5L))
 #'
 #' # Note the following is comparable to a call to
 #' # cut(ages, right = FALSE, breaks = c(breaks, Inf))
@@ -53,8 +55,8 @@
 #' breaks <- c(0, 1, 10, 30)
 #' cut_ages(ages, breaks)
 #'
-#' # values below the minimum break and above max_upper treated as NA
-#' cut_ages(ages = 0:10, breaks = 5, max_upper = 7)
+#' # values above max_upper treated as NA
+#' cut_ages(ages = 0:10, breaks = c(0,5), max_upper = 7)
 #'
 # -------------------------------------------------------------------------
 #' @export
@@ -67,8 +69,9 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
 
     # check ages are appropriately bounded or NA
     ages <- as.integer(ages)
-    na_ages <- is.na(ages)
-    ympes::assert_non_negative_or_na(ages)
+    if (anyNA(ages) || any(ages < 0L))
+        stop("`ages` must be non-negative, coercible to integer and not NA.")
+
 
     # check max_upper is appropriately bounded
     ympes::assert_scalar_numeric(max_upper)
@@ -80,6 +83,8 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
         stopf("`breaks` must be non-negative and coercible to integer.")
     if (is.unsorted(breaks, strictly = TRUE))
         stop("`breaks` must be in strictly increasing order and not NA.")
+    if (any(ages < breaks[1L]))
+        stop("`ages` must greater than or equal to the minimum value of `breaks`.")
     if (breaks[length(breaks)] >= max_upper)
         stop("all `breaks` must be less than `max_upper`.")
 

@@ -12,7 +12,8 @@ cut_ages(ages, breaks, max_upper = Inf)
 Vector of age values.
 
 Double values are coerced to integer prior to categorisation / aggregation.
-#'}
+
+Must not be NA.}
 
 \item{breaks}{\verb{[integerish]}.
 
@@ -46,7 +47,7 @@ above \code{max_upper} will be returned as NA.
 
 cut_ages(ages = 0:9, breaks = c(0L, 3L, 5L, 10L))
 
-cut_ages(ages = 0:9, breaks = 5L)
+cut_ages(ages = 0:9, breaks = c(0L, 5L))
 
 # Note the following is comparable to a call to
 # cut(ages, right = FALSE, breaks = c(breaks, Inf))
@@ -54,7 +55,7 @@ ages <- seq.int(from = 0, by = 10, length.out = 10)
 breaks <- c(0, 1, 10, 30)
 cut_ages(ages, breaks)
 
-# values below the minimum break and above max_upper treated as NA
-cut_ages(ages = 0:10, breaks = 5, max_upper = 7)
+# values above max_upper treated as NA
+cut_ages(ages = 0:10, breaks = c(0,5), max_upper = 7)
 
 }
