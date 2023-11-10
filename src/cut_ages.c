@@ -64,7 +64,7 @@ SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
 
     for (int i = 0; i < n_ages; i++) {
         int age = p_ages[i];
-        if (age == NA_INTEGER || age < first_break || age >= max_upper_bound) {
+        if (age == NA_INTEGER || age >= max_upper_bound) {
             p_factor[i] = NA_INTEGER;
             p_lower_bound[i] = NA_REAL;
             p_upper_bound[i] = NA_REAL;
