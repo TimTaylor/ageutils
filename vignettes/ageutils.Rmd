@@ -92,9 +92,6 @@ be provided across all natural numbers as well as for missing values.
 # default ages generated as 0:(length(counts) - 1L) if only counts provided.
 aggregate_age_counts(counts = 1:65, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
 
-# Values below the minimum break are counted as NA
-aggregate_age_counts(counts = 1:65, breaks = 50L)
-
 # NA ages are also handled with their own grouping
 ages <- 1:65
 ages[1:44] <- NA

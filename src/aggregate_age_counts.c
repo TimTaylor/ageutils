@@ -37,21 +37,9 @@ SEXP aggregate_age_counts(SEXP counts, SEXP ages, SEXP breaks) {
     double* p_groups = REAL(group_counts);
     Memzero(p_groups, n_groups);
 
-    // Calculate the NA values when ages are below the first break
-    int j = 0;
-    int a = out_ages[j];
-    while (a < p_breaks[0]) {
-        double tmp = out_counts[j];
-        p_groups[n_breaks] += tmp;
-        j++;
-        if (j >= n_ages)
-            break;
-        a = out_ages[j];
-    }
-
     // calculate the other counts
     int group_index = 0;
-    for (int i = j; i < n_ages; ++i) {
+    for (int i = 0; i < n_ages; ++i) {
         int current_age = out_ages[i];
         double tmp = out_counts[i];
         if (current_age == NA_INTEGER) {

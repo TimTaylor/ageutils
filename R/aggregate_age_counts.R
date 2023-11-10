@@ -9,8 +9,8 @@
 #' speed over flexibility. It takes a specified set of breaks representing the
 #' left hand limits of a closed open interval, i.e [x, y), and returns the
 #' corresponding interval and upper bounds. The resulting intervals span from
-#' the minimum break through to the maximum age. Missing values, and those less
-#' than the minimum break, are grouped as NA.
+#' the minimum break through to the maximum age. Missing values are grouped as
+#' NA.
 #'
 # -------------------------------------------------------------------------
 #' @param ages `[numeric]`.
@@ -21,6 +21,8 @@
 #'
 #' For `aggregate_age_counts()`, these must corresponding to the `counts` entry
 #' and will defaults to 0:(N-1) where `N` is the number of counts present.
+#'
+#' No (non-missing) age can be less than the minimum break.
 #'
 #' @param breaks `[numeric]`.
 #'
@@ -46,7 +48,6 @@
 #'
 #' # default ages generated if only counts provided (here ages will be 0:64)
 #' aggregate_age_counts(counts = 1:65, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
-#' aggregate_age_counts(counts = 1:65, breaks = 50L)
 #'
 #' # NA ages are handled with their own grouping
 #' ages <- 1:65;
@@ -84,6 +85,9 @@ aggregate_age_counts <- function(
     # check strictly increasing breaks
     if (is.unsorted(breaks, strictly = TRUE))
         stop("`breaks` must be in strictly increasing order.")
+
+    if (any(!is.na(ages) & ages < breaks[1L]))
+        stop("`ages` must greater than or equal to the minimum value of `breaks`.")
 
     # ensure counts and ages are the same length
     n <- length(ages)

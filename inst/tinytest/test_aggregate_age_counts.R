@@ -61,17 +61,12 @@ expect_equal(aggregate_age_counts(counts, ages, breaks), expected)
 
 counts <- ages <- c(10, 1)
 breaks <- c(3, 10)
-expected <- data.frame(
-    interval = factor(
-        c("[3, 10)", "[10, Inf)", NA_character_),
-        levels = c("[3, 10)", "[10, Inf)"),
-        ordered = TRUE
-    ),
-    lower_bound = c(3, 10, NA),
-    upper_bound = c(10, Inf, NA),
-    count = c(0, 10, 1)
+expect_error(
+    aggregate_age_counts(counts, ages, breaks),
+    "`ages` must greater than or equal to the minimum value of `breaks`.",
+    fixed = TRUE
 )
-expect_equal(aggregate_age_counts(counts, ages, breaks), expected)
+
 
 # error messaging
 counts <- ages <- c(10, 1)
@@ -85,7 +80,7 @@ expect_error(
 expect_error( aggregate_age_counts(1:10, as.character(1:10), 5L) )
 
 expect_error(
-    aggregate_age_counts(1:10, 1:9, 5L),
+    aggregate_age_counts(1:10, 6:14, 5L),
     "`ages` and `counts` must be the same length.",
     fixed = TRUE
 )

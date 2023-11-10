@@ -18,7 +18,9 @@ Vector of age in years.
 Double values are coerced to integer prior to categorisation / aggregation.
 
 For \code{aggregate_age_counts()}, these must corresponding to the \code{counts} entry
-and will defaults to 0:(N-1) where \code{N} is the number of counts present.}
+and will defaults to 0:(N-1) where \code{N} is the number of counts present.
+
+No (non-missing) age can be less than the minimum break.}
 
 \item{breaks}{\verb{[numeric]}.
 
@@ -39,14 +41,13 @@ years). It is similar to a \code{cut()} and \code{tapply()} pattern but optimise
 speed over flexibility. It takes a specified set of breaks representing the
 left hand limits of a closed open interval, i.e [x, y), and returns the
 corresponding interval and upper bounds. The resulting intervals span from
-the minimum break through to the maximum age. Missing values, and those less
-than the minimum break, are grouped as NA.
+the minimum break through to the maximum age. Missing values are grouped as
+NA.
 }
 \examples{
 
 # default ages generated if only counts provided (here ages will be 0:64)
 aggregate_age_counts(counts = 1:65, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
-aggregate_age_counts(counts = 1:65, breaks = 50L)
 
 # NA ages are handled with their own grouping
 ages <- 1:65;
