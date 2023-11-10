@@ -82,11 +82,7 @@ expect_error(
     fixed = TRUE
 )
 
-expect_error(
-    aggregate_age_counts(1:10, as.character(1:10), 5L),
-    "`ages` must be numeric.",
-    fixed = TRUE
-)
+expect_error( aggregate_age_counts(1:10, as.character(1:10), 5L) )
 
 expect_error(
     aggregate_age_counts(1:10, 1:9, 5L),
@@ -94,11 +90,7 @@ expect_error(
     fixed = TRUE
 )
 
-expect_error(
-    aggregate_age_counts("bob", breaks = 1L),
-    "`counts` must be numeric.",
-    fixed = TRUE
-)
+expect_error( aggregate_age_counts("bob", breaks = 1L) )
 
 expect_error(
     aggregate_age_counts(1:10, breaks = NA_integer_),
@@ -112,11 +104,8 @@ expect_error(
     fixed = TRUE
 )
 
-expect_error(
-    aggregate_age_counts(1:10, breaks = "5"),
-    "`breaks` must be numeric.",
-    fixed = TRUE
-)
+expect_error( aggregate_age_counts(1:10, breaks = "5") )
+
 
 # success
 expect_silent(aggregate_age_counts(1:10, rep.int(NA_integer_, 10L), breaks = 2L))

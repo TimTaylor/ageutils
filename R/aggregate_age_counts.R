@@ -66,14 +66,11 @@ aggregate_age_counts <- function(
 ) {
 
     # ensure numeric counts, ages, breaks and max_upper
-    if (!is.numeric(counts))
-        stop("`counts` must be numeric.")
-    if (!is.numeric(ages))
-        stop("`ages` must be numeric.")
-    if (!is.numeric(breaks))
-        stop("`breaks` must be numeric.")
+    ympes::assert_numeric(counts)
+    ympes::assert_numeric(ages)
+    ympes::assert_numeric(breaks)
 
-        # coerce ages to integer
+    # coerce ages to integer
     ages <- as.integer(ages)
 
     # coerce counts to double

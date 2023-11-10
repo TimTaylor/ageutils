@@ -114,46 +114,13 @@ expect_identical(cut_ages(1,1,2), expected)
 expect_identical(cut_ages(1,1,2), ageutils:::cut_ages_r(1,1,2))
 
 # error messaging
-expect_error(cut_ages("bob"))
-
-expect_error(
-    cut_ages("bob", 3),
-    "`ages` must be numeric.",
-    fixed = TRUE
-)
-
-
-
-expect_error(
-    cut_ages(3, 3, TRUE),
-    "`max_upper` must be numeric.",
-    fixed = TRUE
-)
-
-expect_error(
-    cut_ages(3, 3, NA_real_),
-    "`max_upper` must be a numeric scalar.",
-    fixed = TRUE
-)
-
-expect_error(
-    cut_ages(3, 3, 1:2),
-    "`max_upper` must be a numeric scalar.",
-    fixed = TRUE
-)
-
-
-expect_error(
-    cut_ages(1:10, breaks = "5L"),
-    "`breaks` must be numeric.",
-    fixed = TRUE
-)
-
-expect_error(
-    cut_ages(-1:10, 5L),
-    "`ages` must be non-negative or NA.",
-    fixed = TRUE
-)
+expect_error( cut_ages("bob") )
+expect_error( cut_ages("bob", 3) )
+expect_error( cut_ages(3, 3, TRUE) )
+expect_error( cut_ages(3, 3, NA_real_) )
+expect_error( cut_ages(3, 3, 1:2) )
+expect_error( cut_ages(1:10, breaks = "5L") )
+expect_error( cut_ages(-1:10, 5L) )
 
 expect_error(
     cut_ages(1:10, breaks = NA_integer_),

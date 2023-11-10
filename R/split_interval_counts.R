@@ -82,14 +82,10 @@ split_interval_counts <- function(
         weights = NULL
 ) {
     # ensure numeric bounds, counts and weights
-    if (!is.numeric(lower_bounds))
-        stop("`lower_bounds` must be numeric.")
-    if (!is.numeric(upper_bounds))
-        stop("`upper_bounds` must be numeric.")
-    if (!is.numeric(counts))
-        stop("`counts` must be numeric.")
-    if (!(is.numeric(max_upper) && length(max_upper) == 1L))
-        stop("`max_upper` must be an integer of length 1.")
+    ympes::assert_numeric(lower_bounds)
+    ympes::assert_numeric(upper_bounds)
+    ympes::assert_numeric(counts)
+    ympes::assert_scalar_numeric(max_upper)
 
     # Ensure max_upper is coercible to integer
     max_upper <- as.integer(max_upper)
@@ -130,10 +126,7 @@ split_interval_counts <- function(
 
     # check weights if not NULL
     if (!is.null(weights)) {
-        if (!is.numeric(weights))
-            stop("`weights` must be numeric.")
-        if (anyNA(weights) || min(weights, na.rm = TRUE) < 0)
-            stop("`weights` must be non-negative and not missing (NA).")
+        ympes::assert_non_negative(weights)
         if (length(weights) != max_upper) {
             stopf(
                 "`weights` must be a vector of length %d (`max_upper`) representing ages 0:%d",

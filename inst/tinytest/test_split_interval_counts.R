@@ -98,8 +98,6 @@ expect_error(
         upper_bounds = c(3, 3,  1, NA, 3, NA, 6),
         counts =       c(1, 1,  1,  1, 1,  1, NA_real_)
     ),
-    "`lower_bounds` must be numeric.",
-    fixed = TRUE
 )
 
 expect_error(
@@ -107,9 +105,7 @@ expect_error(
         lower_bounds = c(1, 2, NA,  2, 1, NA, 4),
         upper_bounds = as.character(c(3, 3,  1, NA, 3, NA, 6)),
         counts =       c(1, 1,  1,  1, 1,  1, NA_real_)
-    ),
-    "`upper_bounds` must be numeric.",
-    fixed = TRUE
+    )
 )
 
 expect_error(
@@ -117,9 +113,7 @@ expect_error(
         lower_bounds = c(1, 2, NA,  2, 1, NA, 4),
         upper_bounds = c(3, 3,  1, NA, 3, NA, 6),
         counts =       as.character(c(1, 1,  1,  1, 1,  1, NA_real_))
-    ),
-    "`counts` must be numeric.",
-    fixed = TRUE
+    )
 )
 
 expect_error(
@@ -128,9 +122,7 @@ expect_error(
         upper_bounds = c(3, 3,  1, NA, 3, NA, 6),
         counts =       c(1, 1,  1,  1, 1,  1, NA_real_),
         max_upper = "100"
-    ),
-    "`max_upper` must be an integer of length 1.",
-    fixed = TRUE
+    )
 )
 
 expect_error(
@@ -139,9 +131,7 @@ expect_error(
         upper_bounds = c(3, 3,  1, NA, 3, NA, 6),
         counts =       c(1, 1,  1,  1, 1,  1, NA_real_),
         max_upper = 100:101
-    ),
-    "`max_upper` must be an integer of length 1.",
-    fixed = TRUE
+    )
 )
 
 expect_error(
@@ -192,10 +182,9 @@ expect_error(
         upper_bounds = c(3, 3, 3, 6),
         counts =       c(1, 1, 1, NA_real_),
         weights = ""
-    ),
-    "`weights` must be numeric.",
-    fixed = TRUE
+    )
 )
+
 max_upper <- 50L
 weights <- seq_len(max_upper)
 weights[1] <- - weights[1]
@@ -206,9 +195,7 @@ expect_error(
         counts =       c(1, 1, 1, NA_real_),
         max_upper = max_upper,
         weights = weights
-    ),
-    "`weights` must be non-negative and not missing (NA).",
-    fixed = TRUE
+    )
 )
 
 weights[1] <- NA_integer_
@@ -219,9 +206,7 @@ expect_error(
         counts =       c(1, 1, 1, NA_real_),
         max_upper = max_upper,
         weights = weights
-    ),
-    "`weights` must be non-negative and not missing (NA).",
-    fixed = TRUE
+    )
 )
 
 # check success

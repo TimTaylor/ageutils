@@ -61,24 +61,18 @@
 cut_ages <- function(ages, breaks, max_upper = Inf) {
 
     # ensure numeric ages, breaks and max_upper
-    if (!is.numeric(ages))
-        stop("`ages` must be numeric.")
-    if (!is.numeric(breaks))
-        stop("`breaks` must be numeric.")
-    if (!is.numeric(max_upper))
-        stop("`max_upper` must be numeric.")
+    ympes::assert_numeric(ages)
+    ympes::assert_numeric(breaks)
+    ympes::assert_numeric(max_upper)
 
     # check ages are appropriately bounded or NA
     ages <- as.integer(ages)
     na_ages <- is.na(ages)
-    if(!all(na_ages) && min(ages, na.rm = TRUE) < 0)
-        stop("`ages` must be non-negative or NA.")
+    ympes::assert_non_negative_or_na(ages)
 
-    # check max_upper is appropriately bounded or Inf
-    if (!is.numeric(max_upper) || length(max_upper) > 1L || is.na(max_upper))
-        stop("`max_upper` must be a numeric scalar.")
-    if (max_upper <= 0)
-        stop("`max_upper` must be positive.")
+    # check max_upper is appropriately bounded
+    ympes::assert_scalar_numeric(max_upper)
+    ympes::assert_positive(max_upper)
 
     # check breaks
     breaks <- as.integer(breaks)
@@ -98,24 +92,18 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
 cut_ages_r <- function(ages, breaks, max_upper = Inf) {
 
     # ensure numeric ages, breaks and max_upper
-    if (!is.numeric(ages))
-        stop("`ages` must be numeric.")
-    if (!is.numeric(breaks))
-        stop("`breaks` must be numeric.")
-    if (!is.numeric(max_upper))
-        stop("`max_upper` must be numeric.")
+    ympes::assert_numeric(ages)
+    ympes::assert_numeric(breaks)
+    ympes::assert_numeric(max_upper)
 
     # check ages are appropriately bounded or NA
     ages <- as.integer(ages)
     na_ages <- is.na(ages)
-    if(!all(na_ages) && min(ages, na.rm = TRUE) < 0)
-         stop("`ages` must be non-negative or NA.")
+    ympes::assert_non_negative_or_na(ages)
 
-    # check max_upper is appropriately bounded or Inf
-    if (!is.numeric(max_upper) || length(max_upper) > 1L || is.na(max_upper))
-        stop("`max_upper` must be a numeric scalar.")
-    if (max_upper <= 0)
-        stop("`max_upper` must be positive.")
+    # check max_upper is appropriately bounded
+    ympes::assert_scalar_numeric(max_upper)
+    ympes::assert_positive(max_upper)
 
     # check breaks
     breaks <- as.integer(breaks)
