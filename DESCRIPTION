@@ -27,7 +27,7 @@ Description: Provides a collection of efficient functions for working with
 License: GPL-2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Suggests: 
     knitr,
     rmarkdown,
@@ -38,5 +38,3 @@ LazyData: true
 VignetteBuilder: knitr
 URL: https://timtaylor.github.io/ageutils/
 BugReports: https://github.com/TimTaylor/ageutils/issues
-Imports: 
-    ympes

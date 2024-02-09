@@ -80,10 +80,10 @@ reaggregate_interval_counts <- function(
         weights = NULL
 ) {
     # ensure numeric bounds, counts and weights
-    ympes::assert_numeric(lower_bounds)
-    ympes::assert_numeric(upper_bounds)
-    ympes::assert_numeric(counts)
-    ympes::assert_scalar_numeric(max_upper)
+    .assert_numeric(lower_bounds)
+    .assert_numeric(upper_bounds)
+    .assert_numeric(counts)
+    .assert_scalar_numeric(max_upper)
 
     # Ensure max_upper is coercible to integer
     max_upper <- as.integer(max_upper)

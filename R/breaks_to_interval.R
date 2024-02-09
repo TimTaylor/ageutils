@@ -43,7 +43,7 @@
 breaks_to_interval <- function(breaks, max_upper = Inf) {
 
     # check breaks are numeric
-    ympes::assert_numeric(breaks)
+    .assert_numeric(breaks)
 
     # coerce breaks to integer
     breaks <- as.integer(breaks)
@@ -57,7 +57,7 @@ breaks_to_interval <- function(breaks, max_upper = Inf) {
         stop("`breaks` must be in strictly increasing order.")
 
     # check max_upper
-    ympes::assert_scalar_numeric_not_na(max_upper)
+    .assert_scalar_numeric_not_na(max_upper)
     if (max_upper <= max(breaks))
         stop("`max_upper` must be greater than all `breaks`.")
 
@@ -70,7 +70,7 @@ breaks_to_interval <- function(breaks, max_upper = Inf) {
 breaks_to_interval_r <- function(breaks, max_upper = Inf) {
 
     # check breaks are numeric
-    ympes::assert_numeric(breaks)
+    .assert_numeric(breaks)
 
     # coerce breaks to integer
     breaks <- as.integer(breaks)
@@ -84,7 +84,7 @@ breaks_to_interval_r <- function(breaks, max_upper = Inf) {
         stop("`breaks` must be in strictly increasing order.")
 
     # check max_upper
-    ympes::assert_scalar_numeric_not_na(max_upper)
+    .assert_scalar_numeric_not_na(max_upper)
     if (max_upper <= max(breaks))
         stop("`max_upper` must be greater than all `breaks`.")
 

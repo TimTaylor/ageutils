@@ -63,9 +63,9 @@
 cut_ages <- function(ages, breaks, max_upper = Inf) {
 
     # ensure numeric ages, breaks and max_upper
-    ympes::assert_numeric(ages)
-    ympes::assert_numeric(breaks)
-    ympes::assert_numeric(max_upper)
+    .assert_numeric(ages)
+    .assert_numeric(breaks)
+    .assert_numeric(max_upper)
 
     # check ages are appropriately bounded or NA
     ages <- as.integer(ages)
@@ -74,8 +74,8 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
 
 
     # check max_upper is appropriately bounded
-    ympes::assert_scalar_numeric(max_upper)
-    ympes::assert_positive(max_upper)
+    .assert_scalar_numeric(max_upper)
+    .assert_positive(max_upper)
 
     # check breaks
     breaks <- as.integer(breaks)
@@ -97,18 +97,18 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
 cut_ages_r <- function(ages, breaks, max_upper = Inf) {
 
     # ensure numeric ages, breaks and max_upper
-    ympes::assert_numeric(ages)
-    ympes::assert_numeric(breaks)
-    ympes::assert_numeric(max_upper)
+    .assert_numeric(ages)
+    .assert_numeric(breaks)
+    .assert_numeric(max_upper)
 
     # check ages are appropriately bounded or NA
     ages <- as.integer(ages)
     na_ages <- is.na(ages)
-    ympes::assert_non_negative_or_na(ages)
+    .assert_non_negative_or_na(ages)
 
     # check max_upper is appropriately bounded
-    ympes::assert_scalar_numeric(max_upper)
-    ympes::assert_positive(max_upper)
+    .assert_scalar_numeric(max_upper)
+    .assert_positive(max_upper)
 
     # check breaks
     breaks <- as.integer(breaks)
