@@ -2,18 +2,78 @@
 #include <Rinternals.h>
 #include "split_interval_counts.h"
 
+#define IS_NUMERIC(x) (isReal(x) || isInteger(x))
+
 SEXP split_interval_counts(SEXP lower_bounds, SEXP upper_bounds, SEXP counts, SEXP max_upper, SEXP weights) {
 
+    // PROTECT counter
     int protected = 0;
 
-    // pointers to bounds, counts and weights
+    // ensure numeric bounds and counts are of correct length
+    if (!IS_NUMERIC(lower_bounds) || LENGTH(lower_bounds) == 0)
+        error("`lower_bounds` must be numeric and of length >= 1.");
+    if (!IS_NUMERIC(upper_bounds) || LENGTH(upper_bounds) == 0)
+        error("`upper_bounds` must be numeric and of length >= 1.");
+    if (!IS_NUMERIC(counts) || LENGTH(counts) == 0)
+        error("`counts` must be numeric and of length >= 1.");
+
+    // ensure counts are doubles
+    counts = PROTECT(coerceVector(counts, REALSXP)); protected++;
+
+    // ensure compatible lengths for bounds and counts
+    if (LENGTH(lower_bounds) != LENGTH(upper_bounds))
+        error("`lower_bounds` and `upper_bounds` must be the same length.");
+
+    if (LENGTH(lower_bounds) != LENGTH(counts))
+        error("`bounds` and `counts` must be the same length.");
+
+    // ensure max_upper is numeric scalar
+    if(!IS_NUMERIC(max_upper) || LENGTH(max_upper) != 1)
+        error("`max_upper` must be scalar numeric and not NA.");
+
+    // Ensure max_upper is not NA/NaN
+    int max_upper_bound = asInteger(max_upper);
+    if(max_upper_bound == NA_INTEGER)
+        error("`max_upper` must be non-missing (not NA) and coercible to integer.");
+
+    // upper bounds to double
+    upper_bounds = PROTECT(coerceVector(upper_bounds, REALSXP)); protected++;
+
+    // Replace upper bounds greater than max_upper_bound
+    double* p_upper = REAL(upper_bounds);
+    for (int i = 0; i < LENGTH(upper_bounds); i++) {
+
+        if (ISNA(p_upper[i]) || ISNAN(p_upper[i]))
+            error("`upper_bounds` must be non-missing (not NA).");
+
+        if (p_upper[i] > (double) max_upper_bound) {
+            p_upper[i] = (double) max_upper_bound;
+            warning(
+                "`upper_bounds` greater than `max_upper` (%d) have been replaced prior to splitting.",
+                max_upper_bound
+            );
+        }
+    }
+
+    // coerce lower and upper bounds to integer
+    lower_bounds = PROTECT(coerceVector(lower_bounds, INTSXP)); protected++;
+    upper_bounds = PROTECT(coerceVector(upper_bounds, INTSXP)); protected++;
     int* p_lower = INTEGER(lower_bounds);
-    int* p_upper = INTEGER(upper_bounds);
+    int* p_int_upper = INTEGER(upper_bounds);
+
+    for (int i = 0; i < LENGTH(lower_bounds); i++) {
+
+        if (p_lower[i] == NA_INTEGER || p_int_upper[i] == NA_INTEGER)
+            error("`bounds` must be finite, non-missing (not NA) and coercible to integer.");
+
+        if (p_lower[i] >= p_int_upper[i])
+            error("`lower_bounds` must be less than `upper_bounds`.");
+    }
+
+
+    // pointers to bounds, counts and weights
     double* p_counts = REAL(counts);
     double* p_weights;
-
-    // get the maximum upper bound
-    int max_upper_bound = asInteger(max_upper);
 
     // create weights if NULL
     if (TYPEOF(weights) == NILSXP) {
@@ -22,7 +82,18 @@ SEXP split_interval_counts(SEXP lower_bounds, SEXP upper_bounds, SEXP counts, SE
         for (int i = 0; i < max_upper_bound; i++)
             p_weights[i] = value;
     } else {
+        weights = PROTECT(coerceVector(weights, REALSXP)); protected++;
         p_weights = REAL(weights);
+        if (LENGTH(weights) != max_upper_bound)
+            error(
+                "`weights` must be a vector of length %d (`max_upper`) representing ages 0:%d",
+                max_upper_bound,
+                max_upper_bound - 1
+            );
+        for (int i = 0; i < LENGTH(weights); i++) {
+            if (ISNA(p_weights[i]) || ISNAN(p_weights[i]) || p_weights[i] < 0)
+                error("`weights` must be non-negative and not NA.");
+        }
     }
 
     // calculate length of output
