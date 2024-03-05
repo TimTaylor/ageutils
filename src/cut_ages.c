@@ -1,19 +1,79 @@
 #include <R.h>
 #include <Rinternals.h>
 
+#define IS_NUMERIC(x) (isReal(x) || isInteger(x))
+
 SEXP cut_ages(SEXP ages, SEXP breaks, SEXP max_upper) {
 
     // protection counter
     int protected = 0;
 
-    // setup pointers to ages, breaks and store lengths
-    int* p_ages   = INTEGER(ages);
-    int* p_breaks = INTEGER(breaks);
-    int  n_ages   = LENGTH(ages);
+    // ensure max_upper is numeric scalar
+    if(!IS_NUMERIC(max_upper) || LENGTH(max_upper) != 1)
+        error("`max_upper` must be scalar numeric and not NA.");
+
+    // Ensure max_upper is not NA/NaN
+    double max_upper_bound = asReal(max_upper);
+    if(ISNA(max_upper_bound) || ISNAN(max_upper_bound))
+        error("`max_upper` must be scalar numeric and not NA.");
+
+    // Ensure max_upper > 0
+    if (max_upper_bound <= 0)
+        error("`max_upper` must be positive.");
+
+    // ensure numeric breaks
+    if (!IS_NUMERIC(breaks) || LENGTH(breaks) == 0)
+        error("`breaks` must be numeric and of length >= 1.");
+
+    // coerce breaks to integer and store length
+    breaks = PROTECT(coerceVector(breaks, INTSXP)); protected++;
     int  n_breaks = LENGTH(breaks);
 
+    // Ensure breaks are not NA and are in strictly increasing order
+    int* p_breaks = INTEGER(breaks);
+    int brk = p_breaks[0];
+    if (brk == NA_INTEGER || brk < 0)
+        error("`breaks` must be non-negative and coercible to integer.");
+
+    if ((double) brk >= max_upper_bound)
+        error("`max_upper` must be greater than all `breaks`.");
+
+    for (int i = 0; i < LENGTH(breaks) - 1; i++) {
+        int next_brk = p_breaks[i + 1];
+
+        if (next_brk == NA_INTEGER)
+            error("`breaks` must be non-missing (not NA) and coercible to integer.");
+
+        if (next_brk <= brk)
+            error("`breaks` must be in strictly increasing order.");
+
+        brk = next_brk;
+
+        if ((double) brk >= max_upper_bound)
+            error("`max_upper` must be greater than all `breaks`.");
+    }
+
+    // ensure numeric ages
+    if (!IS_NUMERIC(ages) || LENGTH(ages) == 0)
+        error("`ages` must be numeric and of length >= 1.");
+
+    // coerce ages to integer
+    ages = PROTECT(coerceVector(ages, INTSXP)); protected++;
+
+    // check ages are >= the first break and not NA
+    int* p_ages = INTEGER(ages);
+    int  n_ages   = LENGTH(ages);
+    for (int i = 0; i < n_ages; i++) {
+        int age = p_ages[i];
+        if (age == NA_INTEGER)
+            error("`ages` must be non-missing (not NA) and coercible to integer.");
+        if (age < p_breaks[0])
+            error("`ages` must greater than or equal to the minimum value of `breaks`.");
+
+    }
+
     // round max upper
-    double max_upper_bound = round(asReal(max_upper));
+    max_upper_bound = round(max_upper_bound);
 
     // calculate the maximum size we need to allocate for indexing
     int max = p_breaks[n_breaks - 1];

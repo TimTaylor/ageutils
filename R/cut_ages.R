@@ -61,33 +61,6 @@
 # -------------------------------------------------------------------------
 #' @export
 cut_ages <- function(ages, breaks, max_upper = Inf) {
-
-    # ensure numeric ages, breaks and max_upper
-    .assert_numeric(ages)
-    .assert_numeric(breaks)
-    .assert_numeric(max_upper)
-
-    # check ages are appropriately bounded or NA
-    ages <- as.integer(ages)
-    if (anyNA(ages) || any(ages < 0L))
-        stop("`ages` must be non-negative, coercible to integer and not NA.")
-
-
-    # check max_upper is appropriately bounded
-    .assert_scalar_numeric(max_upper)
-    .assert_positive(max_upper)
-
-    # check breaks
-    breaks <- as.integer(breaks)
-    if (anyNA(breaks) || min(breaks, na.rm = TRUE) < 0)
-        stopf("`breaks` must be non-negative and coercible to integer.")
-    if (is.unsorted(breaks, strictly = TRUE))
-        stop("`breaks` must be in strictly increasing order and not NA.")
-    if (any(ages < breaks[1L]))
-        stop("`ages` must greater than or equal to the minimum value of `breaks`.")
-    if (breaks[length(breaks)] >= max_upper)
-        stop("all `breaks` must be less than `max_upper`.")
-
     .Call(C_cut_ages, ages, breaks, max_upper)
 }
 

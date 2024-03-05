@@ -51,7 +51,7 @@ dat[[1L]] <- NA_integer_
 limit <- c(3L, 98L)
 expect_error(
     cut_ages(dat, c(0L, limit)),
-    "`ages` must be non-negative, coercible to integer and not NA.",
+    "`ages` must be non-missing (not NA) and coercible to integer.",
     fixed = TRUE
 )
 
@@ -100,6 +100,6 @@ expect_error(
 
 expect_error(
     cut_ages(1:10, breaks = c(2L, 2L)),
-    "`breaks` must be in strictly increasing order and not NA.",
+    "`breaks` must be in strictly increasing order.",
     fixed = TRUE
 )
