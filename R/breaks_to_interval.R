@@ -41,26 +41,6 @@
 #'
 #' @export
 breaks_to_interval <- function(breaks, max_upper = Inf) {
-
-    # check breaks are numeric
-    .assert_numeric(breaks)
-
-    # coerce breaks to integer
-    breaks <- as.integer(breaks)
-
-    # ensure valid
-    if (anyNA(breaks))
-        stop("`breaks` must be finite, and, coercible to integer.")
-
-    # check strictly increasing breaks
-    if (is.unsorted(breaks, strictly = TRUE))
-        stop("`breaks` must be in strictly increasing order.")
-
-    # check max_upper
-    .assert_scalar_numeric_not_na(max_upper)
-    if (max_upper <= max(breaks))
-        stop("`max_upper` must be greater than all `breaks`.")
-
     .Call(C_breaks_to_interval, breaks, max_upper)
 }
 
