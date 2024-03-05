@@ -4,7 +4,7 @@
 \alias{aggregate_age_counts}
 \title{Aggregate counts across ages}
 \usage{
-aggregate_age_counts(counts, ages = 0:(length(counts) - 1L), breaks)
+aggregate_age_counts(counts, ages = seq_along(counts) - 1L, breaks)
 }
 \arguments{
 \item{counts}{\verb{[numeric]}.

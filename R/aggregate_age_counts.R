@@ -62,7 +62,7 @@
 #' @export
 aggregate_age_counts <- function(
     counts,
-    ages = 0:(length(counts) - 1L),
+    ages = seq_along(counts) - 1L,
     breaks
 ) {
 
