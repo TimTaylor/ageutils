@@ -66,33 +66,5 @@ aggregate_age_counts <- function(
     breaks
 ) {
 
-    # ensure numeric counts, ages, breaks and max_upper
-    .assert_numeric(counts)
-    .assert_numeric(ages)
-    .assert_numeric(breaks)
-
-    # coerce ages to integer
-    ages <- as.integer(ages)
-
-    # coerce counts to double
-    counts <- as.double(counts)
-
-    # coerce breaks to integer and ensure not NA
-    breaks <- as.integer(breaks)
-    if (anyNA(breaks))
-        stop("`breaks` must be non-missing (not NA) and coercible to integer.")
-
-    # check strictly increasing breaks
-    if (is.unsorted(breaks, strictly = TRUE))
-        stop("`breaks` must be in strictly increasing order.")
-
-    if (any(!is.na(ages) & ages < breaks[1L]))
-        stop("`ages` must greater than or equal to the minimum value of `breaks`.")
-
-    # ensure counts and ages are the same length
-    n <- length(ages)
-    if (n != length(counts))
-        stop("`ages` and `counts` must be the same length.")
-
     .Call(C_aggregate_age_counts, counts, ages, breaks)
 }

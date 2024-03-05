@@ -4,33 +4,76 @@
 
 SEXP aggregate_age_counts(SEXP counts, SEXP ages, SEXP breaks) {
 
+    // PROTECT counter
     int protected = 0;
 
-    int n_ages = LENGTH(ages);
-    int* p_ages = INTEGER(ages);
-    int n_breaks = LENGTH(breaks);
+    // ensure numeric input
+    if (!isNumeric(counts) || LENGTH(counts) == 0)
+        error("`counts` must be numeric and of length >= 1.");
+    if (!isNumeric(ages) || LENGTH(ages) == 0)
+        error("`ages` must be numeric and of length >= 1.");
+    if (!isNumeric(breaks) || LENGTH(breaks) == 0)
+        error("`breaks` must be numeric and of length >= 1.");
+
+    // ensure ages and counts are the same length
+    if (LENGTH(ages) != LENGTH(counts))
+        error("`ages` and `counts` must be the same length.");
+
+    // coerce ages to integer
+    ages = PROTECT(coerceVector(ages, INTSXP)); protected++;
+
+    // coerce counts to double
+    counts = PROTECT(coerceVector(counts, REALSXP)); protected++;
+
+    // coerce breaks to integer
+    breaks = PROTECT(coerceVector(breaks, INTSXP)); protected++;
+
+    // Ensure breaks are not NA and are in strictly increasing order
     int* p_breaks = INTEGER(breaks);
+    int brk = p_breaks[0];
+    if (brk == NA_INTEGER)
+        error("`breaks` must be non-missing (not NA) and coercible to integer.");
+    for (int i = 0; i < LENGTH(breaks) - 1; i++) {
+
+        int next_brk = p_breaks[i + 1];
+
+        if (next_brk == NA_INTEGER)
+            error("`breaks` must be non-missing (not NA) and coercible to integer.");
+
+        if (next_brk <= brk)
+            error("`breaks` must be in strictly increasing order.");
+
+        brk = next_brk;
+    }
+
+    // check ages are >= the first break (or NA)
+    int* p_ages = INTEGER(ages);
+    for (int i = 0; i < LENGTH(ages); i++) {
+        int age = p_ages[i];
+        if (age != NA_INTEGER && age < p_breaks[0])
+            error("`ages` must greater than or equal to the minimum value of `breaks`.");
+    }
 
     // order by age
     // ind = order(x, nalast = TRUE, decreasing = FALSE)
     // R_orderVector1(result, length, input to sort, nalast, decreasing)
     int* ind;
-    ind = (int *) R_alloc(n_ages, sizeof(int));
+    ind = (int *) R_alloc(LENGTH(ages), sizeof(int));
 
     int* out_ages;
-    out_ages = (int *) R_alloc(n_ages, sizeof(int));
+    out_ages = (int *) R_alloc(LENGTH(ages), sizeof(int));
 
     double* p_counts = REAL(counts);
     double* out_counts;
-    out_counts = (double *) R_alloc(n_ages, sizeof(double));
-    R_orderVector1(ind, n_ages, ages, TRUE, FALSE);
-    for (int i = 0; i < n_ages; i++) {
+    out_counts = (double *) R_alloc(LENGTH(ages), sizeof(double));
+    R_orderVector1(ind, LENGTH(ages), ages, TRUE, FALSE);
+    for (int i = 0; i < LENGTH(ages); i++) {
         out_ages[i] = p_ages[ind[i]];
         out_counts[i] = p_counts[ind[i]];
     }
 
     // number of groups (allowing for an NA group)
-    int n_groups = n_breaks + 1;
+    int n_groups = LENGTH(breaks) + 1;
 
     // allocate output and initialise to 0
     SEXP group_counts = PROTECT(allocVector(REALSXP, n_groups)); protected++;
@@ -39,11 +82,11 @@ SEXP aggregate_age_counts(SEXP counts, SEXP ages, SEXP breaks) {
 
     // calculate the other counts
     int group_index = 0;
-    for (int i = 0; i < n_ages; ++i) {
+    for (int i = 0; i < LENGTH(ages); ++i) {
         int current_age = out_ages[i];
         double tmp = out_counts[i];
         if (current_age == NA_INTEGER) {
-            p_groups[n_breaks] += tmp;
+            p_groups[LENGTH(breaks)] += tmp;
         } else {
             while(group_index < n_groups - 2 && current_age >= p_breaks[group_index + 1])
                 ++group_index;
