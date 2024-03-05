@@ -2,17 +2,19 @@
 #include <Rinternals.h>
 #include "aggregate_age_counts.h"
 
+#define IS_NUMERIC(x) (isReal(x) || isInteger(x))
+
 SEXP aggregate_age_counts(SEXP counts, SEXP ages, SEXP breaks) {
 
     // PROTECT counter
     int protected = 0;
 
     // ensure numeric input
-    if (!isNumeric(counts) || LENGTH(counts) == 0)
+    if (!IS_NUMERIC(counts) || LENGTH(counts) == 0)
         error("`counts` must be numeric and of length >= 1.");
-    if (!isNumeric(ages) || LENGTH(ages) == 0)
+    if (!IS_NUMERIC(ages) || LENGTH(ages) == 0)
         error("`ages` must be numeric and of length >= 1.");
-    if (!isNumeric(breaks) || LENGTH(breaks) == 0)
+    if (!IS_NUMERIC(breaks) || LENGTH(breaks) == 0)
         error("`breaks` must be numeric and of length >= 1.");
 
     // ensure ages and counts are the same length
