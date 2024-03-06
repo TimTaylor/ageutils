@@ -1,21 +1,22 @@
 ---
 title: "Utilities for Working with Age Categories"
-output: rmarkdown::html_vignette
+output:
+  markdown::html_format:
 vignette: >
   %\VignetteIndexEntry{Utilities for Working with Age Categories}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-ageutils provides a collection of functions for working with age intervals with
-underlying implementations that have been optimised for performance.
+ageutils provides a collection of functions for working with age intervals whose
+underlying implementations have been optimised for performance.
 
 ## `breaks_to_interval()`
 
@@ -33,7 +34,9 @@ representing the numeric values of the corresponding lower (closed) and upper
 
 ```{r}
 library(ageutils)
+
 breaks_to_interval(breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+
 breaks_to_interval(breaks = c(1L, 5L, 15L), max_upper = 25L)
 ```
 
@@ -45,9 +48,13 @@ and follows the approach of `breaks_to_interval`.
 
 ```{r}
 cut_ages(ages = 0:9, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+
 cut_ages(1:10, breaks = c(0L, 4L), max_upper = 9L)
+
 x <- cut_ages(1:100, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+
 str(x)
+
 head(x$interval)
 ```
 
