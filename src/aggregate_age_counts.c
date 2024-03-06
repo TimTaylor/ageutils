@@ -79,8 +79,9 @@ SEXP aggregate_age_counts(SEXP counts, SEXP ages, SEXP breaks) {
         out_counts[i] = p_counts[ind[i]];
     }
 
-    // number of groups (allowing for an NA group)
-    int n_groups = LENGTH(breaks) + na_flag;
+    // number of breaks and groups (groups allows for optional na)
+    int n_breaks = LENGTH(breaks);
+    int n_groups = n_breaks + na_flag;
 
     // allocate output and initialise to 0
     SEXP group_counts = PROTECT(allocVector(REALSXP, n_groups)); protected++;
@@ -93,9 +94,9 @@ SEXP aggregate_age_counts(SEXP counts, SEXP ages, SEXP breaks) {
         int current_age = out_ages[i];
         double tmp = out_counts[i];
         if (current_age == NA_INTEGER) {
-            p_groups[LENGTH(breaks)] += tmp;
+            p_groups[n_groups - 1] += tmp;
         } else {
-            while(group_index < n_groups - 1 - na_flag && current_age >= p_breaks[group_index + 1])
+            while(group_index < n_breaks -1 && current_age >= p_breaks[group_index + 1])
                 ++group_index;
             p_groups[group_index] += tmp;
         }
@@ -112,10 +113,10 @@ SEXP aggregate_age_counts(SEXP counts, SEXP ages, SEXP breaks) {
     int* p_factor = INTEGER(factor);
 
     // create all but the last names for the intervals, "[%d,%d)"
-    for (int i=0; i < n_groups - 1; ++i) {
-        p_factor[i] = i+1;
-        p_start[i] = p_breaks[i];
-        p_end[i] = p_breaks[i+1];
+    for (int i = 0; i < n_breaks - 1; ++i) {
+        p_factor[i] = i + 1;
+        p_start[i] = (double) p_breaks[i];
+        p_end[i] = (double) p_breaks[i+1];
         // names "[%d,%d)"
         int bufsz = snprintf(NULL, 0, "[%d, %d)", p_breaks[i], p_breaks[i+1]);
         char* buf = R_Calloc(bufsz + 1, char);
@@ -124,23 +125,22 @@ SEXP aggregate_age_counts(SEXP counts, SEXP ages, SEXP breaks) {
         R_Free(buf);
     }
 
-    p_end[n_groups - 1 - na_flag] = R_PosInf;
+    // create last name "[%d,Inf)"
+    p_factor[n_breaks - 1] = n_breaks;
+    p_start[n_breaks - 1] = (double) p_breaks[n_breaks - 1];
+    p_end[n_breaks - 1] = R_PosInf;
+
+    int bufsz = snprintf(NULL, 0, "[%d, Inf)", p_breaks[n_breaks - 1]);
+    char* buf = R_Calloc(bufsz + 1, char);
+    snprintf(buf, bufsz + 1, "[%d, Inf)", p_breaks[n_breaks - 1]);
+    SET_STRING_ELT(lvls, n_breaks - 1, mkChar(buf));
+    R_Free(buf);
 
     if (na_flag) {
         p_start[n_groups - 1] = NA_REAL;
         p_end[n_groups - 1] = NA_REAL;
         p_factor[n_groups - 1] = NA_INTEGER;
-    } else{
-        p_start[n_groups - 1] = p_breaks[n_groups - 1];
-        p_factor[n_groups - 1] = n_groups;
     }
-
-    // create last name "[%d,Inf)"
-    int bufsz = snprintf(NULL, 0, "[%d, Inf)", p_breaks[n_groups - 1 - na_flag]);
-    char* buf = R_Calloc(bufsz + 1, char);
-    snprintf(buf, bufsz + 1, "[%d, Inf)", p_breaks[n_groups - 1 - na_flag]);
-    SET_STRING_ELT(lvls, n_groups - 1 - na_flag, mkChar(buf));
-    R_Free(buf);
 
     // add levels and class to factor
     setAttrib(factor, R_LevelsSymbol, lvls);
