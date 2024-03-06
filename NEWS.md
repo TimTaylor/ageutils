@@ -1,6 +1,6 @@
 # ageutils 0.0.2
 
-* `aggregate_age_counts()` will now only return a row corresponding to NA ages
+*  `aggregate_age_counts()` will now only return a row corresponding to NA ages
   if they were present in the input data. Previously an NA-associated row would
   always be returned even if it's count was 0. Due to this change
   `reaggregate_interval_counts()` will now never return an NA-associated row.
@@ -13,9 +13,9 @@
   
 * New function `reaggregate_interval_rates()`.
 
-* We now use [markdown](https://cran.r-project.org/package=markdown) as an
-  lighter alternative to [rmarkdown](https://cran.r-project.org/package=rmarkdown)
-  for the vignette.
+* For the vignette we now use
+  [markdown](https://cran.r-project.org/package=markdown) as a lighter
+  alternative to [rmarkdown](https://cran.r-project.org/package=rmarkdown).
 
 # ageutils 0.0.1
 
