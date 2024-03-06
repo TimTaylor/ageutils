@@ -1,5 +1,10 @@
 # ageutils (development version)
 
+* `aggregate_age_counts()` will now only return a row corresponding to NA ages
+  if they were present in the input data. Previously an NA-associated row would
+  always be returned even if it's count was 0. Due to this change
+  `reaggregate_interval_counts()` will now never return an NA-associated row.
+
 * `split_interval_counts()` now matches the documentation and disallows missing
   (NA) bounds.
 

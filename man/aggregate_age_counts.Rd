@@ -50,7 +50,7 @@ NA.
 aggregate_age_counts(counts = 1:65, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
 
 # NA ages are handled with their own grouping
-ages <- 1:65;
+ages <- 1:65
 ages[1:44] <- NA
 aggregate_age_counts(
     counts = 1:65,

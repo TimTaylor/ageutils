@@ -2,10 +2,10 @@
 dat <- 1:10
 brk <- c(0, 5L)
 expected <- data.frame(
-    interval = factor(c("[0, 5)", "[5, Inf)", NA_character_), ordered = TRUE),
-    lower_bound = c(0, 5, NA),
-    upper_bound = c(5, Inf, NA),
-    count = c(15, 40, 0)
+    interval = factor(c("[0, 5)", "[5, Inf)"), ordered = TRUE),
+    lower_bound = c(0, 5),
+    upper_bound = c(5, Inf),
+    count = c(15, 40)
 )
 expect_equal(aggregate_age_counts(dat, breaks = brk), expected)
 
@@ -34,13 +34,13 @@ counts <- ages <- c(1, 10)
 breaks <- c(0, counts)
 expected <- data.frame(
     interval = factor(
-        c("[0, 1)", "[1, 10)", "[10, Inf)", NA_character_),
-        levels = c("[0, 1)", "[1, 10)", "[10, Inf)", NA_character_),
+        c("[0, 1)", "[1, 10)", "[10, Inf)"),
+        levels = c("[0, 1)", "[1, 10)", "[10, Inf)"),
         ordered = TRUE
     ),
-    lower_bound = c(0, 1, 10, NA),
-    upper_bound = c(1, 10, Inf, NA),
-    count = c(0, 1, 10, 0)
+    lower_bound = c(0, 1, 10),
+    upper_bound = c(1, 10, Inf),
+    count = c(0, 1, 10)
 )
 expect_equal(aggregate_age_counts(counts, ages, breaks), expected)
 
@@ -49,13 +49,13 @@ counts <- ages <- c(10, 1)
 breaks <- c(0, 1, 10)
 expected <- data.frame(
     interval = factor(
-        c("[0, 1)", "[1, 10)", "[10, Inf)", NA_character_),
-        levels = c("[0, 1)", "[1, 10)", "[10, Inf)", NA_character_),
+        c("[0, 1)", "[1, 10)", "[10, Inf)"),
+        levels = c("[0, 1)", "[1, 10)", "[10, Inf)"),
         ordered = TRUE
     ),
-    lower_bound = c(0, 1, 10, NA),
-    upper_bound = c(1, 10, Inf, NA),
-    count = c(0, 1, 10, 0)
+    lower_bound = c(0, 1, 10),
+    upper_bound = c(1, 10, Inf),
+    count = c(0, 1, 10)
 )
 expect_equal(aggregate_age_counts(counts, ages, breaks), expected)
 
@@ -104,3 +104,4 @@ expect_error( aggregate_age_counts(1:10, breaks = "5") )
 
 # success
 expect_silent(aggregate_age_counts(1:10, rep.int(NA_integer_, 10L), breaks = 2L))
+
