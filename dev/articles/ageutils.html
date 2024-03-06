@@ -248,7 +248,6 @@ provided across all natural numbers as well as for missing values.</p>
 <span><span class="co">#&gt; 5  [25, 45)          25          45   710</span></span>
 <span><span class="co">#&gt; 6  [45, 65)          45          65  1110</span></span>
 <span><span class="co">#&gt; 7 [65, Inf)          65         Inf     0</span></span>
-<span><span class="co">#&gt; 8      &lt;NA&gt;          NA          NA     0</span></span>
 <span></span>
 <span><span class="co"># NA ages are also handled with their own grouping</span></span>
 <span><span class="va">ages</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span></span>
@@ -339,8 +338,9 @@ based on our desired interval limits.</p>
 <span>        weights <span class="op">=</span> <span class="cn">NULL</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in reaggregate_interval_counts(): `upper_bounds` greater than</span></span>
-<span><span class="co">#&gt; `max_upper` (100) have been replaced prior to splitting.</span></span>
+<span><span class="co">#&gt; Warning in reaggregate_interval_counts(lower_bounds = lower_bound, upper_bounds</span></span>
+<span><span class="co">#&gt; = upper_bound, : `upper_bounds` greater than `max_upper` (100) have been</span></span>
+<span><span class="co">#&gt; replaced prior to splitting.</span></span>
 <span><span class="co">#&gt;    interval lower_bound upper_bound    count</span></span>
 <span><span class="co">#&gt; 1    [0, 1)           0           1   646420</span></span>
 <span><span class="co">#&gt; 2    [1, 5)           1           5  2585680</span></span>
@@ -348,8 +348,7 @@ based on our desired interval limits.</p>
 <span><span class="co">#&gt; 4  [15, 25)          15          25  6996800</span></span>
 <span><span class="co">#&gt; 5  [25, 45)          25          45 15787900</span></span>
 <span><span class="co">#&gt; 6  [45, 65)          45          65 15396800</span></span>
-<span><span class="co">#&gt; 7 [65, Inf)          65         Inf 11063400</span></span>
-<span><span class="co">#&gt; 8      &lt;NA&gt;          NA          NA        0</span></span></code></pre></div>
+<span><span class="co">#&gt; 7 [65, Inf)          65         Inf 11063400</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
