@@ -31,10 +31,3 @@ You can install the released version of {ageutils} from [CRAN](https://cran.r-pr
 ```{r, eval = FALSE}
 install.packages("ageutils")
 ```
-
-::: {.pkgdown-devel}
-The development version of {ageutils} can be installed from GitHub with:
-```{r, eval = FALSE}
-remotes::install_github("TimTaylor/ageutils")
-```
-:::
