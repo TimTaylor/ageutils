@@ -8,8 +8,8 @@
 <meta name="description" content="ageutils">
 <title>Utilities for Working with Age Categories • ageutils</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Utilities for Working with Age Categories">
 <meta property="og:description" content="ageutils">
@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ageutils</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,7 +78,7 @@
     
     
 <p>ageutils provides a collection of functions for working with age
-intervals with underlying implementations that have been optimised for
+intervals whose underlying implementations have been optimised for
 performance.</p>
 <div class="section level2">
 <h2 id="breaks_to_interval">
@@ -86,17 +86,19 @@ performance.</p>
 </h2>
 <p><code>breaks_to_interval</code> provides a categorisation based on
 specified breaks which represent left-hand interval limits. The
-resultant groupings span from the minimum break through to
-<code>Inf</code> and will always be closed on the left and open on the
-right. Ages below the minimum break will be returned as NA. As an
-example, if <code>breaks = c(0, 1, 10, 30)</code> the interval
-categories would be [0, 1), [1, 10), [10, 30) and [30, Inf). Intervals
-are returned as a data frame with 3 entries; A factor with a character
-representation of the interval and two columns representing the numeric
-values of the corresponding lower (closed) and upper (open) bounds.</p>
+resultant groupings span from the minimum break through to a specified
+<code>max_upper</code> and will always be closed on the left and open on
+the right. As an example, if <code>breaks = c(0, 1, 10, 30)</code> the
+interval categories would be [0, 1), [1, 10), [10, 30) and [30, Inf).
+Ages above <code>max_upper</code> will be returned as NA.</p>
+<p>The returned value is as a data frame with 3 entries; A factor with a
+character representation of the interval and two columns representing
+the numeric values of the corresponding lower (closed) and upper (open)
+bounds.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://timtaylor.github.io/ageutils/">ageutils</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">breaks_to_interval</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/breaks_to_interval.html">breaks_to_interval</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    interval lower_bound upper_bound</span></span>
 <span><span class="co">#&gt; 1    [0, 1)           0           1</span></span>
 <span><span class="co">#&gt; 2    [1, 5)           1           5</span></span>
@@ -104,18 +106,24 @@ values of the corresponding lower (closed) and upper (open) bounds.</p>
 <span><span class="co">#&gt; 4  [15, 25)          15          25</span></span>
 <span><span class="co">#&gt; 5  [25, 45)          25          45</span></span>
 <span><span class="co">#&gt; 6  [45, 65)          45          65</span></span>
-<span><span class="co">#&gt; 7 [65, Inf)          65         Inf</span></span></code></pre></div>
+<span><span class="co">#&gt; 7 [65, Inf)          65         Inf</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/breaks_to_interval.html">breaks_to_interval</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span><span class="op">)</span>, max_upper <span class="op">=</span> <span class="fl">25L</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   interval lower_bound upper_bound</span></span>
+<span><span class="co">#&gt; 1   [1, 5)           1           5</span></span>
+<span><span class="co">#&gt; 2  [5, 15)           5          15</span></span>
+<span><span class="co">#&gt; 3 [15, 25)          15          25</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="cut_ages">
 <code>cut_ages()</code><a class="anchor" aria-label="anchor" href="#cut_ages"></a>
 </h2>
-<p><code><a href="../reference/ageutils.html">cut_ages()</a></code> provides categorisation of ages based on
+<p><code><a href="../reference/cut_ages.html">cut_ages()</a></code> provides categorisation of ages based on
 specified breaks which represent the left-hand interval limits.
 Categorisation is based on the breaks and follows the approach of
 <code>breaks_to_interval</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ageutils.html">cut_ages</a></span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">9</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cut_ages.html">cut_ages</a></span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">9</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    interval lower_bound upper_bound</span></span>
 <span><span class="co">#&gt; 1    [0, 1)           0           1</span></span>
 <span><span class="co">#&gt; 2    [1, 5)           1           5</span></span>
@@ -127,24 +135,28 @@ Categorisation is based on the breaks and follows the approach of
 <span><span class="co">#&gt; 8   [5, 15)           5          15</span></span>
 <span><span class="co">#&gt; 9   [5, 15)           5          15</span></span>
 <span><span class="co">#&gt; 10  [5, 15)           5          15</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">cut_ages</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, breaks <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/cut_ages.html">cut_ages</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">4L</span><span class="op">)</span>, max_upper <span class="op">=</span> <span class="fl">9L</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    interval lower_bound upper_bound</span></span>
-<span><span class="co">#&gt; 1      &lt;NA&gt;          NA          NA</span></span>
-<span><span class="co">#&gt; 2      &lt;NA&gt;          NA          NA</span></span>
-<span><span class="co">#&gt; 3      &lt;NA&gt;          NA          NA</span></span>
-<span><span class="co">#&gt; 4      &lt;NA&gt;          NA          NA</span></span>
-<span><span class="co">#&gt; 5      &lt;NA&gt;          NA          NA</span></span>
-<span><span class="co">#&gt; 6  [6, Inf)           6         Inf</span></span>
-<span><span class="co">#&gt; 7  [6, Inf)           6         Inf</span></span>
-<span><span class="co">#&gt; 8  [6, Inf)           6         Inf</span></span>
-<span><span class="co">#&gt; 9  [6, Inf)           6         Inf</span></span>
-<span><span class="co">#&gt; 10 [6, Inf)           6         Inf</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ageutils.html">cut_ages</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 1    [0, 4)           0           4</span></span>
+<span><span class="co">#&gt; 2    [0, 4)           0           4</span></span>
+<span><span class="co">#&gt; 3    [0, 4)           0           4</span></span>
+<span><span class="co">#&gt; 4    [4, 9)           4           9</span></span>
+<span><span class="co">#&gt; 5    [4, 9)           4           9</span></span>
+<span><span class="co">#&gt; 6    [4, 9)           4           9</span></span>
+<span><span class="co">#&gt; 7    [4, 9)           4           9</span></span>
+<span><span class="co">#&gt; 8    [4, 9)           4           9</span></span>
+<span><span class="co">#&gt; 9      &lt;NA&gt;          NA          NA</span></span>
+<span><span class="co">#&gt; 10     &lt;NA&gt;          NA          NA</span></span>
+<span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cut_ages.html">cut_ages</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; 'data.frame':    100 obs. of  3 variables:</span></span>
 <span><span class="co">#&gt;  $ interval   : Ord.factor w/ 7 levels "[0, 1)"&lt;"[1, 5)"&lt;..: 2 2 2 2 3 3 3 3 3 3 ...</span></span>
 <span><span class="co">#&gt;  $ lower_bound: num  1 1 1 1 5 5 5 5 5 5 ...</span></span>
 <span><span class="co">#&gt;  $ upper_bound: num  5 5 5 5 15 15 15 15 15 15 ...</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">interval</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] [1, 5)  [1, 5)  [1, 5)  [1, 5)  [5, 15) [5, 15)</span></span>
 <span><span class="co">#&gt; 7 Levels: [0, 1) &lt; [1, 5) &lt; [5, 15) &lt; [15, 25) &lt; [25, 45) &lt; ... &lt; [65, Inf)</span></span></code></pre></div>
@@ -153,13 +165,13 @@ Categorisation is based on the breaks and follows the approach of
 <h2 id="split_interval_counts">
 <code>split_interval_counts()</code><a class="anchor" aria-label="anchor" href="#split_interval_counts"></a>
 </h2>
-<p><code><a href="../reference/ageutils.html">split_interval_counts()</a></code> splits counts within a age
+<p><code><a href="../reference/split_interval_counts.html">split_interval_counts()</a></code> splits counts within a age
 interval in to counts for individuals years based on a given weighting.
 Age intervals are specified by their lower (closed) and upper (open)
 bounds, i.e. intervals of the form [lower, upper).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># by default counts are split equally across ages within intervals</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">split_interval_counts</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/split_interval_counts.html">split_interval_counts</a></span><span class="op">(</span></span>
 <span>    lower_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">5L</span>, <span class="fl">10L</span><span class="op">)</span>,</span>
 <span>    upper_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5L</span>, <span class="fl">10L</span>, <span class="fl">20L</span><span class="op">)</span>,</span>
 <span>    counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5L</span>, <span class="fl">10L</span>, <span class="fl">30L</span><span class="op">)</span></span>
@@ -192,7 +204,7 @@ bounds, i.e. intervals of the form [lower, upper).</p>
 <span><span class="va">max_upper</span> <span class="op">&lt;-</span> <span class="fl">20L</span></span>
 <span><span class="va">weights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="va">max_upper</span><span class="op">)</span></span>
 <span><span class="va">weights</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">split_interval_counts</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/split_interval_counts.html">split_interval_counts</a></span><span class="op">(</span></span>
 <span>    lower_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">5L</span>, <span class="fl">10L</span><span class="op">)</span>,</span>
 <span>    upper_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5L</span>, <span class="fl">10L</span>, <span class="fl">20L</span><span class="op">)</span>,</span>
 <span>    counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5L</span>, <span class="fl">10L</span>, <span class="fl">30L</span><span class="op">)</span>,</span>
@@ -225,15 +237,14 @@ bounds, i.e. intervals of the form [lower, upper).</p>
 <h2 id="aggregate_age_counts">
 <code>aggregate_age_counts()</code><a class="anchor" aria-label="anchor" href="#aggregate_age_counts"></a>
 </h2>
-<p><code><a href="../reference/ageutils.html">aggregate_age_counts()</a></code> provides aggregation of counts
+<p><code><a href="../reference/aggregate_age_counts.html">aggregate_age_counts()</a></code> provides aggregation of counts
 across ages (in years). It is similar to a <code><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut()</a></code> and
 <code><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply()</a></code> pattern but optimised for speed over flexibility.
-Groupings are the same as in <code>ages_to_interval()</code> and counts
-will be provided across all natural numbers as well as for missing
-values.</p>
+Groupings are the same as in <code><a href="../reference/cut_ages.html">cut_ages()</a></code> and counts will be
+provided across all natural numbers as well as for missing values.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># default ages generated as 0:(length(counts) - 1L) if only counts provided.</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">aggregate_age_counts</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/aggregate_age_counts.html">aggregate_age_counts</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    interval lower_bound upper_bound count</span></span>
 <span><span class="co">#&gt; 1    [0, 1)           0           1     1</span></span>
 <span><span class="co">#&gt; 2    [1, 5)           1           5    14</span></span>
@@ -242,18 +253,11 @@ values.</p>
 <span><span class="co">#&gt; 5  [25, 45)          25          45   710</span></span>
 <span><span class="co">#&gt; 6  [45, 65)          45          65  1110</span></span>
 <span><span class="co">#&gt; 7 [65, Inf)          65         Inf     0</span></span>
-<span><span class="co">#&gt; 8      &lt;NA&gt;          NA          NA     0</span></span>
-<span></span>
-<span><span class="co"># Values below the minimum break are counted as NA</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">aggregate_age_counts</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>, breaks <span class="op">=</span> <span class="fl">50L</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    interval lower_bound upper_bound count</span></span>
-<span><span class="co">#&gt; 1 [50, Inf)          50         Inf   870</span></span>
-<span><span class="co">#&gt; 2      &lt;NA&gt;          NA          NA  1275</span></span>
 <span></span>
 <span><span class="co"># NA ages are also handled with their own grouping</span></span>
 <span><span class="va">ages</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span></span>
 <span><span class="va">ages</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">44</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
-<span><span class="fu"><a href="../reference/ageutils.html">aggregate_age_counts</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/aggregate_age_counts.html">aggregate_age_counts</a></span><span class="op">(</span></span>
 <span>    counts <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">65</span>,</span>
 <span>    ages <span class="op">=</span> <span class="va">ages</span>,</span>
 <span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span></span>
@@ -272,9 +276,9 @@ values.</p>
 <h2 id="reaggregate_interval_counts">
 <code>reaggregate_interval_counts()</code><a class="anchor" aria-label="anchor" href="#reaggregate_interval_counts"></a>
 </h2>
-<p><code><a href="../reference/ageutils.html">reaggregate_interval_counts()</a></code> is equivalent to, but more
-efficient than a call to to <code><a href="../reference/ageutils.html">split_interval_counts()</a></code>
-followed by <code><a href="../reference/ageutils.html">aggregate_age_counts()</a></code>.</p>
+<p><code><a href="../reference/reaggregate_interval_counts.html">reaggregate_interval_counts()</a></code> is equivalent to, but more
+efficient than a call to to <code><a href="../reference/split_interval_counts.html">split_interval_counts()</a></code>
+followed by <code><a href="../reference/aggregate_age_counts.html">aggregate_age_counts()</a></code>.</p>
 <p>The example below shows how it can be used to redistribute counts
 across a desired set of age intervals. We use data included in the
 package that has been obtained from the 2021 census and modify this
@@ -330,7 +334,7 @@ based on our desired interval limits.</p>
 <span><span class="co"># recategorise based on ages</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span></span>
 <span>    <span class="va">dat</span>,</span>
-<span>    <span class="fu"><a href="../reference/ageutils.html">reaggregate_interval_counts</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="../reference/reaggregate_interval_counts.html">reaggregate_interval_counts</a></span><span class="op">(</span></span>
 <span>        lower_bounds <span class="op">=</span> <span class="va">lower_bound</span>,</span>
 <span>        upper_bounds <span class="op">=</span> <span class="va">upper_bound</span>,</span>
 <span>        counts <span class="op">=</span> <span class="va">value</span>,</span>
@@ -339,6 +343,9 @@ based on our desired interval limits.</p>
 <span>        weights <span class="op">=</span> <span class="cn">NULL</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in reaggregate_interval_counts(lower_bounds = lower_bound, upper_bounds</span></span>
+<span><span class="co">#&gt; = upper_bound, : `upper_bounds` greater than `max_upper` (100) have been</span></span>
+<span><span class="co">#&gt; replaced prior to splitting.</span></span>
 <span><span class="co">#&gt;    interval lower_bound upper_bound    count</span></span>
 <span><span class="co">#&gt; 1    [0, 1)           0           1   646420</span></span>
 <span><span class="co">#&gt; 2    [1, 5)           1           5  2585680</span></span>
@@ -346,8 +353,7 @@ based on our desired interval limits.</p>
 <span><span class="co">#&gt; 4  [15, 25)          15          25  6996800</span></span>
 <span><span class="co">#&gt; 5  [25, 45)          25          45 15787900</span></span>
 <span><span class="co">#&gt; 6  [45, 65)          45          65 15396800</span></span>
-<span><span class="co">#&gt; 7 [65, Inf)          65         Inf 11063400</span></span>
-<span><span class="co">#&gt; 8      &lt;NA&gt;          NA          NA        0</span></span></code></pre></div>
+<span><span class="co">#&gt; 7 [65, Inf)          65         Inf 11063400</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

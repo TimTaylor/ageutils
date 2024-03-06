@@ -22,12 +22,30 @@
     <loc>https://timtaylor.github.io/ageutils/news/index.html</loc>
   </url>
   <url>
-    <loc>https://timtaylor.github.io/ageutils/reference/ageutils.html</loc>
+    <loc>https://timtaylor.github.io/ageutils/reference/ageutils-package.html</loc>
+  </url>
+  <url>
+    <loc>https://timtaylor.github.io/ageutils/reference/aggregate_age_counts.html</loc>
+  </url>
+  <url>
+    <loc>https://timtaylor.github.io/ageutils/reference/breaks_to_interval.html</loc>
+  </url>
+  <url>
+    <loc>https://timtaylor.github.io/ageutils/reference/cut_ages.html</loc>
   </url>
   <url>
     <loc>https://timtaylor.github.io/ageutils/reference/index.html</loc>
   </url>
   <url>
     <loc>https://timtaylor.github.io/ageutils/reference/pop_dat.html</loc>
+  </url>
+  <url>
+    <loc>https://timtaylor.github.io/ageutils/reference/reaggregate_interval_counts.html</loc>
+  </url>
+  <url>
+    <loc>https://timtaylor.github.io/ageutils/reference/reaggregate_interval_rates.html</loc>
+  </url>
+  <url>
+    <loc>https://timtaylor.github.io/ageutils/reference/split_interval_counts.html</loc>
   </url>
 </urlset>
