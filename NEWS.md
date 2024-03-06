@@ -13,7 +13,9 @@
   
 * New function `reaggregate_interval_rates()`.
 
-* Restructuring of documentation and internal workings.
+* We now use [markdown](https://cran.r-project.org/package=markdown) as an
+  lighter alternative to [rmarkdown](https://cran.r-project.org/package=rmarkdown)
+  for the vignette.
 
 # ageutils 0.0.1
 
