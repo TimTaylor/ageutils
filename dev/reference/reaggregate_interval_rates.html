@@ -78,7 +78,7 @@ aggregated allowing for a user specified weight vector.</p>
 <dd><p><code>[integerish]</code>.</p>
 <p>A pair of vectors representing the bounds of the current intervals.</p>
 <p>If <code>upper_bounds</code> is NULL, it will be automatically set to
-<code>c(lower_bounds[-1L], max_upper)</code>.</p>
+<code>c(lower_bounds[-1L], Inf)</code>.</p>
 <p><code>lower_bounds</code> must be strictly less than <code>upper_bounds</code> and greater than or
 equal to zero.</p>
 <p>Missing (NA) bounds are not permitted.</p>
