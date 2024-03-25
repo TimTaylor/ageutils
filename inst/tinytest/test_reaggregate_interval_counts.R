@@ -16,13 +16,25 @@ expected <- data.frame(
     count = c(0, 1, NA, 10)
 )
 
-expect_equal(
+expect_warning(
     reaggregate_interval_counts(
         lower_bounds = lower_bounds,
         upper_bounds = upper_bounds,
         counts = counts,
         breaks = breaks,
         max_upper = max_upper
+    )
+)
+
+expect_equal(
+    suppressWarnings(
+        reaggregate_interval_counts(
+            lower_bounds = lower_bounds,
+            upper_bounds = upper_bounds,
+            counts = counts,
+            breaks = breaks,
+            max_upper = max_upper
+        )
     ),
     expected
 )

@@ -2,12 +2,14 @@ reaggregate_rate_check <- function(rate, from, to, population_vector) {
     stopifnot(unique(from) == from)
     lb <- seq_along(population_vector) - 1
     ub <- c(lb[-1L], Inf)
-    n_from <- ageutils::reaggregate_interval_counts(
-        breaks = from,
-        lower_bounds = lb,
-        upper_bounds = ub,
-        max_upper = length(population_vector),
-        counts = population_vector
+    n_from <- suppressWarnings(
+        ageutils::reaggregate_interval_counts(
+            breaks = from,
+            lower_bounds = lb,
+            upper_bounds = ub,
+            max_upper = length(population_vector),
+            counts = population_vector
+        )
     )
     n_from <- n_from[!is.na(n_from$interval), ]
     n_to <- ageutils::reaggregate_interval_counts(
@@ -19,14 +21,16 @@ reaggregate_rate_check <- function(rate, from, to, population_vector) {
     )
     n_to <- n_to[!is.na(n_to$interval), ]
 
-    ageutils::reaggregate_interval_counts(
-        breaks = to,
-        lower_bounds = from,
-        upper_bounds = c(from[-1L], Inf),
-        max_upper = length(population_vector),
-        counts = rate * n_from$count,
-        weights = population_vector
-    ) -> x
+    x <- suppressWarnings(
+        ageutils::reaggregate_interval_counts(
+            breaks = to,
+            lower_bounds = from,
+            upper_bounds = c(from[-1L], Inf),
+            max_upper = length(population_vector),
+            counts = rate * n_from$count,
+            weights = population_vector
+        )
+    )
     x <- x[!is.na(x$interval), ]
     x$rate <- x$count / n_to$count
     x["count"] <- NULL
