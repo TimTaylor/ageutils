@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ageutils</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.0.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.0.2.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,11 +49,14 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="ageutils-development-version">ageutils (development version)<a class="anchor" aria-label="anchor" href="#ageutils-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.2" id="ageutils-002">ageutils 0.0.2<a class="anchor" aria-label="anchor" href="#ageutils-002"></a></h2><p class="text-muted">CRAN release: 2024-03-06</p>
 <ul><li><p><code><a href="../reference/aggregate_age_counts.html">aggregate_age_counts()</a></code> will now only return a row corresponding to NA ages if they were present in the input data. Previously an NA-associated row would always be returned even if it’s count was 0. Due to this change <code><a href="../reference/reaggregate_interval_counts.html">reaggregate_interval_counts()</a></code> will now never return an NA-associated row.</p></li>
 <li><p><code><a href="../reference/split_interval_counts.html">split_interval_counts()</a></code> now matches the documentation and disallows missing (NA) bounds.</p></li>
 <li><p><code><a href="../reference/breaks_to_interval.html">breaks_to_interval()</a></code> and <code><a href="../reference/cut_ages.html">cut_ages()</a></code> both gain an argument, <code>max_upper</code> which allows users to explicitly set the maximum upper bound.</p></li>
 <li><p>New function <code><a href="../reference/reaggregate_interval_rates.html">reaggregate_interval_rates()</a></code>.</p></li>
-<li><p>Restructuring of documentation and internal workings.</p></li>
+<li><p>For the vignette we now use <a href="https://cran.r-project.org/package=markdown" class="external-link">markdown</a> as a lighter alternative to <a href="https://cran.r-project.org/package=rmarkdown" class="external-link">rmarkdown</a>.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.1" id="ageutils-001">ageutils 0.0.1<a class="anchor" aria-label="anchor" href="#ageutils-001"></a></h2><p class="text-muted">CRAN release: 2023-01-09</p>
