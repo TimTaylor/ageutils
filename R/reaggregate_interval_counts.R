@@ -79,73 +79,16 @@ reaggregate_interval_counts <- function(
         max_upper = 100L,
         weights = NULL
 ) {
-    # # ensure numeric bounds, counts and weights
-    # .assert_numeric(lower_bounds)
-    # .assert_numeric(upper_bounds)
-    # .assert_numeric(counts)
-    # .assert_scalar_numeric(max_upper)
-    #
-    # # Ensure max_upper is coercible to integer
-    # max_upper <- as.integer(max_upper)
-    # if (anyNA(max_upper))
-    #     stop("`max_upper` must be finite, and, coercible to integer.")
-    #
-    # # Ensure bounds and counts have compatible lengths
-    # n_bounds <- length(upper_bounds)
-    # if (length(lower_bounds) != n_bounds)
-    #     stop("`lower_bounds` and `upper_bounds` must be the same length.")
-    # if (length(counts) != n_bounds)
-    #     stop("`bounds` and `counts` must be the same length.")
-    #
-    # # Ensure lower bounds are coercible to integer
-    # lower_bounds <- as.integer(lower_bounds)
-    # if (anyNA(lower_bounds))
-    #     stop("`lower_bounds` must be finite, non-missing (not NA) and coercible to integer.")
-    #
-    # # Replace upper bounds greater than max_upper then ensure coercible to integer
-    # if (anyNA(upper_bounds))
-    #     stop("`upper_bounds` must be non-missing (not NA).")
-    # idx <- upper_bounds > max_upper
-    # if (isTRUE(any(idx))) {
-    #     upper_bounds[idx] <- max_upper
-    #     warningf(
-    #         "`upper_bounds` greater than `max_upper` (%d) have been replaced prior to splitting.",
-    #         max_upper
-    #     )
-    # }
-    # upper_bounds <- as.integer(upper_bounds)
-    #
-    # # Ensure lower bounds less than upper bounds
-    # if (any(lower_bounds >= upper_bounds))
-    #     stop("`lower_bounds` must be less than `upper_bounds`.")
-    #
-    # # Coerce counts to double prior to calling C function
-    # counts <- as.double(counts)
-    #
-    # # check weights if not NULL
-    # if (!is.null(weights)) {
-    #     if (!is.numeric(weights))
-    #         stop("`weights` must be numeric.")
-    #     if (anyNA(weights) || min(weights, na.rm = TRUE) < 0)
-    #         stop("`weights` must be non-negative and not missing (NA).")
-    #     if (length(weights) != max_upper) {
-    #         stopf(
-    #             "`weights` must be a vector of length %d (`max_upper`) representing ages 0:%d",
-    #             max_upper,
-    #             max_upper - 1
-    #         )
-    #     }
-    #     weights <- as.double(weights)
-    # }
-    #
-    # # coerce breaks to integer and ensure not NA
-    # breaks <- as.integer(breaks)
-    # if (anyNA(breaks))
-    #     stop("`breaks` must be non-missing (not NA) and coercible to integer.")
-    #
-    # # check strictly increasing breaks
-    # if (is.unsorted(breaks, strictly = TRUE))
-    #     stop("`breaks` must be in strictly increasing order.")
+
+    # Temporary patch for https://github.com/TimTaylor/ageutils/issues/5
+    # TODO - Improve this before 0.1 release.
+    stopifnot(
+        is.numeric(lower_bounds),
+        is.numeric(max_upper),
+        length(max_upper) == 1L
+    )
+    if (any(max_upper <= lower_bounds))
+        stop("`max_upper` must be greater than all `lower_bounds`.")
 
     .Call(C_reaggregate_interval_counts, lower_bounds, upper_bounds, counts, breaks, max_upper, weights)
 }
