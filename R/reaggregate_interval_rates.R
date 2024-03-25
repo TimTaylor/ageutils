@@ -15,7 +15,7 @@
 #' A pair of vectors representing the bounds of the current intervals.
 #'
 #' If `upper_bounds` is NULL, it will be automatically set to
-#' `c(lower_bounds[-1L], max_upper)`.
+#' `c(lower_bounds[-1L], Inf)`.
 #'
 #' `lower_bounds` must be strictly less than `upper_bounds` and greater than or
 #' equal to zero.

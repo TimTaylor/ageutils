@@ -18,7 +18,7 @@ reaggregate_interval_rates(
 A pair of vectors representing the bounds of the current intervals.
 
 If \code{upper_bounds} is NULL, it will be automatically set to
-\code{c(lower_bounds[-1L], max_upper)}.
+\code{c(lower_bounds[-1L], Inf)}.
 
 \code{lower_bounds} must be strictly less than \code{upper_bounds} and greater than or
 equal to zero.
