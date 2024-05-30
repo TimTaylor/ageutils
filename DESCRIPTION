@@ -38,3 +38,4 @@ LazyData: true
 VignetteBuilder: knitr
 URL: https://timtaylor.github.io/ageutils/
 BugReports: https://github.com/TimTaylor/ageutils/issues
+Config/runiverse/noindex: true
