@@ -3,7 +3,7 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   ageutils: ageutils.html
-last_built: 2024-05-30T15:21Z
+last_built: 2024-05-30T15:23Z
 urls:
   reference: https://timtaylor.github.io/ageutils/reference
   article: https://timtaylor.github.io/ageutils/articles
