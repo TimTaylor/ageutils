@@ -1,7 +1,6 @@
 ## R CMD check results
 
-* checked on R Under development (unstable) (2024-03-05 r86054) - Fedora 39
-* checked on R Under development (unstable) (2024-03-05 r86054 ucrt) - win-builder
+* checked on R Under development (unstable) (2024-05-28 r86639) - Ubuntu 22.04
 
 Status: OK
 
