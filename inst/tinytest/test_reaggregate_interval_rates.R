@@ -53,3 +53,29 @@ out <- reaggregate_interval_rates(
     weights = population_vector
 )
 expect_equal(out, expected)
+
+# Regression test for https://github.com/TimTaylor/ageutils/issues/8
+lower <- seq.int(65L, 90L, 5L)
+upper <- lower + 5L
+rates <- c(7.1, 5.7, 4.9, 4.2, 3.6, 2.9)
+breaks <- 65:95
+expected <- data.frame(
+    lower_bound = 65:95,
+    upper_bound = c(66:95, Inf),
+    rate = c(rep(rates, each = 5L), 0)
+)
+
+out <- reaggregate_interval_rates(
+    lower_bounds = lower,
+    upper_bounds = upper,
+    rates = rates,
+    breaks = breaks
+)
+
+expected <- data.frame(
+    lower_bound = 65:95,
+    upper_bound = c(66:95, Inf),
+    rate = c(rep(rates, each = 5L), 0)
+)
+
+expect_equal(out[-1L], expected)

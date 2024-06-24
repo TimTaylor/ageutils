@@ -169,8 +169,6 @@ reaggregate_interval_rates <- function(
     upper_bounds <- as.integer(upper_bounds)
 
     # Expand and rates across ages
-    interval_lengths <- upper_bounds - lower_bounds
-    ages <- seq_len(.MAXBOUND) - 1L
     age_rates <- numeric(length = .MAXBOUND)
     for (i in seq_along(rates)) {
         idx <- lower_bounds[i]:(upper_bounds[i] - 1L)
@@ -186,16 +184,16 @@ reaggregate_interval_rates <- function(
     group_rates <- numeric(n_breaks - 1L)
     group_totals <- integer(n_breaks - 1L)
     group_index <- 1L
-    current_age <- ages[1L]
 
-    for (i in seq_along(age_rates)) {
+    for (i in seq.int(from = breaks[1L] + 1L, to = .MAXBOUND, by = 1L)) {
+        current_age <- i - 1L
         while(group_index < n_breaks && current_age >= breaks[group_index + 1L]) {
             group_index <- group_index + 1L
         }
         group_rates[group_index] <- group_rates[group_index] + (age_rates[i] * weights[i])
         group_totals[group_index] <- group_totals[group_index] + weights[i]
-        current_age <- ages[i+1]
     }
+
     set_to_zero <- group_totals == 0
     rates_out <- group_rates / group_totals
     rates_out[set_to_zero] <- 0
