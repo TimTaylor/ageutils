@@ -1,6 +1,6 @@
 ## R CMD check results
 
-* checked on R Under development (unstable) (2024-05-28 r86639) - Ubuntu 22.04
+* checked on R Under development (unstable) (2024-06-26 r86840) - Fedora 40
 
 Status: OK
 
