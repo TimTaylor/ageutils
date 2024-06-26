@@ -9,14 +9,11 @@
 <a href="https://CRAN.R-project.org/package=ageutils" class="pkgdown-release"><img src="https://www.r-pkg.org/badges/version/ageutils" alt="CRAN status" /></a>
 <!-- badges: end -->
 
-{ageutils} provides a collection of efficient functions for working with
-individual ages and corresponding intervals. These include functions for
-efficient conversion from an age to an interval, aggregation of ages
-with associated counts in to intervals and the splitting of interval
-counts based on specified age distributions.
+NOTE: ageutils is still somewhat experimental in nature and should be
+treated as such until the 0.1.0 release.
 
-You can install the released version of {ageutils} from
-[CRAN](https://cran.r-project.org/) with:
+You can install the {ageutils} from [CRAN](https://cran.r-project.org/)
+with:
 
 ``` r
 install.packages("ageutils")
