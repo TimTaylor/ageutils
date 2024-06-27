@@ -1,0 +1,168 @@
+#' Reaggregate age rates
+#'
+#' @param bounds `[numeric]`
+#'
+#' @param rates `[numeric]`
+#'
+#' @param new_bounds `[numeric]`
+#'
+#' @param population_bounds  `[numeric]`
+#'
+#' @param population_weights `[numeric]`
+#'
+#' @param ... Arguments passed to underlying methods
+#'
+#' @examples
+#' reaggregate_rates(
+#'     bounds = c(0, 5, 10),
+#'     rates = c(0.1, 0.2 ,0.3),
+#'     new_bounds = c(0, 2, 7, 10),
+#'     population_bounds = c(0, 2, 5, 7, 10),
+#'     population_weights = c(100, 200, 50, 150, 100)
+#' )
+#'
+#' @export
+reaggregate_rates <- function(...) {
+    UseMethod("reaggregate_rates")
+}
+
+#' @rdname reaggregate_rates
+#'@export
+reaggregate_rates.default <- function(
+    bounds,
+    rates,
+    new_bounds,
+    ...,
+    population_bounds = NULL,
+    population_weights = NULL
+) {
+
+    # lower bounds checks
+    if (any(!is.finite(bounds)))
+        stop("`bounds` must be a finite, numeric vector.")
+    if (!length(bounds))
+        stop("`bounds` must be of non-zero length.")
+    if (is.unsorted(bounds, na.rm = FALSE, strictly = TRUE))
+        stop("`bounds` must be in strictly ascending order")
+    if (bounds[1L] < 0)
+        stop("`bounds` must be non-negative.")
+
+    # rates checks
+    if(!is.numeric(rates))
+        stop("`rates` must be numeric.")
+    if (length(rates) != length(bounds))
+        stop("`rates` must be the same length as `bounds`.")
+
+    # new bounds checks
+    if (any(!is.finite(new_bounds)))
+        stop("`new_bounds` must be a finite, numeric vector.")
+    if (!length(new_bounds))
+        stop("`new_bounds` must be of non-zero length.")
+    if (is.unsorted(new_bounds, na.rm = FALSE, strictly = TRUE))
+        stop("`new_bounds` must be in strictly ascending order")
+    if (new_bounds[1L] < 0)
+        stop("`new` must be non-negative.")
+
+    # population bounds checks
+    if (is.null(population_bounds)) {
+        if (!is.null(population_weights))
+            stop("`population_weights` require specification of `population_bounds`.")
+        population_bounds <- new_bounds
+    } else {
+        if (any(!is.finite(population_bounds)))
+            stop("`population_bounds` must be a finite, numeric vector.")
+        if (!length(population_bounds))
+            stop("`population_bounds` must be of non-zero length.")
+        if (is.unsorted(population_bounds, na.rm = FALSE, strictly = TRUE))
+            stop("`population_bounds` must be in strictly ascending order")
+        if (population_bounds[1L] < 0)
+            stop("`population_bounds` must be non-negative.")
+    }
+
+    # population_weights check
+    if (is.null(population_weights)) {
+        population_weights <- double(length(population_bounds)) + 1
+    } else {
+        if(!is.numeric(population_weights))
+            stop("`population_weights` must be numeric.")
+        if (length(population_weights) != length(population_bounds))
+            stop("`population_weights` must be the same length as `population_bounds`.")
+    }
+
+    # Ensure bounds start at zero and adjust rates accordingly
+    if (bounds[1L] != 0) {
+        bounds <- c(0, bounds)
+        rates <- c(0, rates)
+    }
+
+    # Ensure new bounds start at zero
+    if (new_bounds[1L] != 0)
+        new_bounds <- c(0, new_bounds)
+
+    # Ensure population_bounds start at zero and adjust weights accordingly
+    if (population_bounds[1L] != 0) {
+        population_bounds <- c(0, population_bounds)
+        population_weights <- c(0, population_weights)
+    }
+
+    # check that we can actually give an answer
+    # TODO - what should this check be?
+    # e.g. if (max(population_bounds) < max(bounds))
+    #     stop("The maximum value of `bounds` must be less than or equal to that of `population_bounds`.")
+
+    # calculate the old and new upper bounds
+    # TODO - we could have the rest of this as an internal function in case useful elsewhere
+    # e.g. .reaggregate_rates(bounds, rates, new_bounds, population_bounds, population_weights)
+    old_upper <- c(bounds[-1L], Inf)
+    pop_upper <- c(population_bounds[-1L], Inf)
+    new_upper <- c(new_bounds[-1L], Inf)
+
+    # calculate the combined bounds
+    all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
+    all_upper <- c(all_lower[-1L], Inf)
+
+    # we need to keep track where the combined bits would fit in the old and
+    # new bounds. This information is stored in the old_container and
+    # new_container vectors respectively.
+    new_container <- old_container <- pop_container <- integer(length(all_upper))
+    new_index <- old_index <- pop_index <- 1L
+
+    for (i in seq_along(old_container)) {
+
+        old_index <- old_index + (all_upper[i] > old_upper[old_index])
+        pop_index <- pop_index + (all_upper[i] > pop_upper[pop_index])
+        new_index <- new_index + (all_upper[i] > new_upper[new_index])
+
+        old_container[i] <- old_index
+        pop_container[i] <- pop_index
+        new_container[i] <- new_index
+    }
+
+    # TODO - document this approach better
+    old_container_rates <- rates[old_container]
+    pop_container_counts <- population_weights[pop_container]
+    total_container_rates <-  old_container_rates * pop_container_counts
+    splits <- split(seq_along(new_container), new_container)
+    new_rates <- vapply(
+        splits,
+        function(x) {
+            num <- total_container_rates[x]
+            denom <- sum(pop_container_counts[x])
+            tmp <- num / denom
+            # TODO - check this is ok
+            tmp[denom == 0] <- 0
+            sum(tmp)
+        },
+        1
+    )
+
+    interval <- sprintf("[%.f, %.f)", new_bounds, new_upper)
+    interval <- factor(interval, levels = interval, ordered = TRUE)
+
+    list2DF(list(
+        interval = interval,
+        lower = new_bounds,
+        upper = new_upper,
+        rates = new_rates
+    ))
+}

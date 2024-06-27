@@ -29,7 +29,7 @@ SEXP aggregate_age_counts(SEXP counts, SEXP ages, SEXP breaks) {
 
     // coerce breaks to integer
     breaks = PROTECT(coerceVector(breaks, INTSXP)); protected++;
-
+    
     // Ensure breaks are not NA and are in strictly increasing order
     int* p_breaks = INTEGER(breaks);
     int brk = p_breaks[0];

@@ -10,3 +10,6 @@ artwork/*
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^compile_commands\.json$
+^\.cache$
+^.clangd$
