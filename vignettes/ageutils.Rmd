@@ -15,12 +15,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-ageutils provides a collection of functions for working with age intervals whose
-underlying implementations have been optimised for performance.
+ageutils provides a handful of functions for working with age intervals. These
+include:
 
-## `breaks_to_interval()`
+- `breaks_to_interval()`,
+- `cut_ages()`,
+- `reaggregate_counts`()`, and
+- `reaggregate_rates()`.
 
-`breaks_to_interval` provides a categorisation based on specified breaks which
+`breaks_to_interval()` provides a categorisation based on specified breaks which
 represent left-hand interval limits. The resultant groupings span from the
 minimum break through to a specified `max_upper` and will always be closed on
 the left and open on the right. As an example, if `breaks = c(0, 1, 10, 30)` the
@@ -58,58 +61,21 @@ str(x)
 head(x$interval)
 ```
 
-## `split_interval_counts()`
+
+## `reaggregate_counts()`
+
+`reaggregate`
 
 `split_interval_counts()` splits counts within a age interval in to counts for
 individuals years based on a given weighting. Age intervals are specified by
 their lower (closed) and upper (open) bounds, i.e. intervals of the form
 [lower, upper).
 
-```{r}
-# by default counts are split equally across ages within intervals
-split_interval_counts(
-    lower_bounds = c(0L, 5L, 10L),
-    upper_bounds = c(5L, 10L, 20L),
-    counts = c(5L, 10L, 30L)
-)
-
-# Population weightings to apply for individual years can be specified by
-# the weights argument. If these are specified, they must be of length
-# `max_upper` and represent weights in the range 0:(max_upper - 1).
-max_upper <- 20L
-weights <- integer(max_upper)
-weights[c(TRUE, FALSE)] <- 1L
-split_interval_counts(
-    lower_bounds = c(0L, 5L, 10L),
-    upper_bounds = c(5L, 10L, 20L),
-    counts = c(5L, 10L, 30L),
-    max_upper = max_upper,
-    weights <- weights
-)
-```
-
-## `aggregate_age_counts()`
-
 `aggregate_age_counts()` provides aggregation of counts across ages (in years).
 It is similar to a `cut()` and `tapply()` pattern but optimised for speed over
 flexibility. Groupings are the same as in `cut_ages()` and counts will
 be provided across all natural numbers as well as for missing values.
 
-```{r}
-# default ages generated as 0:(length(counts) - 1L) if only counts provided.
-aggregate_age_counts(counts = 1:65, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
-
-# NA ages are also handled with their own grouping
-ages <- 1:65
-ages[1:44] <- NA
-aggregate_age_counts(
-    counts = 1:65,
-    ages = ages,
-    breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L)
-)
-```
-
-## `reaggregate_interval_counts()`
 
 `reaggregate_interval_counts()` is equivalent to, but more efficient than a call
 to to `split_interval_counts()` followed by `aggregate_age_counts()`.

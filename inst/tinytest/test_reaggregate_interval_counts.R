@@ -64,3 +64,15 @@ expect_equal(
     ),
     expected
 )
+
+expect_warning(
+    reaggregate_interval_counts(
+        lower_bounds = lower_bounds,
+        upper_bounds = upper_bounds,
+        counts = counts,
+        breaks = breaks,
+        weights = weights,
+        max_upper = max_upper
+    ),
+    class = "deprecatedWarning"
+)

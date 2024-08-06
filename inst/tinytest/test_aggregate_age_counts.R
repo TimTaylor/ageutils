@@ -103,5 +103,8 @@ expect_error( aggregate_age_counts(1:10, breaks = "5") )
 
 
 # success
-expect_silent(aggregate_age_counts(1:10, rep.int(NA_integer_, 10L), breaks = 2L))
+expect_warning(
+    aggregate_age_counts(1:10, rep.int(NA_integer_, 10L), breaks = 2L),
+    class = "deprecatedWarning"
+)
 

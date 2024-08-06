@@ -5,7 +5,6 @@ interval <- sprintf("[%.f, %.f)", lower, upper)
 interval <- factor(interval, levels = interval, ordered = TRUE)
 expected <- data.frame(interval, lower_bound=lower, upper_bound=upper)
 expect_equal(breaks_to_interval(brks), expected)
-expect_identical(breaks_to_interval(brks), ageutils:::breaks_to_interval_r(brks))
 
 brks[1L] <- Inf
 expect_error(suppressWarnings(breaks_to_interval(brks)))

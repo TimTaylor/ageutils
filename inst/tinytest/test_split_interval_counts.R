@@ -219,3 +219,14 @@ expect_warning(
     "`upper_bounds` greater than `max_upper` (100) have been replaced prior to splitting.",
     fixed = TRUE
 )
+
+# check deprecation
+expect_warning(
+    split_interval_counts(
+        lower_bounds = c(1, 2, 1, 4),
+        upper_bounds = c(3, 3, 3, 6),
+        counts =       c(1, 1, 1, NA_real_)
+    ),
+    class = "deprecatedWarning"
+)
+

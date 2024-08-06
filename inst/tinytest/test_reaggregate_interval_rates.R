@@ -79,3 +79,13 @@ expected <- data.frame(
 )
 
 expect_equal(out[-1L], expected)
+
+expect_warning(
+    reaggregate_interval_rates(
+        lower_bounds = lower,
+        upper_bounds = upper,
+        rates = rates,
+        breaks = breaks
+    ),
+    class = "deprecatedWarning"
+)
