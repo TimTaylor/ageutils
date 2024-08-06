@@ -30,8 +30,8 @@
 #'
 #' A data frame with an ordered factor column (`interval`), as well as columns
 #' corresponding to the explicit bounds (`lower_bound` and `upper_bound`). Note
-#' these bounds are returned as `<numeric>` to allow the maximum upper bound to
-#' be `Inf`.
+#' that even those these bounds are whole numbers they are returned as
+#' `<numeric>` to allow the maximum upper bound to be given as `Inf`.
 #'
 # -------------------------------------------------------------------------
 #' @examples
@@ -41,18 +41,10 @@
 #'
 #' @export
 breaks_to_interval <- function(breaks, max_upper = Inf) {
-    .Call(C_breaks_to_interval, breaks, max_upper)
-}
-
-# -------------------------------------------------------------------------
-# R implementation for testing
-# -------------------------------------------------------------------------
-breaks_to_interval_r <- function(breaks, max_upper = Inf) {
-
-    # check breaks are numeric
-    .assert_numeric(breaks)
 
     # coerce breaks to integer
+    if (!is.numeric(breaks))
+        stop("`breaks` must be numeric.")
     breaks <- as.integer(breaks)
 
     # ensure valid
@@ -86,4 +78,3 @@ breaks_to_interval_r <- function(breaks, max_upper = Inf) {
     )
 
 }
-
