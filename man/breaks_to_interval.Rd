@@ -35,8 +35,11 @@ corresponding interval and upper bounds. The resulting intervals span from
 the minimum break through to a specified \code{max_upper}.
 }
 \examples{
-brks <- c(0L, 1L, 5L, 15L, 25L, 45L, 65L)
-breaks_to_interval(breaks = brks)
-breaks_to_interval(breaks = brks, max_upper = 100L)
+
+breaks_to_interval(breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+breaks_to_interval(
+    breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L),
+    max_upper = 100L
+)
 
 }

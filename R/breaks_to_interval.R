@@ -35,9 +35,12 @@
 #'
 # -------------------------------------------------------------------------
 #' @examples
-#' brks <- c(0L, 1L, 5L, 15L, 25L, 45L, 65L)
-#' breaks_to_interval(breaks = brks)
-#' breaks_to_interval(breaks = brks, max_upper = 100L)
+#'
+#' breaks_to_interval(breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+#' breaks_to_interval(
+#'     breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L),
+#'     max_upper = 100L
+#' )
 #'
 #' @export
 breaks_to_interval <- function(breaks, max_upper = Inf) {
@@ -56,7 +59,8 @@ breaks_to_interval <- function(breaks, max_upper = Inf) {
         stop("`breaks` must be in strictly increasing order.")
 
     # check max_upper
-    .assert_scalar_numeric_not_na(max_upper)
+    if (!is.numeric(max_upper) || length(max_upper) != 1L || is.na(max_upper))
+        stop("`max_upper` must be a numeric vector of length 1 and not NA.")
     if (max_upper <= max(breaks))
         stop("`max_upper` must be greater than all `breaks`.")
 
