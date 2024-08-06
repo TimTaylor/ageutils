@@ -57,3 +57,29 @@ corresponding \code{count}.
 \code{reaggregate_counts()} converts counts over one interval range to another
 with optional weighting by a known population.
 }
+\examples{
+
+# Reaggregating some data obtained from the 2021 UK census
+head(pop_dat)
+
+# Each row of the data is for the same region so we can drop some columns
+# `age_category` and `value` columns
+dat <- subset(pop_dat, select = c(age_category, value))
+
+# Add the lower bounds to the data
+dat <- transform(
+    dat,
+    lower_bound = as.integer(sub("\\\\[([0-9]+), .+)", "\\\\1", age_category))
+)
+
+# Now recategorise to the desired age intervals
+with(
+    dat,
+    reaggregate_counts(
+        bounds = lower_bound,
+        counts = value,
+        new_bounds = c(0L, 1L, 5L, 15L, 25L, 45L, 65L)
+    )
+)
+
+}
