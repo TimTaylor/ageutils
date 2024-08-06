@@ -14,7 +14,6 @@ expected <- data.frame(
 )
 
 expect_identical(cut_ages(dat, c(0L, limit)), expected)
-expect_identical(cut_ages(dat, c(0L, limit)), ageutils:::cut_ages_r(dat, c(0L, limit)))
 
 # multiple limits
 dat <- c(1:5, 99:102)
@@ -31,7 +30,6 @@ expected <- data.frame(
     upper_bound = upper_bound
 )
 expect_identical(cut_ages(dat, c(0L, limit)), expected)
-expect_identical(cut_ages(dat, c(0L, limit)), ageutils:::cut_ages_r(dat, c(0L, limit)))
 
 # multiple limits with ages below minimum errors
 dat <- c(1:5, 99:102)
@@ -72,7 +70,6 @@ expected <- data.frame(
     upper_bound = upper_bound
 )
 expect_identical(cut_ages(dat, c(0L, limits)), expected)
-expect_identical(cut_ages(dat, c(0L, limits)), ageutils:::cut_ages_r(dat, c(0L, limits)))
 
 # single age
 expected <- data.frame(
@@ -81,7 +78,6 @@ expected <- data.frame(
     upper_bound = 2
 )
 expect_identical(cut_ages(1,1,2), expected)
-expect_identical(cut_ages(1,1,2), ageutils:::cut_ages_r(1,1,2))
 
 # error messaging
 expect_error( cut_ages("bob") )
