@@ -17,22 +17,48 @@ reaggregate_rates(...)
 )
 }
 \arguments{
-\item{...}{Arguments passed to underlying methods}
+\item{...}{Further arguments passed to or from other methods.}
 
-\item{bounds}{\verb{[numeric]}}
+\item{bounds}{\verb{[numeric]}
 
-\item{rates}{\verb{[numeric]}}
+The \emph{current} boundaries in (strictly) increasing order.
 
-\item{new_bounds}{\verb{[numeric]}}
+These correspond to the left hand side of the intervals (e.g. the
+closed side of [x, y).
 
-\item{population_bounds}{\verb{[numeric]}}
+Double values are coerced to integer prior to categorisation.}
 
-\item{population_weights}{\verb{[numeric]}}
+\item{rates}{\verb{[numeric]}
+
+Vector of rates corresponding to the intervals defined by \code{bounds}.}
+
+\item{new_bounds}{\verb{[numeric]}
+
+The \emph{desired} boundaries in (strictly) increasing order.}
+
+\item{population_bounds}{\verb{[numeric]}
+
+Interval boundaries for a known population weighting given by the
+\code{population_weights} argument.}
+
+\item{population_weights}{\verb{[numeric]}
+
+Population weightings corresponding to \code{population_bounds}.
+
+Used to weight the output across the desired intervals.
+
+If \code{NULL} (default) rates are divided proportional to the interval sizes.}
+}
+\value{
+A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bound} and a
+corresponding \code{rate}.
 }
 \description{
-Reaggregate age rates
+\code{reaggregate_age_rates()} converts rates over one interval range to another
+with optional weighting by a known population.
 }
 \examples{
+
 reaggregate_rates(
     bounds = c(0, 5, 10),
     rates = c(0.1, 0.2 ,0.3),

@@ -1,17 +1,54 @@
+# -------------------------------------------------------------------------
 #' Reaggregate age counts
 #'
+# -------------------------------------------------------------------------
+#' `reaggregate_age_counts()` converts counts over one interval range to another
+#' with optional weighting by a known population.
+#'
+# -------------------------------------------------------------------------
 #' @param bounds `[numeric]`
+#'
+#' The *current* boundaries in (strictly) increasing order.
+#'
+#' These correspond to the left hand side of the intervals (e.g. the
+#' closed side of [x, y).
+#'
+#' Double values are coerced to integer prior to categorisation.
 #'
 #' @param counts `[numeric]`
 #'
+#' Vector of counts corresponding to the intervals defined by `bounds`.
+#'
 #' @param new_bounds `[numeric]`
+#'
+#' The *desired* boundaries in (strictly) increasing order.
+#'
+#' @param ... Further arguments passed to or from other methods.
 #'
 #' @param population_bounds  `[numeric]`
 #'
+#' Interval boundaries for a known population weighting given by the
+#' `population_weights` argument.
+#'
 #' @param population_weights `[numeric]`
 #'
-#' @param ... Arguments passed to underlying methods
+#' Population weightings corresponding to `population_bounds`.
 #'
+#' Used to weight the output across the desired intervals.
+#'
+#' If `NULL` (default), counts are divided proportional to the interval sizes.
+#'
+# -------------------------------------------------------------------------
+#' @return
+#'
+#' A data frame with 4 entries; `interval`, `lower_bound`, `upper_bound` and a
+#' corresponding `count`.
+#'
+# -------------------------------------------------------------------------
+#' @examples
+#'
+#'
+# -------------------------------------------------------------------------
 #' @export
 reaggregate_counts <- function(...) {
     UseMethod("reaggregate_counts")
@@ -91,7 +128,7 @@ reaggregate_counts.default <- function(
         if (new_bounds[length(new_bounds)] > bounds[length(bounds)]) {
             # This approach due to eventual translation
             stop(paste(
-                "Where the maximum `new_bound` is greater than the maximum `old_bounds`,",
+                "Where the maximum `new_bound` is greater than the maximum `bounds`,",
                 "you must specify explicit `population_bounds` and `population_weights`."
             ))
         }
@@ -168,7 +205,7 @@ reaggregate_counts.default <- function(
         interval = interval,
         lower = new_bounds,
         upper = new_upper,
-        counts = out
+        count = out
     ))
 
 }
