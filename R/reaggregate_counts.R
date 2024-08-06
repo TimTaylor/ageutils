@@ -2,7 +2,7 @@
 #' Reaggregate age counts
 #'
 # -------------------------------------------------------------------------
-#' `reaggregate_age_counts()` converts counts over one interval range to another
+#' `reaggregate_counts()` converts counts over one interval range to another
 #' with optional weighting by a known population.
 #'
 # -------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 #' Reaggregate age rates
 #'
 # -------------------------------------------------------------------------
-#' `reaggregate_age_rates()` converts rates over one interval range to another
+#' `reaggregate_rates()` converts rates over one interval range to another
 #' with optional weighting by a known population.
 #'
 # -------------------------------------------------------------------------

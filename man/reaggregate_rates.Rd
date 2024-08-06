@@ -54,7 +54,7 @@ A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bo
 corresponding \code{rate}.
 }
 \description{
-\code{reaggregate_age_rates()} converts rates over one interval range to another
+\code{reaggregate_rates()} converts rates over one interval range to another
 with optional weighting by a known population.
 }
 \examples{

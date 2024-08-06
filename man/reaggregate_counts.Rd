@@ -54,6 +54,6 @@ A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bo
 corresponding \code{count}.
 }
 \description{
-\code{reaggregate_age_counts()} converts counts over one interval range to another
+\code{reaggregate_counts()} converts counts over one interval range to another
 with optional weighting by a known population.
 }
