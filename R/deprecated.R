@@ -121,11 +121,15 @@ reaggregate_interval_rates <- function(
     weights = NULL
 ){
 
-    .Deprecated(msg = paste(
-        "reaggregate_interval_rates() was deprecated in the 0.0.5 release of",
-        "ageutils and may be removed in a future release.",
-        "Going forward please use the function reaggregate_rates()."
-    ))
+    .Deprecated(
+        new = "reaggregate_rates",
+        package = "ageutils",
+        msg = paste(
+            "reaggregate_interval_rates() was deprecated in the 0.0.5 release",
+            "of ageutils and may be removed in a future release.",
+            "Going forward please use the function reaggregate_rates()."
+        )
+    )
 
     # For consistency with other C implementations set a MAXBOUND
     .MAXBOUND = 2000L
@@ -368,11 +372,15 @@ reaggregate_interval_counts <- function(
     max_upper = 100L,
     weights = NULL
 ) {
-    .Deprecated(msg = paste(
-        "reaggregate_interval_counts() was deprecated in the 0.0.5 release of",
-        "ageutils and may be removed in a future release.",
-        "Going forward please use the function reaggregate_counts()."
-    ))
+    .Deprecated(
+        new = "reaggregate_counts",
+        package = "ageutils",
+        msg = paste(
+            "reaggregate_interval_counts() was deprecated in the 0.0.5 release",
+            "of ageutils and may be removed in a future release.",
+            "Going forward please use the function reaggregate_counts()."
+        )
+    )
 
     # Temporary patch for https://github.com/TimTaylor/ageutils/issues/5
     # TODO - Improve this before 0.1 release.
@@ -490,10 +498,12 @@ split_interval_counts <- function(
     max_upper = 100L,
     weights = NULL
 ) {
-    .Deprecated(msg = paste(
-        "split_interval_counts() was deprecated in the 0.0.5 release of",
-        "ageutils and may be removed in a future release."
-    ))
+    .Deprecated(
+        msg = paste(
+            "split_interval_counts() was deprecated in the 0.0.5 release of",
+            "ageutils and may be removed in a future release."
+        )
+    )
     .Call(C_split_interval_counts, lower_bounds, upper_bounds, counts, max_upper, weights)
 }
 
@@ -584,10 +594,14 @@ aggregate_age_counts <- function(
         breaks
 ) {
 
-    .Deprecated(msg = paste(
-        "aggregate_age_counts() was deprecated in the 0.0.5 release of",
-        "ageutils and may be removed in a future release."
-    ))
+    .Deprecated(
+        new = "reaggregate_counts",
+        package = "ageutils",
+        msg = paste(
+            "aggregate_age_counts() was deprecated in the 0.0.5 release of",
+            "ageutils and may be removed in a future release."
+        )
+    )
     .Call(C_aggregate_age_counts, counts, ages, breaks)
 }
 
