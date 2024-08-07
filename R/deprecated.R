@@ -105,6 +105,7 @@ NULL
 #'
 # -------------------------------------------------------------------------
 #' @name reaggregate_interval_rates-deprecated
+#' @keywords internal
 NULL
 
 #' @rdname ageutils-deprecated
