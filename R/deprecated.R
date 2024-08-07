@@ -22,6 +22,8 @@ NULL
 # -------------------------------------------------------------------------
 #' @description
 #'
+#' DEPRECATED: Please use `reaggregate_rates()` as an alternative.
+#'
 #' `reaggregate_interval_rates()` enables the reweighting of interval rates in
 #' to different intervals ranges. It first replicates the rates of a given
 #' age interval into the individual years of said interval. These are then
@@ -121,7 +123,7 @@ reaggregate_interval_rates <- function(
 
     .Deprecated(msg = paste(
         "reaggregate_interval_rates() was deprecated in the 0.0.5 release of",
-        "ageutils and will be removed in a future release.",
+        "ageutils and may be removed in a future release.",
         "Going forward please use the function reaggregate_rates()."
     ))
 
@@ -268,6 +270,8 @@ reaggregate_interval_rates <- function(
 # -------------------------------------------------------------------------
 #' @description
 #'
+#' DEPRECATED: Please use `reaggregate_counts()` as an alternative.
+#'
 #' `reaggregate_interval_counts()` converts counts over one interval range to
 #' another. It first splits counts of a given age interval in to counts for
 #' individual years based on a given weighting. These are then aggregated to the
@@ -366,7 +370,7 @@ reaggregate_interval_counts <- function(
 ) {
     .Deprecated(msg = paste(
         "reaggregate_interval_counts() was deprecated in the 0.0.5 release of",
-        "ageutils and will be removed in a future release.",
+        "ageutils and may be removed in a future release.",
         "Going forward please use the function reaggregate_counts()."
     ))
 
@@ -390,6 +394,8 @@ reaggregate_interval_counts <- function(
 #'
 # -------------------------------------------------------------------------
 #' @description
+#'
+#' DEPRECATED.
 #'
 #' `split_interval_counts()` splits counts of a given age interval in to
 #' counts for individual years based on a given weighting. Age intervals are
@@ -486,7 +492,7 @@ split_interval_counts <- function(
 ) {
     .Deprecated(msg = paste(
         "split_interval_counts() was deprecated in the 0.0.5 release of",
-        "ageutils and will be removed in a future release."
+        "ageutils and may be removed in a future release."
     ))
     .Call(C_split_interval_counts, lower_bounds, upper_bounds, counts, max_upper, weights)
 }
@@ -498,6 +504,8 @@ split_interval_counts <- function(
 #'
 # -------------------------------------------------------------------------
 #' @description
+#'
+#' DEPRECATED: `reaggregate_counts()` can be used as an alternative.
 #'
 #' `aggregate_age_counts()` provides aggregation of counts across ages (in
 #' years). It is similar to a `cut()` and `tapply()` pattern but optimised for
@@ -578,7 +586,7 @@ aggregate_age_counts <- function(
 
     .Deprecated(msg = paste(
         "aggregate_age_counts() was deprecated in the 0.0.5 release of",
-        "ageutils and will be removed in a future release."
+        "ageutils and may be removed in a future release."
     ))
     .Call(C_aggregate_age_counts, counts, ages, breaks)
 }
@@ -689,32 +697,3 @@ split_interval_counts_r <- function(
 
     list2DF(list(age=age, count=count))
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

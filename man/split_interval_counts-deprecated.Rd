@@ -50,6 +50,8 @@ range 0:(max_upper - 1).}
 A data frame with entries \code{age} (in years) and \code{count}.
 }
 \description{
+DEPRECATED.
+
 \code{split_interval_counts()} splits counts of a given age interval in to
 counts for individual years based on a given weighting. Age intervals are
 specified by their lower (closed) and upper (open) bounds, i.e. intervals

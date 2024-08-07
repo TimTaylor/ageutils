@@ -57,6 +57,8 @@ A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bo
 associated \code{count}.
 }
 \description{
+DEPRECATED. Please use \code{reaggregate_rates()} as an alternative.
+
 \code{reaggregate_interval_rates()} enables the reweighting of interval rates in
 to different intervals ranges. It first replicates the rates of a given
 age interval into the individual years of said interval. These are then

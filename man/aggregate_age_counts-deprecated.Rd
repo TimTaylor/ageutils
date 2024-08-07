@@ -40,6 +40,8 @@ A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bo
 associated \code{count}.
 }
 \description{
+DEPRECATED. \code{reaggregate_counts()} can be used as an alternative.
+
 \code{aggregate_age_counts()} provides aggregation of counts across ages (in
 years). It is similar to a \code{cut()} and \code{tapply()} pattern but optimised for
 speed over flexibility. It takes a specified set of breaks representing the
