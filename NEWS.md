@@ -3,7 +3,7 @@
 * Adds new functions `reaggregate_counts()` and `reaggregate_rates()` which
   provide a simplified API for reaggregation compared to
   `reaggregate_interval_counts()` and `reaggregate_interval_rates()`. These
-  use an elegant approach to reaggregation sugggested by @BlackEdder.
+  use an elegant approach to reaggregation suggested by @BlackEdder.
   
 * Deprecates the following functions:
       - `aggregate_age_counts()`
