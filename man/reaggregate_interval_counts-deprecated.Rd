@@ -61,7 +61,7 @@ A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bo
 associated \code{count}.
 }
 \description{
-DEPRECATED. Please use \code{reaggregate_counts()} as an alternative.
+DEPRECATED: Please use \code{reaggregate_counts()} as an alternative.
 
 \code{reaggregate_interval_counts()} converts counts over one interval range to
 another. It first splits counts of a given age interval in to counts for
