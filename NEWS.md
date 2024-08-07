@@ -1,5 +1,24 @@
 # ageutils (development version)
 
+* Adds new functions `reaggregate_counts()` and `reaggregate_rates()` which
+  provide a simplified API for reaggregation compared to
+  `reaggregate_interval_counts()` and `reaggregate_interval_rates()`. These
+  use an elegant approach to reaggregation sugggested by @BlackEdder.
+  
+* Deprecates the following functions:
+      - `aggregate_age_counts()`
+      - `reaggregate_interval_counts()`
+      - `reaggregate_interval_rates`
+      - `split_interval_counts()`
+  
+  The use of these could be a little confusing and it was hard to achieve
+  consistency with their APIs. `reaggregate_counts()` and `reaggregate_rates()`
+  can be used to replicate most of the old functionality.
+  
+  These functions continue to work but will now signal a warning of class
+  "deprecatedWarning".
+      
+
 # ageutils 0.0.4
 
 * Fixes an error in `reaggregate_interval_rates()` which caused the first entry
