@@ -86,6 +86,10 @@ reaggregate_counts.default <- function(
     population_bounds = NULL,
     population_weights = NULL
 ) {
+
+    if (...length())
+        stop("`...` should be empty. Did you mistype or fail to name an optional argument?")
+
     # lower bounds checks
     if (any(!is.finite(bounds)))
         stop("`bounds` must be a finite, numeric vector.")
