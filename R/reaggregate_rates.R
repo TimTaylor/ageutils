@@ -72,6 +72,10 @@ reaggregate_rates.default <- function(
     population_weights = NULL
 ) {
 
+    if (...length())
+        stop("`...` should be empty. Did you mistype or fail to name an optional argument?")
+
+
     # lower bounds checks
     if (any(!is.finite(bounds)))
         stop("`bounds` must be a finite, numeric vector.")
@@ -115,13 +119,13 @@ reaggregate_rates.default <- function(
     }
 
     # population_weights check
-    if (is.null(population_weights)) {
-        population_weights <- double(length(population_bounds)) + 1
-    } else {
-        if(!is.numeric(population_weights))
-            stop("`population_weights` must be numeric.")
+    if (!is.null(population_weights)) {
+        if (any(!is.finite(population_weights)) || any(population_weights < 0))
+            stop("`population_weights` must be numeric, non-negative and finite.")
         if (length(population_weights) != length(population_bounds))
             stop("`population_weights` must be the same length as `population_bounds`.")
+        if (sum(population_weights) == 0)
+            stop("At least one `population_weight` must be non-zero.")
     }
 
     # Ensure bounds start at zero and adjust rates accordingly
@@ -137,7 +141,8 @@ reaggregate_rates.default <- function(
     # Ensure population_bounds start at zero and adjust weights accordingly
     if (population_bounds[1L] != 0) {
         population_bounds <- c(0, population_bounds)
-        population_weights <- c(0, population_weights)
+        if (!is.null(population_weights))
+            population_weights <- c(0, population_weights)
     }
 
     # check that we can actually give an answer
@@ -156,6 +161,9 @@ reaggregate_rates.default <- function(
     all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
     all_upper <- c(all_lower[-1L], Inf)
 
+    if (is.null(population_weights))
+        population_weights <- pop_upper - population_bounds
+
     # we need to keep track where the combined bits would fit in the old and
     # new bounds. This information is stored in the old_container and
     # new_container vectors respectively.
@@ -165,31 +173,38 @@ reaggregate_rates.default <- function(
     for (i in seq_along(old_container)) {
 
         old_index <- old_index + (all_upper[i] > old_upper[old_index])
-        pop_index <- pop_index + (all_upper[i] > pop_upper[pop_index])
         new_index <- new_index + (all_upper[i] > new_upper[new_index])
+        pop_index <- pop_index + (all_upper[i] > pop_upper[pop_index])
 
         old_container[i] <- old_index
-        pop_container[i] <- pop_index
         new_container[i] <- new_index
+        pop_container[i] <- pop_index
     }
+    pop_weights <- population_weights[pop_container]
+    pop_weights <- pop_weights * (all_upper - all_lower) / (pop_upper[pop_container] - population_bounds[pop_container])
+    pop_weights[length(pop_weights)] <- 0
 
-    # TODO - document this approach better
-    old_container_rates <- rates[old_container]
-    pop_container_counts <- population_weights[pop_container]
-    total_container_rates <-  old_container_rates * pop_container_counts
-    splits <- split(seq_along(new_container), new_container)
-    new_rates <- vapply(
-        splits,
+    # now normalise across the new container
+    new_container_weighting <- split(pop_weights, new_container)
+    new_container_weighting <- lapply(
+        new_container_weighting,
         function(x) {
-            num <- total_container_rates[x]
-            denom <- sum(pop_container_counts[x])
-            tmp <- num / denom
-            # TODO - check this is ok
-            tmp[denom == 0] <- 0
-            sum(tmp)
-        },
-        1
+            if (sum(x) == 0)
+                x <- x + 1L
+            x <- x / sum(x)
+            x
+        }
     )
+    new_container_weighting <- unlist(new_container_weighting)
+
+    result <- rates[old_container] * new_container_weighting
+    out <- numeric(length(new_bounds))
+    idx <- 1L
+    for (i in seq_along(new_container)) {
+        if (new_container[i] != idx)
+            idx <- idx + 1L
+        out[idx] <- out[idx] + result[i]
+    }
 
     interval <- sprintf("[%.f, %.f)", new_bounds, new_upper)
     interval <- factor(interval, levels = interval, ordered = TRUE)
@@ -198,6 +213,6 @@ reaggregate_rates.default <- function(
         interval = interval,
         lower = new_bounds,
         upper = new_upper,
-        rate = new_rates
+        rate = out
     ))
 }
