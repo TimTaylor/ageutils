@@ -3,8 +3,10 @@ lower <- c(-55,0,10,1000)
 upper <- c(0,10,1000,Inf)
 interval <- sprintf("[%.f, %.f)", lower, upper)
 interval <- factor(interval, levels = interval, ordered = TRUE)
-expected <- data.frame(interval, lower_bound=lower, upper_bound=upper)
+expected <- tibble::tibble(interval, lower_bound=lower, upper_bound=upper)
 expect_equal(breaks_to_interval(brks), expected)
+expect_equal(breaks_to_interval(brks), expected)
+expect_equal(tibble::validate_tibble(breaks_to_interval(brks)), expected)
 
 brks[1L] <- Inf
 expect_error(suppressWarnings(breaks_to_interval(brks)))
@@ -34,9 +36,10 @@ expect_error(breaks_to_interval(1, NA_real_))
 expect_error(breaks_to_interval(1, 1))
 
 # single breaks
-expected <- data.frame(
+expected <- tibble::tibble(
     interval = factor("[1, 2)", levels = "[1, 2)", ordered = TRUE),
     lower_bound = 1,
     upper_bound = 2
 )
-expect_identical(breaks_to_interval(1,2), expected)
+expect_identical(breaks_to_interval(1, 2), expected)
+expect_equal(tibble::validate_tibble(breaks_to_interval(1, 2)), expected)

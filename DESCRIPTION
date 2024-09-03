@@ -36,3 +36,6 @@ LazyData: true
 URL: https://timtaylor.github.io/ageutils/
 BugReports: https://github.com/TimTaylor/ageutils/issues
 Config/build/compilation-database: true
+Imports: 
+    cli,
+    tibble
