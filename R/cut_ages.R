@@ -61,5 +61,6 @@
 # -------------------------------------------------------------------------
 #' @export
 cut_ages <- function(ages, breaks, max_upper = Inf) {
-    .Call(C_cut_ages, ages, breaks, max_upper)
+    dat <- .Call(C_cut_ages, ages, breaks, max_upper)
+    new_tibble(dat)
 }
