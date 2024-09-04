@@ -92,58 +92,88 @@ reaggregate_counts.default <- function(
     # lower bounds checks
     if (any(!is.finite(bounds)))
         cli_abort("{.arg bounds} must be a finite, numeric vector.")
+
     if (!length(bounds))
         cli_abort("{.arg bounds} must be of non-zero length.")
+
     if (is.unsorted(bounds, na.rm = FALSE, strictly = TRUE))
         cli_abort("{.arg bounds} must be in strictly ascending order")
+
     if (bounds[1L] < 0)
         cli_abort("{.arg bounds} must be non-negative.")
 
     # rates checks
     if(!is.numeric(counts))
         cli_abort("{.arg counts} must be numeric.")
+
     if (length(counts) != length(bounds))
         cli_abort("{.arg counts} must be the same length as `bounds`.")
 
     # new bounds checks
     if (any(!is.finite(new_bounds)))
         cli_abort("{.arg new_bounds} must be a finite, numeric vector.")
+
     if (!length(new_bounds))
         cli_abort("{.arg new_bounds} must be of non-zero length.")
+
     if (is.unsorted(new_bounds, na.rm = FALSE, strictly = TRUE))
         cli_abort("{.arg new_bounds} must be in strictly ascending order")
+
     if (new_bounds[1L] < 0)
         cli_abort("{.arg new_bounds} must be non-negative.")
 
     # population bounds checks
     if (is.null(population_bounds)) {
-        if (!is.null(population_weights))
-            cli_abort("{.arg population_weights} require specification of {.arg population_bounds}.")
 
-        if (max(bounds) < max(new_bounds))
-            cli_abort("The maximum value of {.arg new_bounds} must be less than or equal to that of {.arg bounds}.")
+        if (!is.null(population_weights)) {
+            cli_abort(
+                "{.arg population_weights} require specification of {.arg population_bounds}."
+            )
+        }
+
+        if (max(bounds) < max(new_bounds)) {
+            cli_abort(
+                "Where {.arg population_bounds} are not specified the maximum value of
+                {.arg new_bounds} must be less than or equal to that of {.arg bounds}."
+            )
+        }
 
         population_bounds <- new_bounds
+
     } else {
+
         if (any(!is.finite(population_bounds)))
             cli_abort("{.arg population_bounds} must be a finite, numeric vector.")
+
         if (!length(population_bounds))
             cli_abort("{.arg population_bounds} must be of non-zero length.")
+
         if (is.unsorted(population_bounds, na.rm = FALSE, strictly = TRUE))
             cli_abort("{.arg population_bounds} must be in strictly ascending order")
+
         if (population_bounds[1L] < 0)
             cli_abort("{.arg population_bounds} must be non-negative.")
 
-        if (max(bounds) < max(population_bounds))
-            cli_abort("The maximum value of {.arg bounds} must be less than or equal to that of {.arg population_bounds}.")
+        if (max(bounds) < max(population_bounds)) {
+            cli_abort(
+                "The maximum value of {.arg bounds} must be less than or equal
+                to that of {.arg population_bounds}."
+            )
+        }
+
     }
 
     # population_weights check
     if (!is.null(population_weights)) {
+
         if (any(!is.finite(population_weights)) || any(population_weights < 0))
             cli_abort("{.arg population_weights} must be numeric, non-negative and finite.")
+
         if (length(population_weights) != length(population_bounds))
-            cli_abort("{.arg population_weights} must be the same length as `population_bounds`.")
+            cli_abort(
+                "{.arg population_weights} must be the same length as `population_bounds`."
+            )
+
         if (sum(population_weights) == 0)
             cli_abort("At least one {.arg population_weight} must be non-zero.")
     }
@@ -174,9 +204,6 @@ reaggregate_counts.default <- function(
     all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
     all_upper <- c(all_lower[-1L], Inf)
 
-    if (is.null(population_weights))
-        population_weights <- pop_upper - population_bounds
-
     # we need to keep track where the combined bits would fit in the old and
     # new bounds. This information is stored in the old_container and
     # new_container vectors respectively.
@@ -192,10 +219,16 @@ reaggregate_counts.default <- function(
         new_container[i] <- new_index
         pop_container[i] <- pop_index
     }
-    pop_weights <- population_weights[pop_container]
-    pop_weights <- pop_weights * (all_upper - all_lower) / (new_upper[new_container] - new_bounds[new_container])
-    pop_weights <- pop_weights / ave(pop_weights, old_container, FUN=sum)
+
+    if (is.null(population_weights)) {
+        pop_weights <- all_upper - all_lower
+    } else {
+        pop_weights <- population_weights[pop_container]
+        pop_weights <- pop_weights * (all_upper - all_lower) / (new_upper[new_container] - new_bounds[new_container])
+    }
+    pop_weights <- pop_weights / ave(pop_weights, old_container, FUN = sum)
     result <- counts[old_container] * pop_weights
+    result[length(result)] <- sum(counts) - sum(result[-length(result)])
 
     out <- numeric(length(new_bounds))
     idx <- 1L

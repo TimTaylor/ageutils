@@ -102,18 +102,32 @@ reaggregate_rates.default <- function(
 
     # population bounds checks
     if (is.null(population_bounds)) {
+
         if (!is.null(population_weights))
             cli_abort("{.arg population_weights} require specification of {.arg population_bounds}.")
+
         population_bounds <- new_bounds
+
     } else {
+
         if (any(!is.finite(population_bounds)))
             cli_abort("{.arg population_bounds} must be a finite, numeric vector.")
+
         if (!length(population_bounds))
             cli_abort("{.arg population_bounds} must be of non-zero length.")
+
         if (is.unsorted(population_bounds, na.rm = FALSE, strictly = TRUE))
             cli_abort("{.arg population_bounds} must be in strictly ascending order")
+
         if (population_bounds[1L] < 0)
             cli_abort("{.arg population_bounds} must be non-negative.")
+
+        if (max(population_bounds) < max(new_bounds)) {
+            cli_abort(
+                "{.arg new_bounds} must be less than or equal to that of {.arg population bounds}."
+            )
+        }
+
     }
 
     # population_weights check
@@ -142,14 +156,6 @@ reaggregate_rates.default <- function(
         if (!is.null(population_weights))
             population_weights <- c(0, population_weights)
     }
-
-    # check that we can actually give an answer
-    # NOTE: As we know the bounds are sorted then we could do
-    #       (new_bounds[length(new_bounds)] < bounds[length(bounds)]) and maybe
-    #       gain a marginal performance increase at the cost of readability.
-
-    if (max(new_bounds) < max(bounds))
-         cli_abort("The maximum value of {.arg bounds} must be less than or equal to that of {.arg new_bounds}.")
 
     # calculate the old and new upper bounds
     old_upper <- c(bounds[-1L], Inf)
@@ -181,9 +187,9 @@ reaggregate_rates.default <- function(
     pop_weights <- population_weights[pop_container]
     pop_weights <- pop_weights * (all_upper - all_lower) / (new_upper[new_container] - new_bounds[new_container])
     pop_weights[length(pop_weights)] <- 1
-    pop_weights <- pop_weights / ave(pop_weights, new_container, FUN=sum)
-
+    pop_weights <- pop_weights / ave(pop_weights, new_container, FUN = sum)
     result <- rates[old_container] * pop_weights
+
     out <- numeric(length(new_bounds))
     idx <- 1L
     for (i in seq_along(new_container)) {
