@@ -144,8 +144,12 @@ reaggregate_rates.default <- function(
     }
 
     # check that we can actually give an answer
+    # NOTE: As we know the bounds are sorted then we could do
+    #       (new_bounds[length(new_bounds)] < bounds[length(bounds)]) and maybe
+    #       gain a marginal performance increase at the cost of readability.
+
     if (max(new_bounds) < max(bounds))
-         cli_abort("The maximum value of {.arg bounds} must be less than or equal to that of {.arg population_bounds}.")
+         cli_abort("The maximum value of {.arg bounds} must be less than or equal to that of {.arg new_bounds}.")
 
     # calculate the old and new upper bounds
     old_upper <- c(bounds[-1L], Inf)
