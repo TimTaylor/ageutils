@@ -38,4 +38,6 @@ BugReports: https://github.com/TimTaylor/ageutils/issues
 Config/build/compilation-database: true
 Imports: 
     cli,
+    rlang,
+    stats,
     tibble

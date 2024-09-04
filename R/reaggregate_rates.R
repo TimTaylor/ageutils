@@ -72,60 +72,58 @@ reaggregate_rates.default <- function(
     population_weights = NULL
 ) {
 
-    if (...length())
-        stop("`...` should be empty. Did you mistype or fail to name an optional argument?")
-
+    check_dots_empty0(...)
 
     # lower bounds checks
     if (any(!is.finite(bounds)))
-        stop("`bounds` must be a finite, numeric vector.")
+        cli_abort("{.arg bounds} must be a finite, numeric vector.")
     if (!length(bounds))
-        stop("`bounds` must be of non-zero length.")
+        cli_abort("{.arg bounds} must be of non-zero length.")
     if (is.unsorted(bounds, na.rm = FALSE, strictly = TRUE))
-        stop("`bounds` must be in strictly ascending order")
+        cli_abort("{.arg bounds} must be in strictly ascending order")
     if (bounds[1L] < 0)
-        stop("`bounds` must be non-negative.")
+        cli_abort("{.arg bounds} must be non-negative.")
 
     # rates checks
     if(!is.numeric(rates))
-        stop("`rates` must be numeric.")
+        cli_abort("{.arg rates} must be numeric.")
     if (length(rates) != length(bounds))
-        stop("`rates` must be the same length as `bounds`.")
+        cli_abort("{.arg rates} must be the same length as `bounds`.")
 
     # new bounds checks
     if (any(!is.finite(new_bounds)))
-        stop("`new_bounds` must be a finite, numeric vector.")
+        cli_abort("{.arg new_bounds} must be a finite, numeric vector.")
     if (!length(new_bounds))
-        stop("`new_bounds` must be of non-zero length.")
+        cli_abort("{.arg new_bounds} must be of non-zero length.")
     if (is.unsorted(new_bounds, na.rm = FALSE, strictly = TRUE))
-        stop("`new_bounds` must be in strictly ascending order")
+        cli_abort("{.arg new_bounds} must be in strictly ascending order")
     if (new_bounds[1L] < 0)
-        stop("`new` must be non-negative.")
+        cli_abort("{.arg new_bounds} must be non-negative.")
 
     # population bounds checks
     if (is.null(population_bounds)) {
         if (!is.null(population_weights))
-            stop("`population_weights` require specification of `population_bounds`.")
+            cli_abort("{.arg population_weights} require specification of {.arg population_bounds}.")
         population_bounds <- new_bounds
     } else {
         if (any(!is.finite(population_bounds)))
-            stop("`population_bounds` must be a finite, numeric vector.")
+            cli_abort("{.arg population_bounds} must be a finite, numeric vector.")
         if (!length(population_bounds))
-            stop("`population_bounds` must be of non-zero length.")
+            cli_abort("{.arg population_bounds} must be of non-zero length.")
         if (is.unsorted(population_bounds, na.rm = FALSE, strictly = TRUE))
-            stop("`population_bounds` must be in strictly ascending order")
+            cli_abort("{.arg population_bounds} must be in strictly ascending order")
         if (population_bounds[1L] < 0)
-            stop("`population_bounds` must be non-negative.")
+            cli_abort("{.arg population_bounds} must be non-negative.")
     }
 
     # population_weights check
     if (!is.null(population_weights)) {
         if (any(!is.finite(population_weights)) || any(population_weights < 0))
-            stop("`population_weights` must be numeric, non-negative and finite.")
+            cli_abort("{.arg population_weights} must be numeric, non-negative and finite.")
         if (length(population_weights) != length(population_bounds))
-            stop("`population_weights` must be the same length as `population_bounds`.")
+            cli_abort("{.arg population_weights} must be the same length as `population_bounds`.")
         if (sum(population_weights) == 0)
-            stop("At least one `population_weight` must be non-zero.")
+            cli_abort("At least one {.arg population_weight} must be non-zero.")
     }
 
     # Ensure bounds start at zero and adjust rates accordingly
@@ -146,13 +144,10 @@ reaggregate_rates.default <- function(
     }
 
     # check that we can actually give an answer
-    # TODO - what should this check be?
-    # e.g. if (max(population_bounds) < max(bounds))
-    #     stop("The maximum value of `bounds` must be less than or equal to that of `population_bounds`.")
+    if (max(new_bounds) < max(bounds))
+         cli_abort("The maximum value of {.arg bounds} must be less than or equal to that of {.arg population_bounds}.")
 
     # calculate the old and new upper bounds
-    # TODO - we could have the rest of this as an internal function in case useful elsewhere
-    # e.g. .reaggregate_rates(bounds, rates, new_bounds, population_bounds, population_weights)
     old_upper <- c(bounds[-1L], Inf)
     pop_upper <- c(population_bounds[-1L], Inf)
     new_upper <- c(new_bounds[-1L], Inf)
@@ -171,7 +166,6 @@ reaggregate_rates.default <- function(
     new_index <- old_index <- pop_index <- 1L
 
     for (i in seq_along(old_container)) {
-
         old_index <- old_index + (all_upper[i] > old_upper[old_index])
         new_index <- new_index + (all_upper[i] > new_upper[new_index])
         pop_index <- pop_index + (all_upper[i] > pop_upper[pop_index])
@@ -181,23 +175,11 @@ reaggregate_rates.default <- function(
         pop_container[i] <- pop_index
     }
     pop_weights <- population_weights[pop_container]
-    pop_weights <- pop_weights * (all_upper - all_lower) / (pop_upper[pop_container] - population_bounds[pop_container])
-    pop_weights[length(pop_weights)] <- 0
+    pop_weights <- pop_weights * (all_upper - all_lower) / (new_upper[new_container] - new_bounds[new_container])
+    pop_weights[length(pop_weights)] <- 1
+    pop_weights <- pop_weights / ave(pop_weights, new_container, FUN=sum)
 
-    # now normalise across the new container
-    new_container_weighting <- split(pop_weights, new_container)
-    new_container_weighting <- lapply(
-        new_container_weighting,
-        function(x) {
-            if (sum(x) == 0)
-                x <- x + 1L
-            x <- x / sum(x)
-            x
-        }
-    )
-    new_container_weighting <- unlist(new_container_weighting)
-
-    result <- rates[old_container] * new_container_weighting
+    result <- rates[old_container] * pop_weights
     out <- numeric(length(new_bounds))
     idx <- 1L
     for (i in seq_along(new_container)) {
@@ -209,10 +191,13 @@ reaggregate_rates.default <- function(
     interval <- sprintf("[%.f, %.f)", new_bounds, new_upper)
     interval <- factor(interval, levels = interval, ordered = TRUE)
 
-    list2DF(list(
-        interval = interval,
-        lower = new_bounds,
-        upper = new_upper,
-        rate = out
-    ))
+    new_tibble(
+        list(
+            interval = interval,
+            lower = new_bounds,
+            upper = new_upper,
+            rate = out
+        )
+    )
+
 }
