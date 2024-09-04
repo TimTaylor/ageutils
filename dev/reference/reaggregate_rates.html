@@ -110,11 +110,13 @@ corresponding <code>rate</code>.</p>
 <span class="r-in"><span>    population_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">10</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    population_weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">50</span>, <span class="fl">150</span>, <span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower upper rate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    [0, 2)     0     2 0.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [2, 7)     2     7 0.12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   [7, 10)     7    10 0.20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 [10, Inf)    10   Inf 0.30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   interval  lower upper  rate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> [0, 2)        0     2 0.1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> [2, 7)        2     7 0.114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> [7, 10)       7    10 0.2  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> [10, Inf)    10   <span style="color: #BB0000;">Inf</span> 0.3  </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

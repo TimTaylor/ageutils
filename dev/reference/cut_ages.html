@@ -90,62 +90,70 @@ corresponding to the explicit bounds (<code>lower_bound</code> and <code>upper_b
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">9</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">3L</span>, <span class="fl">5L</span>, <span class="fl">10L</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    [0, 3)           0           3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [0, 3)           0           3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    [0, 3)           0           3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    [3, 5)           3           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    [3, 5)           3           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   [5, 10)           5          10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   [5, 10)           5          10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   [5, 10)           5          10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   [5, 10)           5          10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  [5, 10)           5          10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> [0, 3)             0           3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> [0, 3)             0           3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> [0, 3)             0           3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> [3, 5)             3           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> [3, 5)             3           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> [5, 10)            5          10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> [5, 10)            5          10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> [5, 10)            5          10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> [5, 10)            5          10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> [5, 10)            5          10</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">9</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">5L</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    [0, 5)           0           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [0, 5)           0           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    [0, 5)           0           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    [0, 5)           0           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    [0, 5)           0           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  [5, Inf)           5         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  [5, Inf)           5         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  [5, Inf)           5         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  [5, Inf)           5         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 [5, Inf)           5         Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> [0, 5)             0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> [0, 5)             0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> [0, 5)             0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> [0, 5)             0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> [0, 5)             0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> [5, Inf)           5         <span style="color: #BB0000;">Inf</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> [5, Inf)           5         <span style="color: #BB0000;">Inf</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> [5, Inf)           5         <span style="color: #BB0000;">Inf</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> [5, Inf)           5         <span style="color: #BB0000;">Inf</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> [5, Inf)           5         <span style="color: #BB0000;">Inf</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Note the following is comparable to a call to</span></span></span>
 <span class="r-in"><span><span class="co"># cut(ages, right = FALSE, breaks = c(breaks, Inf))</span></span></span>
 <span class="r-in"><span><span class="va">ages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq.int</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">0</span>, by <span class="op">=</span> <span class="fl">10</span>, length.out <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">30</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span><span class="va">ages</span>, <span class="va">breaks</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     interval lower_bound upper_bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     [0, 1)           0           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   [10, 30)          10          30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   [10, 30)          10          30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  [30, Inf)          30         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  [30, Inf)          30         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  [30, Inf)          30         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  [30, Inf)          30         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  [30, Inf)          30         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  [30, Inf)          30         Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 [30, Inf)          30         Inf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    interval  lower_bound upper_bound</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> [0, 1)              0           1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> [10, 30)           10          30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> [10, 30)           10          30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> [30, Inf)          30         <span style="color: #BB0000;">Inf</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> [30, Inf)          30         <span style="color: #BB0000;">Inf</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> [30, Inf)          30         <span style="color: #BB0000;">Inf</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> [30, Inf)          30         <span style="color: #BB0000;">Inf</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> [30, Inf)          30         <span style="color: #BB0000;">Inf</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> [30, Inf)          30         <span style="color: #BB0000;">Inf</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> [30, Inf)          30         <span style="color: #BB0000;">Inf</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># values above max_upper treated as NA</span></span></span>
 <span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">10</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">5</span><span class="op">)</span>, max_upper <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 11 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    [0, 5)           0           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [0, 5)           0           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    [0, 5)           0           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    [0, 5)           0           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    [0, 5)           0           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    [5, 7)           5           7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    [5, 7)           5           7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8      &lt;NA&gt;          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9      &lt;NA&gt;          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10     &lt;NA&gt;          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11     &lt;NA&gt;          NA          NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> [0, 5)             0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> [0, 5)             0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> [0, 5)             0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> [0, 5)             0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> [0, 5)             0           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> [5, 7)             5           7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> [5, 7)             5           7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> <span style="color: #BB0000;">NA</span>                <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
