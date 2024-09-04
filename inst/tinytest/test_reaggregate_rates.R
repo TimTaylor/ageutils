@@ -19,7 +19,7 @@ rates <- c(0.15, 0.30, 0.80)
 dat <- reaggregate_rates(bounds, rates, new_bounds = c(0, 5, 10))
 expect_equal(
     dat$rate[1],
-    (bounds[3] - bounds[2]) * rates[2] + (bounds[2] - bounds[1]) * rates[1]) / (bounds[3] - bounds[1])
+    ((bounds[3] - bounds[2]) * rates[2] + (bounds[2] - bounds[1]) * rates[1]) / (bounds[3] - bounds[1])
 )
 
 
