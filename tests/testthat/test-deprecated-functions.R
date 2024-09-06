@@ -1,3 +1,142 @@
+test_that("aggregate_age_counts works", {
+
+    # single break
+    dat <- 1:10
+    brk <- c(0, 5L)
+    expected <- data.frame(
+        interval = factor(c("[0, 5)", "[5, Inf)"), ordered = TRUE),
+        lower_bound = c(0, 5),
+        upper_bound = c(5, Inf),
+        count = c(15, 40)
+    )
+    expect_equal(
+        suppressWarnings(aggregate_age_counts(dat, breaks = brk)),
+        expected
+    )
+
+
+    # NA ages are handled
+    counts <- ages <- 1:65
+    ages[1:44] <- NA
+    expected <- data.frame(
+        interval = factor(
+            c("[0, 1)", "[1, 5)", "[5, 15)", "[15, 25)", "[25, 45)", "[45, 65)", "[65, Inf)", NA_character_),
+            levels = c("[0, 1)", "[1, 5)", "[5, 15)", "[15, 25)", "[25, 45)", "[45, 65)", "[65, Inf)", NA_character_),
+            ordered = TRUE
+        ),
+        lower_bound = c(0, 1, 5, 15, 25, 45, 65, NA),
+        upper_bound = c(1, 5, 15, 25, 45, 65, Inf, NA),
+        count = c(0, 0, 0, 0, 0, sum(45:64), 65, sum(1:44))
+    )
+
+    expect_equal(
+        suppressWarnings(aggregate_age_counts(counts, ages, breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))),
+        expected
+    )
+
+
+    # no need for ages to be consecutive
+    counts <- ages <- c(1, 10)
+    breaks <- c(0, counts)
+    expected <- data.frame(
+        interval = factor(
+            c("[0, 1)", "[1, 10)", "[10, Inf)"),
+            levels = c("[0, 1)", "[1, 10)", "[10, Inf)"),
+            ordered = TRUE
+        ),
+        lower_bound = c(0, 1, 10),
+        upper_bound = c(1, 10, Inf),
+        count = c(0, 1, 10)
+    )
+    expect_equal(suppressWarnings(aggregate_age_counts(counts, ages, breaks)), expected)
+
+    # counts and ages do not need to be ordered
+    counts <- ages <- c(10, 1)
+    breaks <- c(0, 1, 10)
+    expected <- data.frame(
+        interval = factor(
+            c("[0, 1)", "[1, 10)", "[10, Inf)"),
+            levels = c("[0, 1)", "[1, 10)", "[10, Inf)"),
+            ordered = TRUE
+        ),
+        lower_bound = c(0, 1, 10),
+        upper_bound = c(1, 10, Inf),
+        count = c(0, 1, 10)
+    )
+    expect_equal(suppressWarnings(aggregate_age_counts(counts, ages, breaks)), expected)
+
+    # error messaging
+    counts <- ages <- c(10, 1)
+    breaks <- c(3, 10)
+    expect_error(suppressWarnings(aggregate_age_counts(counts, ages, breaks)))
+    expect_snapshot(
+        error = TRUE,
+        suppressWarnings(
+            aggregate_age_counts(
+                counts = c(10, 1),
+                ages = c(10, 1),
+                breaks = c(3, 10)
+            )
+        )
+    )
+
+    counts <- ages <- c(10, 1)
+    breaks <- c(0, counts)
+    expect_error(suppressWarnings(aggregate_age_counts(counts, ages, breaks)))
+    expect_snapshot(
+        error = TRUE,
+        suppressWarnings(
+            aggregate_age_counts(
+                counts = c(10, 1),
+                ages = c(10, 1),
+                breaks = c(0, 10, 1)
+            )
+        )
+    )
+
+    expect_error(
+        suppressWarnings(
+            aggregate_age_counts(
+                counts = 1:10,
+                ages = as.character(1:10),
+                breaks = 5L
+            )
+        )
+    )
+
+    expect_snapshot(
+        error = TRUE,
+        suppressWarnings(
+            aggregate_age_counts(
+                counts = 1:10,
+                ages = as.character(1:10),
+                breaks = 5L
+            )
+        )
+    )
+
+    expect_error(suppressWarnings(aggregate_age_counts(1:10, 6:14, 5L)))
+    expect_snapshot(error = TRUE, suppressWarnings(aggregate_age_counts(1:10, 6:14, 5L)))
+
+    expect_error(suppressWarnings(aggregate_age_counts("bob", breaks = 1L)))
+    expect_snapshot(error = TRUE, suppressWarnings(aggregate_age_counts("bob", breaks = 1L)))
+
+    expect_error(suppressWarnings(aggregate_age_counts(1:10, breaks = NA_integer_)))
+    expect_snapshot(error = TRUE, suppressWarnings(aggregate_age_counts(1:10, breaks = NA_integer_)))
+
+    expect_error(suppressWarnings(aggregate_age_counts(1:10, breaks = c(2L, 2L))))
+    expect_snapshot(error = TRUE, suppressWarnings(aggregate_age_counts(1:10, breaks = c(2L, 2L))))
+
+    expect_error(suppressWarnings(aggregate_age_counts(1:10, breaks = "5")))
+    expect_snapshot(error = TRUE, suppressWarnings(aggregate_age_counts(1:10, breaks = "5")))
+
+    expect_warning(
+        aggregate_age_counts(1:10, rep.int(NA_integer_, 10L), breaks = 2L),
+        class = "deprecatedWarning"
+    )
+
+})
+
 test_that("split_interval_counts works", {
     # without weights
     result_1 <- suppressWarnings(split_interval_counts(
