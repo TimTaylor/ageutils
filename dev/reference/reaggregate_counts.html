@@ -132,14 +132,16 @@ corresponding <code>count</code>.</p>
 <span class="r-in"><span>        new_bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower upper    count</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    [0, 1)     0     1   646420</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    [1, 5)     1     5  2585680</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   [5, 15)     5    15  7120500</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  [15, 25)    15    25  6996800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  [25, 45)    25    45 15787900</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  [45, 65)    45    65 15396800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 [65, Inf)    65   Inf 11063400</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   interval  lower upper    count</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> [0, 1)        0     1   <span style="text-decoration: underline;">646</span>420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> [1, 5)        1     5  2<span style="text-decoration: underline;">585</span>680</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> [5, 15)       5    15  7<span style="text-decoration: underline;">120</span>500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> [15, 25)     15    25  6<span style="text-decoration: underline;">996</span>800</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> [25, 45)     25    45 15<span style="text-decoration: underline;">787</span>900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> [45, 65)     45    65 15<span style="text-decoration: underline;">396</span>800</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> [65, Inf)    65   <span style="color: #BB0000;">Inf</span> 11<span style="text-decoration: underline;">063</span>400</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
