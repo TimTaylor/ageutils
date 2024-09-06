@@ -126,9 +126,12 @@ reaggregate_counts.default <- function(
     if (is.null(population_bounds)) {
 
         if (!is.null(population_weights)) {
-            cli_abort(
-                "{.arg population_weights} require specification of {.arg population_bounds}."
-            )
+            if (length(population_weights) != length(new_bounds)) {
+                cli_abort(
+                    "When {.arg population_bounds} is not specified, {.arg population_weights}
+                     must be the same length as {.arg new_bounds}."
+                )
+            }
         }
 
         if (max(bounds) < max(new_bounds)) {
