@@ -24,17 +24,28 @@ reaggregate_counts_edwin_unweighted <- function(bounds, counts, new_bounds) {
 }
 
 reaggregate_counts_edwin_weighted <- function(bounds, counts, new_bounds, population_bounds, population_weights) {
+    # bounds <- c(0, 80, 150, 180)
+    # counts <- c(10, 20, 30, 40)
+    # new_bounds <- c(0, 60, 150, 160, 180)
+    # population_bounds <- c(0, 60, 150, 160, 175, 180)
+    # population_weights <- c(10, 20, 30, 40, 50, 60)
+    # library(tidyverse)
+    # stop()
+
     all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
-    cut_ages(all_lower, breaks = bounds) -> dat0
-    dat0 |>
-        dplyr::left_join(tibble::tibble(lower_bound = bounds, count = counts)) -> dat0
+    cut_ages(all_lower, breaks = bounds) -> dat10
+    dat10 |>
+        dplyr::left_join(
+            tibble::tibble(lower_bound = bounds, count = counts),
+            by = dplyr::join_by(lower_bound)) -> dat0
 
     dat1 <- reaggregate_counts_edwin_unweighted(population_bounds, population_weights, all_lower)
     # c_k = c_i N_k/N_i, where i is old bounds, k is new bounds
-    cut_ages(all_lower, breaks = bounds) -> dat2
     cut_ages(all_lower, breaks = new_bounds) -> dat3
-    dat0 |> dplyr::left_join(dat1 |> dplyr::rename(w = count)) |>
-        dplyr::mutate(i = dat2$lower_bound) |>
+    dat0 |>
+        dplyr::mutate(lower_bound = all_lower) |>
+        dplyr::left_join(dplyr::rename(dat1, w = count), by = dplyr::join_by(lower_bound)) |>
+        dplyr::mutate(i = dat0$lower_bound) |>
         dplyr::mutate(ck = count * w/sum(w), .by = c(i)) |>
         dplyr::mutate(lower_bound = dat3$lower_bound) |>
         dplyr::summarise(count = sum(ck), .by = c(lower_bound)) -> dat5
