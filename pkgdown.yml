@@ -2,7 +2,7 @@ pandoc: 3.1.11
 pkgdown: 2.1.0
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-09-09T21:45Z
+last_built: 2024-09-09T21:47Z
 urls:
   reference: https://timtaylor.github.io/ageutils/reference
   article: https://timtaylor.github.io/ageutils/articles
