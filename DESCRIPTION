@@ -1,7 +1,7 @@
 Package: ageutils
 Type: Package
 Title: Collection of Functions for Working with Age Intervals
-Version: 0.0.4.9000
+Version: 0.0.5
 Authors@R: 
     c(
       person(
@@ -14,7 +14,7 @@ Authors@R:
       person(
         given = "Edwin",
         family = "van Leeuwen",
-        role = "ctb",
+        role = "aut",
         email = "edwinvanl@gmail.com", 
         comment = c(ORCID = "0000-0002-2383-5305")
       )

@@ -19,9 +19,9 @@ Useful links:
 \author{
 \strong{Maintainer}: Tim Taylor \email{tim.taylor@hiddenelephants.co.uk} (\href{https://orcid.org/0000-0002-8587-7113}{ORCID}) [copyright holder]
 
-Other contributors:
+Authors:
 \itemize{
-  \item Edwin van Leeuwen \email{edwinvanl@gmail.com} (\href{https://orcid.org/0000-0002-2383-5305}{ORCID}) [contributor]
+  \item Edwin van Leeuwen \email{edwinvanl@gmail.com} (\href{https://orcid.org/0000-0002-2383-5305}{ORCID})
 }
 
 }
