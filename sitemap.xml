@@ -1,51 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/404.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/articles/ageutils.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/index.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/reference/ageutils-package.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/reference/aggregate_age_counts.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/reference/breaks_to_interval.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/reference/cut_ages.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/reference/pop_dat.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/reference/reaggregate_interval_counts.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/reference/reaggregate_interval_rates.html</loc>
-  </url>
-  <url>
-    <loc>https://timtaylor.github.io/ageutils/reference/split_interval_counts.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://timtaylor.github.io/ageutils/404.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/LICENSE.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/authors.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/index.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/news/index.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/ageutils-deprecated.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/ageutils-package.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/aggregate_age_counts-deprecated.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/breaks_to_interval.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/cut_ages.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/index.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/pop_dat.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/reaggregate_counts.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/reaggregate_interval_counts-deprecated.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/reaggregate_interval_rates-deprecated.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/reaggregate_rates.html</loc></url>
+<url><loc>https://timtaylor.github.io/ageutils/reference/split_interval_counts-deprecated.html</loc></url>
 </urlset>
+
