@@ -197,17 +197,21 @@ reaggregate_rates.default <- function(
         new_container[i] <- new_index
         pop_container[i] <- pop_index
     }
-    pop_weights <- population_weights[pop_container]
-    pop_weights <- pop_weights * (all_upper - all_lower) / (new_upper[new_container] - new_bounds[new_container])
-    pop_weights[length(pop_weights)] <- 1
-    pop_weights <- pop_weights / ave(pop_weights, new_container, FUN = sum)
-    result <- rates[old_container] * pop_weights
 
+    pop_weights <- population_weights[pop_container]
+    pop_weights <- pop_weights * (all_upper - all_lower) / (pop_upper[pop_container] - population_bounds[pop_container])
+    pop_weights[length(pop_weights)] <- 1
+    result <- rates[old_container] * pop_weights
     out <- numeric(length(new_bounds))
     idx <- 1L
+    weight <- 0
     for (i in seq_along(new_container)) {
-        if (new_container[i] != idx)
+        if (new_container[i] != idx) {
+            out[idx] <- out[idx] / weight
             idx <- idx + 1L
+            weight <- 0
+        }
+        weight <- weight + pop_weights[i]
         out[idx] <- out[idx] + result[i]
     }
 

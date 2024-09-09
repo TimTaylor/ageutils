@@ -38,7 +38,7 @@ reaggregate_counts_edwin_weighted <- function(bounds, counts, new_bounds, popula
     # stopifnot(max(bounds) >= max(new_bounds))
     tibble::tibble(lower_bound = bounds, counts = counts) -> dat
 
-    all_lower <- sort(unique(c(bounds, new_bounds)))
+    all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
     dat1 <- reaggregate_counts_edwin_unweighted(population_bounds, population_weights, all_lower)
     cut_ages(all_lower, breaks = bounds) |>
         dplyr::left_join(dat, by = dplyr::join_by(lower_bound)) |>
@@ -71,7 +71,7 @@ reaggregate_rates_edwin_weighted <- function(bounds, rates, new_bounds, populati
     # Instead we do need the test that max(population_bounds) < max(new_bounds). Note that I am not checking that, because that will be checked by
     # reaggregate_counts_edwin_unweighted
     tibble::tibble(lower_bound = bounds, rates = rates) -> dat
-    all_lower <- sort(unique(c(bounds, new_bounds)))
+    all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
     cut_ages(all_lower, breaks = bounds) |>
         dplyr::left_join(dat, by = dplyr::join_by(lower_bound)) -> dat1
     dat2 <- reaggregate_counts_edwin_unweighted(population_bounds, population_weights, all_lower)
