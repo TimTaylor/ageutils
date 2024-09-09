@@ -29,6 +29,8 @@ test_that("reaggregate_rates without weights works", {
 
 test_that("reaggregate_rates with weights works - example 1", {
 
+    skip_if_not_installed("dplyr")
+
     bounds <- c(0, 10, 50, 100, 180)
     rates <- c(0.1, 0.3, 0.2, 0.1, 0.5)
     new_bounds <- c(0, 60, 150, 180)
@@ -60,6 +62,8 @@ test_that("reaggregate_rates with weights works - example 1", {
 })
 
 test_that("reaggregate_rates with weights works - example 2", {
+
+    skip_if_not_installed("dplyr")
 
     bounds <- c(0, 10, 50, 100, 160)
     rates <- c(0.1, 0.3, 0.2, 0.1, 0.5)

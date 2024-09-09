@@ -30,6 +30,8 @@ test_that("reaggregate_count works for simple example without weights", {
 
 test_that("reaggregate_count matches Edwins for simple example without weights", {
 
+    skip_if_not_installed("dplyr")
+
     lower_bounds <- c(1, 3,  4,   6)
     upper_bounds <- c(3, 4,  6, Inf)
     counts       <- c(3, 0, 10,  10)
@@ -124,6 +126,8 @@ test_that("reaggregate_count works with weights and with the population_bounds e
 
 
 test_that("reaggregate_count matches Edwins for example with weights", {
+
+    skip_if_not_installed("dplyr")
 
     bounds <- c(0, 80, 150, 180)
     counts <- c(10, 20, 30, 40)
