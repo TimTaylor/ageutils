@@ -207,6 +207,9 @@ reaggregate_counts.default <- function(
     all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
     all_upper <- c(all_lower[-1L], Inf)
 
+    if (is.null(population_weights))
+        population_weights <- pop_upper - population_bounds
+
     # we need to keep track where the combined bits would fit in the old and
     # new bounds. This information is stored in the old_container and
     # new_container vectors respectively.
@@ -223,12 +226,8 @@ reaggregate_counts.default <- function(
         pop_container[i] <- pop_index
     }
 
-    if (is.null(population_weights)) {
-        pop_weights <- all_upper - all_lower
-    } else {
-        pop_weights <- population_weights[pop_container]
-        pop_weights <- pop_weights * (all_upper - all_lower) / (new_upper[new_container] - new_bounds[new_container])
-    }
+    pop_weights <- population_weights[pop_container]
+    pop_weights <- pop_weights * (all_upper - all_lower) / (pop_upper[pop_container] - population_bounds[pop_container])
     pop_weights <- pop_weights / ave(pop_weights, old_container, FUN = sum)
     result <- counts[old_container] * pop_weights
     result[length(result)] <- sum(counts) - sum(result[-length(result)])
