@@ -35,6 +35,11 @@ Defaults to \code{Inf}.}
 \value{
 A data frame with an ordered factor column (\code{interval}), as well as columns
 corresponding to the explicit bounds (\code{lower_bound} and \code{upper_bound}).
+Internally both bound columns are stored as double but it can be taken as
+part of the function API that \code{lower_bound} is coercible to integer without
+any coercion to \code{NA_integer_}. Similarly all values of \code{upper_bound} apart
+from those corresponding to \code{max_upper} can be assumed coercible to integer
+(\code{max_upper} may or may not depending on the given argument).
 }
 \description{
 \code{cut_ages()} provides categorisation of ages based on specified breaks

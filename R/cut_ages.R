@@ -41,6 +41,11 @@
 #'
 #' A data frame with an ordered factor column (`interval`), as well as columns
 #' corresponding to the explicit bounds (`lower_bound` and `upper_bound`).
+#' Internally both bound columns are stored as double but it can be taken as
+#' part of the function API that `lower_bound` is coercible to integer without
+#' any coercion to `NA_integer_`. Similarly all values of `upper_bound` apart
+#' from those corresponding to `max_upper` can be assumed coercible to integer
+#' (`max_upper` may or may not depending on the given argument).
 #'
 # -------------------------------------------------------------------------
 #' @examples
