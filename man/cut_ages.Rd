@@ -28,7 +28,7 @@ Double values are coerced to integer prior to categorisation.}
 
 Represents the maximum upper bound for the resulting intervals.
 
-Double values are rounded to the nearest (numeric) integer.
+Double values are rounded up to the nearest (numeric) integer.
 
 Defaults to \code{Inf}.}
 }

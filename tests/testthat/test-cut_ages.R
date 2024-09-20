@@ -24,7 +24,7 @@ test_that("Errors work as expected", {
     expect_snapshot(error = TRUE, cut_ages(1:10, breaks = NA_integer_))
 
     expect_error(cut_ages(1:10, breaks = c(2L, 2L)))
-    expect_snapshot(error = TRUE,cut_ages(1:10, breaks = c(2L, 2L)))
+    expect_snapshot(error = TRUE, cut_ages(1:10, breaks = c(2L, 2L)))
 
     # multiple limits with ages below minimum errors
     expect_error(cut_ages(c(1:5, 99:102), c(3L, 98L)))

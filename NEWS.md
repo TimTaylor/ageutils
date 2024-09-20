@@ -1,5 +1,11 @@
 # ageutils (development version)
 
+* Simplifies the internal implementation of `cut_ages()`. This refactoring has
+  resulted in minor tweaks to the given error messages as well as a small bug 
+  fix relating to how `max_upper` argument was being rounded (i.e. we were
+  calling `round()` rather than raising to the next integer(ish) number with
+  `ceiling()` as intended).
+
 # ageutils 0.0.5
 
 * Adds new functions `reaggregate_counts()` and `reaggregate_rates()` which

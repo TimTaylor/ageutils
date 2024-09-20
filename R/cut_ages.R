@@ -32,7 +32,7 @@
 #'
 #' Represents the maximum upper bound for the resulting intervals.
 #'
-#' Double values are rounded to the nearest (numeric) integer.
+#' Double values are rounded up to the nearest (numeric) integer.
 #'
 #' Defaults to `Inf`.
 #'
@@ -66,6 +66,77 @@
 # -------------------------------------------------------------------------
 #' @export
 cut_ages <- function(ages, breaks, max_upper = Inf) {
-    dat <- .Call(C_cut_ages, ages, breaks, max_upper)
-    new_tibble(dat)
+
+    # check max_upper
+    if(!is.numeric(max_upper) || length(max_upper) != 1L || is.na(max_upper) || max_upper <= 0)
+        cli_abort("{.arg max_upper} must be positive, numeric and of length 1.")
+
+    # check breaks
+    if (!is.numeric(breaks) || length(breaks) == 0L)
+        cli_abort("{.arg breaks} must be numeric and of length >= 1.")
+
+    breaks <- as.integer(breaks)
+    min_break <- min(breaks)
+    if (is.na(min_break) || min_break < 0)
+        cli_abort("{.arg breaks} must be coercible to integer, non-negative and not NA.")
+
+    max_break <- max(breaks)
+    if (max_break >= max_upper)
+        cli_abort("{.arg max_upper} must be greater than all {.arg breaks}.")
+
+    if (is.unsorted(breaks))
+        cli_abort("{.arg breaks} must be in strictly increasing order.")
+
+    # check ages
+    if (!is.numeric(ages) || length(ages) == 0L)
+        cli_abort("{.arg ages} must be numeric and of length >= 1.")
+
+    ages <- as.integer(ages)
+    min_age <- min(ages)
+    if (is.na(min_age))
+        cli_abort("{.arg ages} must be coercible to integer and not NA.")
+
+    if (min_age < breaks[1L])
+        cli_abort("{.arg ages} must greater than or equal to the minimum value of {.arg breaks}.");
+
+    # allow for breaks which do not start at zero
+    lower <- c(0L, breaks)
+
+    # calculate the upper bounds using max_age (needs replacing for levels)
+    n <- length(lower)
+    upper <- c(lower[-1L], max(ages, lower[n]) + 1)
+
+    # create a lookup of intervals from ages. 'key' is ages shifted by 1 (as we
+    #   index from 1 but need to allow for age 0)
+    index <- rep.int(seq_len(n), times = upper - lower)
+    ages[ages >= max_upper] <- NA_integer_
+    index <- index[ages + 1L]
+
+    # Now use the correct upper bound after making integer(ish)
+    upper[n] <- ceiling(max_upper)
+
+    # lookup bounds and convert to numeric for consistent output (as we allow
+    # for an arbitrarily large max_upper)
+    lower_bounds <- as.numeric(lower[index])
+    upper_bounds <- as.numeric(upper[index])
+
+    # calculate the intervals ignoring the first one we added
+    intervals <- sprintf("[%.f, %.f)", lower[-1L], upper[-1L])
+
+    # create an ordered factor (do levels before class to avoid a warning)
+    # NOTE: do levels before class to avoid a warning.
+    # NOTE: this is not per the API for factors so technically could break (unlikely)
+    index <- index - 1L
+    attr(index, "levels") <- intervals
+    class(index) <- c("ordered", "factor")
+
+    # output as tibble
+    new_tibble(
+        list(
+            interval = index,
+            lower_bound = lower_bounds,
+            upper_bound = upper_bounds
+        )
+    )
+
 }
