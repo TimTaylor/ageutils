@@ -76,14 +76,19 @@ closed side of [x, y).</p>
 <dt id="arg-max-upper">max_upper<a class="anchor" aria-label="anchor" href="#arg-max-upper"></a></dt>
 <dd><p><code>[numeric]</code></p>
 <p>Represents the maximum upper bound for the resulting intervals.</p>
-<p>Double values are rounded to the nearest (numeric) integer.</p>
+<p>Double values are rounded up to the nearest (numeric) integer.</p>
 <p>Defaults to <code>Inf</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A data frame with an ordered factor column (<code>interval</code>), as well as columns
-corresponding to the explicit bounds (<code>lower_bound</code> and <code>upper_bound</code>).</p>
+corresponding to the explicit bounds (<code>lower_bound</code> and <code>upper_bound</code>).
+Internally both bound columns are stored as double but it can be taken as
+part of the function API that <code>lower_bound</code> is coercible to integer without
+any coercion to <code>NA_integer_</code>. Similarly all values of <code>upper_bound</code> apart
+from those corresponding to <code>max_upper</code> can be assumed coercible to integer
+(<code>max_upper</code> may or may not depending on the given argument).</p>
     </div>
 
     <div class="section level2">
@@ -166,7 +171,7 @@ corresponding to the explicit bounds (<code>lower_bound</code> and <code>upper_b
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

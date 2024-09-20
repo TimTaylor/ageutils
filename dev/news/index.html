@@ -34,9 +34,10 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="ageutils-development-version">ageutils (development version)<a class="anchor" aria-label="anchor" href="#ageutils-development-version"></a></h2>
-</div>
+<ul><li>Simplifies the internal implementation of <code><a href="../reference/cut_ages.html">cut_ages()</a></code>. This refactoring has resulted in minor tweaks to the given error messages as well as a small bug fix relating to how <code>max_upper</code> argument was being rounded (i.e. we were calling <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">round()</a></code> rather than raising to the next integer(ish) number with <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling()</a></code> as intended).</li>
+</ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.5" id="ageutils-005">ageutils 0.0.5<a class="anchor" aria-label="anchor" href="#ageutils-005"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.0.5" id="ageutils-005">ageutils 0.0.5<a class="anchor" aria-label="anchor" href="#ageutils-005"></a></h2><p class="text-muted">CRAN release: 2024-09-09</p>
 <ul><li><p>Adds new functions <code><a href="../reference/reaggregate_counts.html">reaggregate_counts()</a></code> and <code><a href="../reference/reaggregate_rates.html">reaggregate_rates()</a></code> which provide a simplified API for reaggregation compared to <code><a href="../reference/ageutils-deprecated.html">reaggregate_interval_counts()</a></code> and <code><a href="../reference/ageutils-deprecated.html">reaggregate_interval_rates()</a></code>. These use an elegant approach to reaggregation suggested by <a href="https://github.com/BlackEdder" class="external-link">@BlackEdder</a>.</p></li>
 <li>
 <p>Deprecates (with warning of class “deprecatedWarning”) the following functions:</p>
@@ -77,7 +78,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
