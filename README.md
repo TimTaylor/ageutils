@@ -11,8 +11,7 @@
 NOTE: ageutils is still somewhat experimental in nature and should be
 treated as such until the 0.1.0 release.
 
-You can install the {ageutils} from [CRAN](https://cran.r-project.org/)
-with:
+You can install ageutils from [CRAN](https://cran.r-project.org/) with:
 
 ``` r
 install.packages("ageutils")
