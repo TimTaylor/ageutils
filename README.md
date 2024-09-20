@@ -5,7 +5,6 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/TimTaylor/ageutils/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/TimTaylor/ageutils/actions/workflows/R-CMD-check.yaml)
 <a href="https://CRAN.R-project.org/package=ageutils" class="pkgdown-release"><img src="https://www.r-pkg.org/badges/version/ageutils" alt="CRAN status" /></a>
 <!-- badges: end -->
 
