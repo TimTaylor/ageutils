@@ -1,4 +1,4 @@
-# ageutils (development version)
+# ageutils 0.0.6
 
 * Simplifies the internal implementation of `cut_ages()`. This refactoring has
   resulted in minor tweaks to the given error messages as well as a small bug 
