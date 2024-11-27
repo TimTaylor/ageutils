@@ -123,7 +123,7 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
     # calculate the intervals ignoring the first one we added
     intervals <- sprintf("[%.f, %.f)", lower[-1L], upper[-1L])
 
-    # create an ordered factor (do levels before class to avoid a warning)
+    # create an ordered factor
     # NOTE: do levels before class to avoid a warning.
     # NOTE: this is not per the API for factors so technically could break (unlikely)
     index <- index - 1L
