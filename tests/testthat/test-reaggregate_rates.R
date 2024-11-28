@@ -94,3 +94,48 @@ test_that("reaggregate_rates with weights works - example 2", {
     )
 
 })
+
+test_that("reaggregate_rates with weights works - example 3", {
+    skip_if_not_installed("dplyr")
+
+    bounds <- 0
+    rates <- 532.6622
+    new_bounds <- c(0, 5, 15, 45, 65)
+    population_weights <- c(
+        601913, 625476, 650226, 671016, 690816, 689190, 694734, 709940,
+        730548, 715046, 703087, 692873, 698821, 676773, 664025, 637756,
+        628023, 613025, 606611, 630456, 653155, 679487, 694216, 720400,
+        725264, 725111, 745909, 747190, 768513, 784770, 771964, 764738,
+        773176, 753953, 760821, 758955, 741034, 745909, 743814, 748497,
+        749883, 720148, 672256, 661208, 672808, 685301, 696231, 724675,
+        754435, 777997, 758905, 775715, 774083, 784116, 782532, 784299,
+        775320, 756023, 736939, 709201, 677962, 660419, 644896, 618893,
+        594643, 571143, 569908, 559844, 541297, 542108, 550059, 560762,
+        587908, 632852, 482547, 461855, 453442, 413706, 362412, 318577,
+        323778, 313081, 294838, 271063, 246429, 223058, 195010, 173861,
+        156497, 136917, 521067
+    )
+    population_bounds <- seq_along(population_weights) - 1L
+
+    current <- reaggregate_rates(
+        bounds = bounds,
+        rates  = rates,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
+    target <- reaggregate_rates_edwin_weighted(
+        bounds = bounds,
+        rates  = rates,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
+    current <- current[-c(1,3)]
+    expect_equal(
+        current,
+        setNames(target, names(current))
+    )
+})

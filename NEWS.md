@@ -1,5 +1,8 @@
 # ageutils (development version)
 
+* Fixed bug in `reaggregate_rates()` where, in some circumstances, the last
+  row of the data frame output would have an incorrect value.
+
 # ageutils 0.0.6
 
 * Simplifies the internal implementation of `cut_ages()`. This refactoring has
