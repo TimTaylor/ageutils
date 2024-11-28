@@ -23,6 +23,6 @@ The development version can be installed from r-universe with:
 ``` r
 install.packages(
     'ageutils',
-    repos = c('https://tim.r-universe.dev', 'https://cloud.r-project.org')
+    repos = c('https://timtaylor.r-universe.dev', 'https://cloud.r-project.org')
 )
 ```
