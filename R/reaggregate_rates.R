@@ -214,6 +214,7 @@ reaggregate_rates.default <- function(
         weight <- weight + pop_weights[i]
         out[idx] <- out[idx] + result[i]
     }
+    out[length(out)] <- out[length(out)] / weight
 
     interval <- sprintf("[%.f, %.f)", new_bounds, new_upper)
     interval <- factor(interval, levels = interval, ordered = TRUE)
