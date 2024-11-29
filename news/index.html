@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ageutils</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,11 +29,15 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/TimTaylor/ageutils/blob/v0.0.6/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/TimTaylor/ageutils/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.6" id="ageutils-006">ageutils 0.0.6<a class="anchor" aria-label="anchor" href="#ageutils-006"></a></h2>
+<h2 class="pkg-version" data-toc-text="development version" id="ageutils-development-version">ageutils (development version)<a class="anchor" aria-label="anchor" href="#ageutils-development-version"></a></h2>
+<ul><li>Fixed bug in <code><a href="../reference/reaggregate_rates.html">reaggregate_rates()</a></code> where, in some circumstances, the last row of the data frame output would have an incorrect value.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.6" id="ageutils-006">ageutils 0.0.6<a class="anchor" aria-label="anchor" href="#ageutils-006"></a></h2><p class="text-muted">CRAN release: 2024-11-27</p>
 <ul><li>Simplifies the internal implementation of <code><a href="../reference/cut_ages.html">cut_ages()</a></code>. This refactoring has resulted in minor tweaks to the given error messages as well as a small bug fix relating to how <code>max_upper</code> argument was being rounded (i.e. we were calling <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">round()</a></code> rather than raising to the next integer(ish) number with <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling()</a></code> as intended).</li>
 </ul></div>
     <div class="section level2">
