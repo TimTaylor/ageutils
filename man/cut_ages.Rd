@@ -50,9 +50,9 @@ above \code{max_upper} will be returned as NA.
 }
 \examples{
 
-cut_ages(ages = 0:9, breaks = c(0L, 3L, 5L, 10L))
+cut_ages(ages = 0:9, breaks = c(0, 3, 5, 10))
 
-cut_ages(ages = 0:9, breaks = c(0L, 5L))
+cut_ages(ages = 0:9, breaks = c(0, 5))
 
 # Note the following is comparable to a call to
 # cut(ages, right = FALSE, breaks = c(breaks, Inf))

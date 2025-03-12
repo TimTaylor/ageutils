@@ -36,10 +36,10 @@ the minimum break through to a specified \code{max_upper}.
 }
 \examples{
 
-breaks_to_interval(breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L))
+breaks_to_interval(breaks = c(0, 1, 5, 15, 25, 45, 65))
 breaks_to_interval(
-    breaks = c(0L, 1L, 5L, 15L, 25L, 45L, 65L),
-    max_upper = 100L
+    breaks = c(0, 1, 5, 15, 25, 45, 65),
+    max_upper = 100
 )
 
 }

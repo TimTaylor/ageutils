@@ -78,7 +78,7 @@ with(
     reaggregate_counts(
         bounds = lower_bound,
         counts = value,
-        new_bounds = c(0L, 1L, 5L, 15L, 25L, 45L, 65L)
+        new_bounds = c(0, 1, 5, 15, 25, 45, 65)
     )
 )
 
