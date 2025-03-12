@@ -1,5 +1,18 @@
 # ageutils (development version)
 
+* The following functions which were deprecated in the 0.0.5 release have now
+  been removed from the package and will now signal an error of class
+  defunctError if called.
+
+    - `aggregate_age_counts()`
+    - `reaggregate_interval_counts()`
+    - `reaggregate_interval_rates`
+    - `split_interval_counts()`
+  
+  The use of these could be a little confusing and it was hard to achieve
+  consistency with their APIs. `reaggregate_counts()` and `reaggregate_rates()`
+  can be used to replicate most of the old functionality.
+
 # ageutils 0.0.7
 
 * Fixed bug in `reaggregate_rates()` where, in some circumstances, the last

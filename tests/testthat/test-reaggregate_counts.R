@@ -1,32 +1,125 @@
+# This uses a defunct function so we will snapshot the output at time of removal
+
+# test_that("reaggregate_count works for simple example without weights", {
+#
+#     lower_bounds <- c(1, 3,  4,   6)
+#     upper_bounds <- c(3, 4,  6, Inf)
+#     counts       <- c(3, 0, 10,  10)
+#     breaks       <- c(0, 1,  2,   6)
+#
+#     target <- suppressWarnings(
+#         tibble::as_tibble(
+#             reaggregate_interval_counts(
+#                 lower_bounds = lower_bounds,
+#                 upper_bounds = upper_bounds,
+#                 counts = counts,
+#                 breaks = breaks
+#             )
+#         )
+#     )
+#
+#     current <- reaggregate_counts(
+#         bounds = lower_bounds,
+#         counts = counts,
+#         new_bounds = breaks
+#     )
+#
+#     expect_equal(
+#         current,
+#         setNames(target, names(current))
+#     )
+# })
+
+
+# test_that("reaggregate_count works with weights and with the population_bounds equal to bounds", {
+#
+#     lower_bounds <- c(1, 3,  4,   6)
+#     upper_bounds <- c(3, 4,  6, Inf)
+#     counts       <- c(3, 0, 10,  10)
+#     breaks       <- c(0, 1,  2,   6)
+#     weights <- c(1, 3, rep.int(1, 98))
+#     target <- suppressWarnings(
+#         tibble::as_tibble(
+#             reaggregate_interval_counts(
+#                 lower_bounds = lower_bounds,
+#                 upper_bounds = upper_bounds,
+#                 counts = counts,
+#                 breaks = breaks,
+#                 weights = weights
+#             )
+#         )
+#     )
+#     current <- reaggregate_counts(
+#         bounds = lower_bounds,
+#         counts = counts,
+#         new_bounds = breaks,
+#         population_bounds = breaks,
+#         population_weights = c(1, 3, 4, 94)
+#     )
+#     expect_equal(
+#         current,
+#         setNames(target, names(current))
+#     )
+#     # check no need to specify population bounds
+#     current2 <- reaggregate_counts(
+#         bounds = lower_bounds,
+#         counts = counts,
+#         new_bounds = breaks,
+#         population_weights = c(1, 3, 4, 94)
+#     )
+#     expect_equal(current, current2)
+# })
+
 test_that("reaggregate_count works for simple example without weights", {
+    lower_bounds <- c(1, 3,  4,   6)
+    counts       <- c(3, 0, 10,  10)
+    breaks       <- c(0, 1,  2,   6)
+
+    expect_snapshot_value(
+        reaggregate_counts(
+            bounds = lower_bounds,
+            counts = counts,
+            new_bounds = breaks
+        ),
+        style = "serialize"
+    )
+})
+
+test_that("reaggregate_count works with weights and with the population_bounds equal to bounds", {
 
     lower_bounds <- c(1, 3,  4,   6)
     upper_bounds <- c(3, 4,  6, Inf)
     counts       <- c(3, 0, 10,  10)
     breaks       <- c(0, 1,  2,   6)
+    weights <- c(1, 3, rep.int(1, 98))
 
-    target <- suppressWarnings(
-        tibble::as_tibble(
-            reaggregate_interval_counts(
-                lower_bounds = lower_bounds,
-                upper_bounds = upper_bounds,
-                counts = counts,
-                breaks = breaks
-            )
-        )
+    expect_snapshot_value(
+        reaggregate_counts(
+            bounds = lower_bounds,
+            counts = counts,
+            new_bounds = breaks,
+            population_bounds = breaks,
+            population_weights = c(1, 3, 4, 94)
+        ),
+        style = "serialize"
     )
 
-    current <- reaggregate_counts(
-        bounds = lower_bounds,
-        counts = counts,
-        new_bounds = breaks
+    # check no need to specify population bounds
+    expect_snapshot_value(
+        reaggregate_counts(
+            bounds = lower_bounds,
+            counts = counts,
+            new_bounds = breaks,
+            population_weights = c(1, 3, 4, 94)
+        ),
+        style = "serialize"
     )
 
-    expect_equal(
-        current,
-        setNames(target, names(current))
-    )
 })
+
+# -------------------------------------------------------------------------
+
+
 
 test_that("reaggregate_count matches Edwins for simple example without weights", {
 
@@ -84,46 +177,6 @@ test_that("reaggregate_count works where the original bounds contain the new wit
     expect_equal(out$count, original_counts)
 
 })
-
-test_that("reaggregate_count works with weights and with the population_bounds equal to bounds", {
-
-    lower_bounds <- c(1, 3,  4,   6)
-    upper_bounds <- c(3, 4,  6, Inf)
-    counts       <- c(3, 0, 10,  10)
-    breaks       <- c(0, 1,  2,   6)
-    weights <- c(1, 3, rep.int(1, 98))
-    target <- suppressWarnings(
-        tibble::as_tibble(
-            reaggregate_interval_counts(
-                lower_bounds = lower_bounds,
-                upper_bounds = upper_bounds,
-                counts = counts,
-                breaks = breaks,
-                weights = weights
-            )
-        )
-    )
-    current <- reaggregate_counts(
-        bounds = lower_bounds,
-        counts = counts,
-        new_bounds = breaks,
-        population_bounds = breaks,
-        population_weights = c(1, 3, 4, 94)
-    )
-    expect_equal(
-        current,
-        setNames(target, names(current))
-    )
-    # check no need to specify population bounds
-    current2 <- reaggregate_counts(
-        bounds = lower_bounds,
-        counts = counts,
-        new_bounds = breaks,
-        population_weights = c(1, 3, 4, 94)
-    )
-    expect_equal(current, current2)
-})
-
 
 test_that("reaggregate_count matches Edwins for example with weights", {
 
