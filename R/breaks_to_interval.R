@@ -45,24 +45,25 @@
 #' @export
 breaks_to_interval <- function(breaks, max_upper = Inf) {
 
+
     # coerce breaks to integer
     if (!is.numeric(breaks))
-        cli_abort("{.arg breaks} must be numeric.")
+        stop("`breaks` must be numeric.")
     breaks <- as.integer(breaks)
 
     # ensure valid
     if (anyNA(breaks))
-        cli_abort("{.arg breaks} must be finite, and, coercible to integer.")
+        stop("`breaks` must be finite, and, coercible to integer.")
 
     # check strictly increasing breaks
     if (is.unsorted(breaks, strictly = TRUE))
-        cli_abort("{.arg breaks} must be in strictly increasing order.")
+        stop("`breaks` must be in strictly increasing order.")
 
     # check max_upper
     if (!is.numeric(max_upper) || length(max_upper) != 1L || is.na(max_upper))
-        cli_abort("{.arg max_upper} must be a numeric vector of length 1 and not NA.")
+        stop("`max_upper` must be a numeric vector of length 1 and not NA.")
     if (max_upper <= max(breaks))
-        cli_abort("{.arg max_upper} must be greater than all `breaks`.")
+        stop("`max_upper` must be greater than all `breaks`.")
 
     # convert to double for consistency across bounds
     breaks <- as.double(breaks)

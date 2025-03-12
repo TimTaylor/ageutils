@@ -69,35 +69,35 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
 
     # check max_upper
     if(!is.numeric(max_upper) || length(max_upper) != 1L || is.na(max_upper) || max_upper <= 0)
-        cli_abort("{.arg max_upper} must be positive, numeric and of length 1.")
+        stop("`max_upper` must be positive, numeric and of length 1.")
 
     # check breaks
     if (!is.numeric(breaks) || length(breaks) == 0L)
-        cli_abort("{.arg breaks} must be numeric and of length >= 1.")
+        stop("`breaks` must be numeric and of length >= 1.")
 
     breaks <- as.integer(breaks)
     min_break <- min(breaks)
     if (is.na(min_break) || min_break < 0)
-        cli_abort("{.arg breaks} must be coercible to integer, non-negative and not NA.")
+        stop("`breaks` must be coercible to integer, non-negative and not NA.")
 
     max_break <- max(breaks)
     if (max_break >= max_upper)
-        cli_abort("{.arg max_upper} must be greater than all {.arg breaks}.")
+        stop("`max_upper` must be greater than all `breaks`.")
 
     if (is.unsorted(breaks))
-        cli_abort("{.arg breaks} must be in strictly increasing order.")
+        stop("`breaks` must be in strictly increasing order.")
 
     # check ages
     if (!is.numeric(ages) || length(ages) == 0L)
-        cli_abort("{.arg ages} must be numeric and of length >= 1.")
+        stop("`ages` must be numeric and of length >= 1.")
 
     ages <- as.integer(ages)
     min_age <- min(ages)
     if (is.na(min_age))
-        cli_abort("{.arg ages} must be coercible to integer and not NA.")
+        stop("`ages` must be coercible to integer and not NA.")
 
     if (min_age < breaks[1L])
-        cli_abort("{.arg ages} must greater than or equal to the minimum value of {.arg breaks}.");
+        stop("`ages` must greater than or equal to the minimum value of `breaks`.");
 
     # allow for breaks which do not start at zero
     lower <- c(0L, breaks)

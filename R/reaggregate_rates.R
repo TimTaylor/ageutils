@@ -76,46 +76,41 @@ reaggregate_rates.default <- function(
 
     # lower bounds checks
     if (any(!is.finite(bounds)))
-        cli_abort("{.arg bounds} must be a finite, numeric vector.")
+        stop("`bounds` must be a finite, numeric vector.")
     if (!length(bounds))
-        cli_abort("{.arg bounds} must be of non-zero length.")
+        stop("`bounds` must be of non-zero length.")
     if (is.unsorted(bounds, na.rm = FALSE, strictly = TRUE))
-        cli_abort("{.arg bounds} must be in strictly ascending order")
+        stop("`bounds` must be in strictly ascending order")
     if (bounds[1L] < 0)
-        cli_abort("{.arg bounds} must be non-negative.")
+        stop("`bounds` must be non-negative.")
 
     # rates checks
     if(!is.numeric(rates))
-        cli_abort("{.arg rates} must be numeric.")
+        stop("`rates` must be numeric.")
     if (length(rates) != length(bounds))
-        cli_abort("{.arg rates} must be the same length as `bounds`.")
+        stop("`rates` must be the same length as `bounds`.")
 
     # new bounds checks
     if (any(!is.finite(new_bounds)))
-        cli_abort("{.arg new_bounds} must be a finite, numeric vector.")
+        stop("`new_bounds` must be a finite, numeric vector.")
     if (!length(new_bounds))
-        cli_abort("{.arg new_bounds} must be of non-zero length.")
+        stop("`new_bounds` must be of non-zero length.")
     if (is.unsorted(new_bounds, na.rm = FALSE, strictly = TRUE))
-        cli_abort("{.arg new_bounds} must be in strictly ascending order")
+        stop("`new_bounds` must be in strictly ascending order")
     if (new_bounds[1L] < 0)
-        cli_abort("{.arg new_bounds} must be non-negative.")
+        stop("`new_bounds` must be non-negative.")
 
     # population bounds checks
     if (is.null(population_bounds)) {
 
         if (!is.null(population_weights)) {
             if (length(population_weights) != length(new_bounds)) {
-                cli_abort(
-                    "When {.arg population_bounds} is not specified, {.arg population_weights}
-                     must be the same length as {.arg new_bounds}."
-                )
+                stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.")
             }
         }
 
         if (max(bounds) < max(new_bounds)) {
-            cli_abort(
-                "Where {.arg population_bounds} are not specified the maximum value of
-                {.arg new_bounds} must be less than or equal to that of {.arg bounds}."
+            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`."
             )
         }
 
@@ -124,21 +119,19 @@ reaggregate_rates.default <- function(
     } else {
 
         if (any(!is.finite(population_bounds)))
-            cli_abort("{.arg population_bounds} must be a finite, numeric vector.")
+            stop("`population_bounds` must be a finite, numeric vector.")
 
         if (!length(population_bounds))
-            cli_abort("{.arg population_bounds} must be of non-zero length.")
+            stop("`population_bounds` must be of non-zero length.")
 
         if (is.unsorted(population_bounds, na.rm = FALSE, strictly = TRUE))
-            cli_abort("{.arg population_bounds} must be in strictly ascending order")
+            stop("`population_bounds` must be in strictly ascending order")
 
         if (population_bounds[1L] < 0)
-            cli_abort("{.arg population_bounds} must be non-negative.")
+            stop("`population_bounds` must be non-negative.")
 
         if (max(population_bounds) < max(new_bounds)) {
-            cli_abort(
-                "{.arg new_bounds} must be less than or equal to that of {.arg population bounds}."
-            )
+            stop("`new_bounds` must be less than or equal to that of `population bounds`.")
         }
 
     }
@@ -146,11 +139,11 @@ reaggregate_rates.default <- function(
     # population_weights check
     if (!is.null(population_weights)) {
         if (any(!is.finite(population_weights)) || any(population_weights < 0))
-            cli_abort("{.arg population_weights} must be numeric, non-negative and finite.")
+            stop("`population_weights` must be numeric, non-negative and finite.")
         if (length(population_weights) != length(population_bounds))
-            cli_abort("{.arg population_weights} must be the same length as `population_bounds`.")
+            stop("`population_weights` must be the same length as `population_bounds`.")
         if (sum(population_weights) == 0)
-            cli_abort("At least one {.arg population_weight} must be non-zero.")
+            stop("At least one `population_weight` must be non-zero.")
     }
 
     # Ensure bounds start at zero and adjust rates accordingly

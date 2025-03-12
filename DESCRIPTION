@@ -38,8 +38,7 @@ URL: https://timtaylor.github.io/ageutils/
 BugReports: https://github.com/TimTaylor/ageutils/issues
 Config/build/compilation-database: true
 Imports: 
-    cli,
     rlang,
     stats,
-    tibble
+    tibble,
 Config/testthat/edition: 3
