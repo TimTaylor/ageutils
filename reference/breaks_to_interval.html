@@ -13,7 +13,7 @@ the minimum break through to a specified max_upper."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">ageutils</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@ the minimum break through to a specified max_upper."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Convert breaks to an interval</h1>
-      <small class="dont-index">Source: <a href="https://github.com/TimTaylor/ageutils/blob/v0.0.7/R/breaks_to_interval.R" class="external-link"><code>R/breaks_to_interval.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/TimTaylor/ageutils/blob/main/R/breaks_to_interval.R" class="external-link"><code>R/breaks_to_interval.R</code></a></small>
       <div class="d-none name"><code>breaks_to_interval.Rd</code></div>
     </div>
 
@@ -80,7 +80,7 @@ returned as <code>numeric</code> to allow the maximum upper bound to be given as
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">breaks_to_interval</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">breaks_to_interval</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">15</span>, <span class="fl">25</span>, <span class="fl">45</span>, <span class="fl">65</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   interval  lower_bound upper_bound</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -92,8 +92,8 @@ returned as <code>numeric</code> to allow the maximum upper bound to be given as
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> [45, 65)           45          65</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> [65, Inf)          65         <span style="color: #BB0000;">Inf</span></span>
 <span class="r-in"><span><span class="fu">breaks_to_interval</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">15L</span>, <span class="fl">25L</span>, <span class="fl">45L</span>, <span class="fl">65L</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    max_upper <span class="op">=</span> <span class="fl">100L</span></span></span>
+<span class="r-in"><span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">15</span>, <span class="fl">25</span>, <span class="fl">45</span>, <span class="fl">65</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    max_upper <span class="op">=</span> <span class="fl">100</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   interval  lower_bound upper_bound</span>

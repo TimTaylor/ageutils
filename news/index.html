@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ageutils</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,9 +29,20 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/TimTaylor/ageutils/blob/v0.0.7/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/TimTaylor/ageutils/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="ageutils-development-version">ageutils (development version)<a class="anchor" aria-label="anchor" href="#ageutils-development-version"></a></h2>
+<ul><li>
+<p>The following functions which were deprecated in the 0.0.5 release have now been removed from the package and will now signal an error of class defunctError if called.</p>
+<ul><li><code><a href="../reference/ageutils-defunct.html">aggregate_age_counts()</a></code></li>
+<li><code><a href="../reference/ageutils-defunct.html">reaggregate_interval_counts()</a></code></li>
+<li><code>reaggregate_interval_rates</code></li>
+<li><code><a href="../reference/ageutils-defunct.html">split_interval_counts()</a></code></li>
+</ul><p>The use of these could be a little confusing and it was hard to achieve consistency with their APIs. <code><a href="../reference/reaggregate_counts.html">reaggregate_counts()</a></code> and <code><a href="../reference/reaggregate_rates.html">reaggregate_rates()</a></code> can be used to replicate most of the old functionality.</p>
+</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.7" id="ageutils-007">ageutils 0.0.7<a class="anchor" aria-label="anchor" href="#ageutils-007"></a></h2><p class="text-muted">CRAN release: 2024-12-06</p>
 <ul><li>Fixed bug in <code><a href="../reference/reaggregate_rates.html">reaggregate_rates()</a></code> where, in some circumstances, the last row of the data frame output would have an incorrect value.</li>
@@ -42,19 +53,19 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.5" id="ageutils-005">ageutils 0.0.5<a class="anchor" aria-label="anchor" href="#ageutils-005"></a></h2><p class="text-muted">CRAN release: 2024-09-09</p>
-<ul><li><p>Adds new functions <code><a href="../reference/reaggregate_counts.html">reaggregate_counts()</a></code> and <code><a href="../reference/reaggregate_rates.html">reaggregate_rates()</a></code> which provide a simplified API for reaggregation compared to <code><a href="../reference/ageutils-deprecated.html">reaggregate_interval_counts()</a></code> and <code><a href="../reference/ageutils-deprecated.html">reaggregate_interval_rates()</a></code>. These use an elegant approach to reaggregation suggested by <a href="https://github.com/BlackEdder" class="external-link">@BlackEdder</a>.</p></li>
+<ul><li><p>Adds new functions <code><a href="../reference/reaggregate_counts.html">reaggregate_counts()</a></code> and <code><a href="../reference/reaggregate_rates.html">reaggregate_rates()</a></code> which provide a simplified API for reaggregation compared to <code><a href="../reference/ageutils-defunct.html">reaggregate_interval_counts()</a></code> and <code><a href="../reference/ageutils-defunct.html">reaggregate_interval_rates()</a></code>. These use an elegant approach to reaggregation suggested by <a href="https://github.com/BlackEdder" class="external-link">@BlackEdder</a>.</p></li>
 <li>
 <p>Deprecates (with warning of class “deprecatedWarning”) the following functions:</p>
-<ul><li><code><a href="../reference/ageutils-deprecated.html">aggregate_age_counts()</a></code></li>
-<li><code><a href="../reference/ageutils-deprecated.html">reaggregate_interval_counts()</a></code></li>
+<ul><li><code><a href="../reference/ageutils-defunct.html">aggregate_age_counts()</a></code></li>
+<li><code><a href="../reference/ageutils-defunct.html">reaggregate_interval_counts()</a></code></li>
 <li><code>reaggregate_interval_rates</code></li>
-<li><code><a href="../reference/ageutils-deprecated.html">split_interval_counts()</a></code></li>
+<li><code><a href="../reference/ageutils-defunct.html">split_interval_counts()</a></code></li>
 </ul><p>The use of these could be a little confusing and it was hard to achieve consistency with their APIs. <code><a href="../reference/reaggregate_counts.html">reaggregate_counts()</a></code> and <code><a href="../reference/reaggregate_rates.html">reaggregate_rates()</a></code> can be used to replicate most of the old functionality.</p>
 </li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.4" id="ageutils-004">ageutils 0.0.4<a class="anchor" aria-label="anchor" href="#ageutils-004"></a></h2><p class="text-muted">CRAN release: 2024-06-26</p>
-<ul><li>Fixes an error in <code><a href="../reference/ageutils-deprecated.html">reaggregate_interval_rates()</a></code> which caused the first entry of the output to be incorrect when the <code>breaks</code> were not specified from <code>0</code>. Thanks to <a href="https://github.com/BlackEdder" class="external-link">@BlackEdder</a> for the report.</li>
+<ul><li>Fixes an error in <code><a href="../reference/ageutils-defunct.html">reaggregate_interval_rates()</a></code> which caused the first entry of the output to be incorrect when the <code>breaks</code> were not specified from <code>0</code>. Thanks to <a href="https://github.com/BlackEdder" class="external-link">@BlackEdder</a> for the report.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.3" id="ageutils-003">ageutils 0.0.3<a class="anchor" aria-label="anchor" href="#ageutils-003"></a></h2><p class="text-muted">CRAN release: 2024-05-30</p>
@@ -62,10 +73,10 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.2" id="ageutils-002">ageutils 0.0.2<a class="anchor" aria-label="anchor" href="#ageutils-002"></a></h2><p class="text-muted">CRAN release: 2024-03-06</p>
-<ul><li><p><code><a href="../reference/ageutils-deprecated.html">aggregate_age_counts()</a></code> will now only return a row corresponding to NA ages if they were present in the input data. Previously an NA-associated row would always be returned even if it’s count was 0. Due to this change <code><a href="../reference/ageutils-deprecated.html">reaggregate_interval_counts()</a></code> will now never return an NA-associated row.</p></li>
-<li><p><code><a href="../reference/ageutils-deprecated.html">split_interval_counts()</a></code> now matches the documentation and disallows missing (NA) bounds.</p></li>
+<ul><li><p><code><a href="../reference/ageutils-defunct.html">aggregate_age_counts()</a></code> will now only return a row corresponding to NA ages if they were present in the input data. Previously an NA-associated row would always be returned even if it’s count was 0. Due to this change <code><a href="../reference/ageutils-defunct.html">reaggregate_interval_counts()</a></code> will now never return an NA-associated row.</p></li>
+<li><p><code><a href="../reference/ageutils-defunct.html">split_interval_counts()</a></code> now matches the documentation and disallows missing (NA) bounds.</p></li>
 <li><p><code><a href="../reference/breaks_to_interval.html">breaks_to_interval()</a></code> and <code><a href="../reference/cut_ages.html">cut_ages()</a></code> both gain an argument, <code>max_upper</code> which allows users to explicitly set the maximum upper bound.</p></li>
-<li><p>New function <code><a href="../reference/ageutils-deprecated.html">reaggregate_interval_rates()</a></code>.</p></li>
+<li><p>New function <code><a href="../reference/ageutils-defunct.html">reaggregate_interval_rates()</a></code>.</p></li>
 <li><p>For the vignette we now use <a href="https://cran.r-project.org/package=markdown" class="external-link">markdown</a> as a lighter alternative to <a href="https://cran.r-project.org/package=rmarkdown" class="external-link">rmarkdown</a>.</p></li>
 </ul></div>
     <div class="section level2">

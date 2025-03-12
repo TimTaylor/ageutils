@@ -15,7 +15,7 @@ above max_upper will be returned as NA."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">ageutils</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.7.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@ above max_upper will be returned as NA."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Cut integer age vectors</h1>
-      <small class="dont-index">Source: <a href="https://github.com/TimTaylor/ageutils/blob/v0.0.7/R/cut_ages.R" class="external-link"><code>R/cut_ages.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/TimTaylor/ageutils/blob/main/R/cut_ages.R" class="external-link"><code>R/cut_ages.R</code></a></small>
       <div class="d-none name"><code>cut_ages.Rd</code></div>
     </div>
 
@@ -94,7 +94,7 @@ from those corresponding to <code>max_upper</code> can be assumed coercible to i
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">9</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">3L</span>, <span class="fl">5L</span>, <span class="fl">10L</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">9</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -109,7 +109,7 @@ from those corresponding to <code>max_upper</code> can be assumed coercible to i
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> [5, 10)            5          10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> [5, 10)            5          10</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">9</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0L</span>, <span class="fl">5L</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">cut_ages</span><span class="op">(</span>ages <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">9</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    interval lower_bound upper_bound</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
