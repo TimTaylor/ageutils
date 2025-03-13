@@ -1,4 +1,4 @@
-# ageutils (development version)
+# ageutils 0.0.8
 
 * The following functions which were deprecated in the 0.0.5 release have now
   been removed from the package and will now signal an error of class
