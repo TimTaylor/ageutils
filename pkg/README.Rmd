@@ -27,11 +27,3 @@ You can install the latest release of ageutils from [CRAN](https://cran.r-projec
 ```{r, eval = FALSE}
 install.packages("ageutils")
 ```
-
-The development version can be installed from r-universe with:
-```{r, eval = FALSE}
-install.packages(
-    'ageutils',
-    repos = c('https://timtaylor.r-universe.dev', 'https://cloud.r-project.org')
-)
-```
