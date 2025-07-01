@@ -211,3 +211,37 @@ test_that("reaggregate_count matches Edwins for example with weights", {
     )
 })
 
+
+test_that("reaggregate_count matches Edwins for Neil's bug report", {
+
+    skip_if_not_installed("dplyr")
+
+    bounds <- c(0, 5, 10)
+    counts <- c(1, 2, 3)
+    new_bounds <- 0:90
+    population_bounds <- 0:90
+    population_weights <- rep(1, 91)
+
+    current <- reaggregate_counts(
+        bounds = bounds,
+        counts = counts,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
+    target <- reaggregate_counts_edwin_weighted(
+        bounds = bounds,
+        counts = counts,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
+    current <- current[-c(1,3)]
+    expect_equal(
+        current,
+        setNames(target, names(current))
+    )
+})
+

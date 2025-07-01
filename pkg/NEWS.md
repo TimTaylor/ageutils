@@ -4,6 +4,9 @@
   the arguments `bounds` and `population_bounds`. Thanks to Neil Wilkins for
   flagging.
   
+* Fix bug in the incorrect calculation of some counts in `reaggregate_counts()`.
+  Thanks again to Neil Wilkins for the report.
+  
 * Clarify one error message in `reaggregate_rates()`.
 
 # ageutils 0.0.8

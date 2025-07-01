@@ -222,9 +222,11 @@ reaggregate_counts.default <- function(
 
     result <- counts[old_container]
 
-
-    pop_weights <- population_weights[pop_container]
-    pop_weights <- pop_weights * (all_upper - all_lower) / (pop_upper[pop_container] - population_bounds[pop_container])
+    all_diff <- all_upper - all_lower
+    pop_diff <- (pop_upper[pop_container] - population_bounds[pop_container])
+    ratio <- all_diff / pop_diff
+    ratio[all_diff == Inf & pop_diff == Inf] <- 1
+    pop_weights <- population_weights[pop_container] * ratio
     pop_weights <- pop_weights / ave(pop_weights, old_container, FUN = sum)
     result <- counts[old_container] * pop_weights
     result[length(result)] <- sum(counts) - sum(result[-length(result)])
