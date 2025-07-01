@@ -50,7 +50,7 @@ reaggregate_counts_edwin_weighted <- function(bounds, counts, new_bounds, popula
         dplyr::mutate(lower_bound = dat3$lower_bound) |>
         dplyr::summarise(count = sum(ck), .by = c(lower_bound)) -> dat5
 
-    stopifnot(sum(dat5$count) == sum(counts))
+    stopifnot(isTRUE(all.equal(sum(dat5$count), sum(counts))))
     dat5
 }
 
