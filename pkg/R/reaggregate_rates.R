@@ -131,7 +131,7 @@ reaggregate_rates.default <- function(
             stop("`population_bounds` must be non-negative.")
 
         if (max(population_bounds) < max(new_bounds)) {
-            stop("`new_bounds` must be less than or equal to that of `population bounds`.")
+            stop("The maximum value of `new_bounds` must be less than or equal to that of `population_bounds`.")
         }
 
     }

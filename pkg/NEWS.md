@@ -3,6 +3,8 @@
 * Fix erroneous input assertion in `reaggregate_counts()` in relation to
   the arguments `bounds` and `population_bounds`. Thanks to Neil Wilkins for
   flagging.
+  
+* Clarify one error message in `reaggregate_rates()`.
 
 # ageutils 0.0.8
 
