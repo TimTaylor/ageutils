@@ -153,7 +153,7 @@ reaggregate_counts.default <- function(
         if (population_bounds[1L] < 0)
             stop("`population_bounds} must be non-negative.")
 
-        if (max(bounds) < max(population_bounds)) {
+        if (max(bounds) > max(population_bounds)) {
             stop(
                 "The maximum value of `bounds` must be less than or equal to that of `population_bounds`."
             )
