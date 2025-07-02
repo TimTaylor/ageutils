@@ -228,6 +228,7 @@ reaggregate_counts <- function(
 # ------------------------------------------------------------------------- #
 
 .reaggregate_counts_unweighted <- function(bounds, counts, new_bounds) {
+    . <- count <- NULL
     all_lower <- sort(unique(c(bounds, new_bounds)))
     dat <- setDT(list(lower = bounds, counts = counts))
     cut <- setDT(cut_ages(all_lower, breaks = bounds))
@@ -242,6 +243,7 @@ reaggregate_counts <- function(
 # -------------------------------------------------------------------------
 
 .reaggregate_counts_weighted <- function(bounds, counts, new_bounds, population_bounds, population_weights) {
+    `:=` <- lower <- . <- w <- ck <- NULL
     all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
     dat <- setDT(list(lower = bounds, counts = counts))
     dat10 <- setDT(cut_ages(all_lower, breaks = bounds))

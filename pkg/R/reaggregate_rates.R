@@ -192,6 +192,7 @@ reaggregate_rates <- function(
 }
 
 .reaggregate_rates <- function(bounds, rates, new_bounds, population_bounds, population_weights) {
+    . <- weight <- NULL
     all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
     dat <- setDT(list(lower = bounds, rates = rates))
     cut <- setDT(cut_ages(all_lower, breaks = bounds))
