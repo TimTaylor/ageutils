@@ -121,7 +121,7 @@ test_that("reaggregate_count works with weights and with the population_bounds e
 
 
 
-test_that("reaggregate_count matches Edwins for simple example without weights", {
+test_that("reaggregate_count matches Edwins and original implementation for simple example without weights", {
 
     skip_if_not_installed("dplyr")
 
@@ -142,11 +142,24 @@ test_that("reaggregate_count matches Edwins for simple example without weights",
         new_bounds = breaks
     )
 
-    current <- current[-c(1,3)]
+    current2 <- current[-c(1,3)]
+    expect_equal(
+        current2,
+        setNames(target, names(current2))
+    )
+
+    target2 <- reaggregate_counts_fast(
+        bounds = c(0, lower_bounds),
+        counts = c(0, counts),
+        new_bounds = breaks
+    )
+
     expect_equal(
         current,
-        setNames(target, names(current))
+        target2
     )
+
+
 })
 
 
@@ -204,10 +217,23 @@ test_that("reaggregate_count matches Edwins for example with weights", {
         population_weights = population_weights
     )
 
-    current <- current[-c(1,3)]
+    current2 <- current[-c(1,3)]
+    expect_equal(
+        current2,
+        setNames(target, names(current2))
+    )
+
+    target2 <- reaggregate_counts_fast(
+        bounds = bounds,
+        counts = counts,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
     expect_equal(
         current,
-        setNames(target, names(current))
+        target2
     )
 })
 
@@ -238,10 +264,22 @@ test_that("reaggregate_count matches Edwins for Neil's bug report", {
         population_weights = population_weights
     )
 
-    current <- current[-c(1,3)]
+    current2 <- current[-c(1,3)]
+    expect_equal(
+        current2,
+        setNames(target, names(current2))
+    )
+
+    target2 <- reaggregate_counts_fast(
+        bounds = bounds,
+        counts = counts,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
     expect_equal(
         current,
-        setNames(target, names(current))
+        target2
     )
 })
-

@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom data.table copy set setDT setnames
 #' @importFrom rlang check_dots_empty0
 #' @importFrom stats ave
 #' @importFrom tibble new_tibble

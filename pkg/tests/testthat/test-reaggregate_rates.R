@@ -53,10 +53,23 @@ test_that("reaggregate_rates with weights works - example 1", {
         population_weights = population_weights
     )
 
-    current <- current[-c(1,3)]
+    current2 <- current[-c(1,3)]
+    expect_equal(
+        current2,
+        setNames(target, names(current2))
+    )
+
+    target2 <- reaggregate_rates_fast(
+        bounds = bounds,
+        rates  = rates,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
     expect_equal(
         current,
-        setNames(target, names(current))
+        target2
     )
 
 })
@@ -87,10 +100,23 @@ test_that("reaggregate_rates with weights works - example 2", {
         population_weights = population_weights
     )
 
-    current <- current[-c(1,3)]
+    current2 <- current[-c(1,3)]
+    expect_equal(
+        current2,
+        setNames(target, names(current2))
+    )
+
+    target2 <- reaggregate_rates_fast(
+        bounds = bounds,
+        rates  = rates,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
     expect_equal(
         current,
-        setNames(target, names(current))
+        target2
     )
 
 })
@@ -133,10 +159,23 @@ test_that("reaggregate_rates with weights works - example 3", {
         population_weights = population_weights
     )
 
-    current <- current[-c(1,3)]
+    current2 <- current[-c(1,3)]
+    expect_equal(
+        current2,
+        setNames(target, names(current2))
+    )
+
+    target2 <- reaggregate_rates_fast(
+        bounds = bounds,
+        rates  = rates,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
     expect_equal(
         current,
-        setNames(target, names(current))
+        target2
     )
 })
 
@@ -166,10 +205,23 @@ test_that("reaggregate_rates with weights works - example 4", {
         population_weights = population_weights
     )
 
-    current <- current[-c(1,3)]
+    current2 <- current[-c(1,3)]
+    expect_equal(
+        current2,
+        setNames(target, names(current2))
+    )
+
+    target2 <- reaggregate_rates_fast(
+        bounds = bounds,
+        rates  = rates,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
     expect_equal(
         current,
-        setNames(target, names(current))
+        target2
     )
 
 })
@@ -210,5 +262,18 @@ test_that("reaggregate_rates matches Edwins for Neil's bug report", {
     expect_equal(
         current2,
         setNames(target, names(current2))
+    )
+
+    target2 <- reaggregate_rates_fast(
+        bounds = bounds,
+        rates  = rates,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
+    expect_equal(
+        current,
+        target2
     )
 })

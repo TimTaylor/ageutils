@@ -2,12 +2,9 @@
 % Please edit documentation in R/reaggregate_counts.R
 \name{reaggregate_counts}
 \alias{reaggregate_counts}
-\alias{reaggregate_counts.default}
 \title{Reaggregate age counts}
 \usage{
-reaggregate_counts(...)
-
-\method{reaggregate_counts}{default}(
+reaggregate_counts(
   bounds,
   counts,
   new_bounds,
@@ -17,8 +14,6 @@ reaggregate_counts(...)
 )
 }
 \arguments{
-\item{...}{Further arguments passed to or from other methods.}
-
 \item{bounds}{\verb{[numeric]}
 
 The \emph{current} boundaries in (strictly) increasing order.
@@ -35,6 +30,8 @@ Vector of counts corresponding to the intervals defined by \code{bounds}.}
 \item{new_bounds}{\verb{[numeric]}
 
 The \emph{desired} boundaries in (strictly) increasing order.}
+
+\item{...}{Further arguments passed to or from other methods.}
 
 \item{population_bounds}{\verb{[numeric]}
 

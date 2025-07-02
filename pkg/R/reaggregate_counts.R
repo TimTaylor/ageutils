@@ -72,19 +72,13 @@
 #'
 # -------------------------------------------------------------------------
 #' @export
-reaggregate_counts <- function(...) {
-    UseMethod("reaggregate_counts")
-}
-
-#' @rdname reaggregate_counts
-#'@export
-reaggregate_counts.default <- function(
-    bounds,
-    counts,
-    new_bounds,
-    ...,
-    population_bounds = NULL,
-    population_weights = NULL
+reaggregate_counts <- function(
+        bounds,
+        counts,
+        new_bounds,
+        ...,
+        population_bounds = NULL,
+        population_weights = NULL
 ) {
 
     check_dots_empty0(...)
@@ -192,64 +186,76 @@ reaggregate_counts.default <- function(
             population_weights <- c(0, population_weights)
     }
 
-    # calculate the old and new upper bounds
-    old_upper <- c(bounds[-1L], Inf)
-    pop_upper <- c(population_bounds[-1L], Inf)
+    # branch on whether weights or not
+    if (is.null(population_weights)) {
+        DT <- .reaggregate_counts_unweighted(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds
+        )
+    } else {
+        DT <- .reaggregate_counts_weighted(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    }
+
+    # calculate the new upper bounds
     new_upper <- c(new_bounds[-1L], Inf)
 
-    # calculate the combined bounds
-    all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
-    all_upper <- c(all_lower[-1L], Inf)
-
-    if (is.null(population_weights))
-        population_weights <- pop_upper - population_bounds
-
-    # we need to keep track where the combined bits would fit in the old and
-    # new bounds. This information is stored in the old_container and
-    # new_container vectors respectively.
-    new_container <- old_container <- pop_container <- integer(length(all_upper))
-    new_index <- old_index <- pop_index <- 1L
-
-    for (i in seq_along(old_container)) {
-        old_index <- old_index + (all_upper[i] > old_upper[old_index])
-        new_index <- new_index + (all_upper[i] > new_upper[new_index])
-        pop_index <- pop_index + (all_upper[i] > pop_upper[pop_index])
-
-        old_container[i] <- old_index
-        new_container[i] <- new_index
-        pop_container[i] <- pop_index
-    }
-
-    result <- counts[old_container]
-
-    all_diff <- all_upper - all_lower
-    pop_diff <- (pop_upper[pop_container] - population_bounds[pop_container])
-    ratio <- all_diff / pop_diff
-    ratio[all_diff == Inf & pop_diff == Inf] <- 1
-    pop_weights <- population_weights[pop_container] * ratio
-    pop_weights <- pop_weights / ave(pop_weights, old_container, FUN = sum)
-    result <- counts[old_container] * pop_weights
-    result[length(result)] <- sum(counts) - sum(result[-length(result)])
-
-    out <- numeric(length(new_bounds))
-    idx <- 1L
-    for (i in seq_along(new_container)) {
-        if (new_container[i] != idx)
-            idx <- idx + 1L
-        out[idx] <- out[idx] + result[i]
-    }
-    out[idx] <- sum(counts) - sum(out[-idx])
-
+    # calculate the interval
     interval <- sprintf("[%.f, %.f)", new_bounds, new_upper)
     interval <- factor(interval, levels = interval, ordered = TRUE)
 
+    # return as tibble
     new_tibble(
         list(
             interval = interval,
             lower = new_bounds,
             upper = new_upper,
-            count = out
+            count = DT$count
         )
     )
+}
 
+# ------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------- #
+# -------------------------------- INTERNALS ------------------------------ #
+# ------------------------------------------------------------------------- #
+# ------------------------------------------------------------------------- #
+
+.reaggregate_counts_unweighted <- function(bounds, counts, new_bounds) {
+    all_lower <- sort(unique(c(bounds, new_bounds)))
+    dat <- setDT(list(lower = bounds, counts = counts))
+    cut <- setDT(cut_ages(all_lower, breaks = bounds))
+    dat <- dat[cut, on = "lower"]
+    out <- setDT(cut_ages(all_lower, breaks = new_bounds))
+    fraction <- (c(all_lower[-1L], NA) - all_lower) / (dat$upper - dat$lower)
+    fraction[is.na(fraction)] <- 1
+    set(out, j = "count", value = fraction * dat$counts)
+    out[,.(count = sum(count)), keyby = "lower"][]
+}
+
+# -------------------------------------------------------------------------
+
+.reaggregate_counts_weighted <- function(bounds, counts, new_bounds, population_bounds, population_weights) {
+    all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
+    dat <- setDT(list(lower = bounds, counts = counts))
+    dat10 <- setDT(cut_ages(all_lower, breaks = bounds))
+    dat0 <- dat[dat10, on = "lower"]
+
+    dat1 <- .reaggregate_counts_unweighted(population_bounds, population_weights, all_lower)
+    setnames(dat1, old = "count", new = "w")
+    dat3 <- cut_ages(all_lower, breaks = new_bounds)
+
+    out <- copy(dat0)
+    out[, lower := all_lower]
+    out <- dat1[out, on = "lower"]
+    set(out, j = "i", value = dat0$lower)
+    out <- out[, .(ck = counts * w/sum(w)), by = "i"]
+    set(out, j = "lower", value = dat3$lower)
+    out[, .(count = sum(ck)), keyby = "lower"][]
 }

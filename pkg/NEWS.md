@@ -11,6 +11,16 @@
   `upper` as opposed to `lower_bounds` and `upper_bound` respectively. This is
   for consistency with the output of `reaggregate_counts()` and
   `reaggregate_rates()` (as well as the convenience of brevity).
+  
+* `reaggregate_counts()` and `reaggregate_rates()` are no longer implemented as
+  generics.
+
+## Other
+
+* Motivated by the recent bug reports from Neil, `reaggregate_counts()` and
+  `reaggregate_rates()` have been refactored internally to use a simpler
+  approach. Whilst these functions are now a little less performant they are,
+  hopefully, easier to understand.
 
 # ageutils 0.0.9
 
