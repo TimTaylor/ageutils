@@ -172,8 +172,12 @@ reaggregate_rates.default <- function(
     all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
     all_upper <- c(all_lower[-1L], Inf)
 
-    if (is.null(population_weights))
+    # TODO - improve this hack!!!
+    fix <- FALSE
+    if (is.null(population_weights)) {
         population_weights <- pop_upper - population_bounds
+        fix <- TRUE
+    }
 
     # we need to keep track where the combined bits would fit in the old and
     # new bounds. This information is stored in the old_container and
@@ -191,9 +195,18 @@ reaggregate_rates.default <- function(
         pop_container[i] <- pop_index
     }
 
-    pop_weights <- population_weights[pop_container]
-    pop_weights <- pop_weights * (all_upper - all_lower) / (pop_upper[pop_container] - population_bounds[pop_container])
-    pop_weights[length(pop_weights)] <- 1
+    all_diff <- all_upper - all_lower
+    pop_diff <- (pop_upper[pop_container] - population_bounds[pop_container])
+    ratio <- all_diff / pop_diff
+    ratio[all_diff == Inf & pop_diff == Inf] <- 1
+    pop_weights <- population_weights[pop_container] * ratio
+    if (fix) {
+        pop_weights[length(pop_weights)] <- 1
+    }
+
+    # pop_weights <- population_weights[pop_container]
+    # pop_weights <- pop_weights * (all_upper - all_lower) / (pop_upper[pop_container] - population_bounds[pop_container])
+    # pop_weights[length(pop_weights)] <- 1
     result <- rates[old_container] * pop_weights
     out <- numeric(length(new_bounds))
     idx <- 1L

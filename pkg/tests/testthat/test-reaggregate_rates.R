@@ -139,3 +139,38 @@ test_that("reaggregate_rates with weights works - example 3", {
         setNames(target, names(current))
     )
 })
+
+test_that("reaggregate_rates with weights works - example 4", {
+
+    skip_if_not_installed("dplyr")
+
+    bounds <- 0:99
+    rates <- rep(seq(25, 5, -5), each = 20)
+    new_bounds <- c(0, 5, 15, 45, 65)
+    population_bounds <- 0:99
+    population_weights <- 1:100
+
+    current <- reaggregate_rates(
+        bounds = bounds,
+        rates  = rates,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
+    target <- reaggregate_rates_edwin_weighted(
+        bounds = bounds,
+        rates  = rates,
+        new_bounds = new_bounds,
+        population_bounds = population_bounds,
+        population_weights = population_weights
+    )
+
+    current <- current[-c(1,3)]
+    expect_equal(
+        current,
+        setNames(target, names(current))
+    )
+
+})
+
