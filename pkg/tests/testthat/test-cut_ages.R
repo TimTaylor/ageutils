@@ -47,8 +47,8 @@ test_that("cut_ages works with single limit works", {
             levels = c("[0, 5)", "[5, Inf)"),
             ordered = TRUE
         ),
-        lower_bound = lower_bound,
-        upper_bound = upper_bound
+        lower = lower_bound,
+        upper = upper_bound
     )
 
     expect_identical(cut_ages(dat, c(0L, limit)), expected)
@@ -67,8 +67,8 @@ test_that("cut_ages works with multiple limit works", {
             levels = c("[0, 3)", "[3, 98)", "[98, Inf)"),
             ordered = TRUE
         ),
-        lower_bound = lower_bound,
-        upper_bound = upper_bound
+        lower = lower_bound,
+        upper = upper_bound
     )
     expect_identical(cut_ages(dat, c(0L, limit)), expected)
     expect_identical(tibble::validate_tibble(cut_ages(dat, c(0L, limit))), expected)
@@ -86,8 +86,8 @@ test_that("cut_ages with limits greater than values works", {
             levels = c("[0, 6)", "[6, 7)", "[7, Inf)"),
             ordered = TRUE
         ),
-        lower_bound = lower_bound,
-        upper_bound = upper_bound
+        lower = lower_bound,
+        upper = upper_bound
     )
     expect_identical(tibble::validate_tibble(cut_ages(dat, c(0L, limits))), expected)
 })
@@ -95,8 +95,8 @@ test_that("cut_ages with limits greater than values works", {
 test_that("cut_ages works with single age", {
     expected <- tibble::tibble(
         interval = factor("[1, 2)", levels = "[1, 2)", ordered = TRUE),
-        lower_bound = 1,
-        upper_bound = 2
+        lower = 1,
+        upper = 2
     )
     expect_identical(tibble::validate_tibble(cut_ages(1,1,2)), expected)
 })

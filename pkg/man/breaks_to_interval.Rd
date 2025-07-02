@@ -24,8 +24,8 @@ Defaults to \code{Inf}.}
 }
 \value{
 A \link[tibble:tbl_df-class]{tibble} with an ordered factor column (\code{interval}),
-as well as columns corresponding to the explicit bounds (\code{lower_bound} and
-\code{upper_bound}). Note that even those these bounds are whole numbers they are
+as well as columns corresponding to the explicit bounds (\code{lower} and
+\code{upper}). Note that even those these bounds are whole numbers they are
 returned as \code{numeric} to allow the maximum upper bound to be given as \code{Inf}.
 }
 \description{

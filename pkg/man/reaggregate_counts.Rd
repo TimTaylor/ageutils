@@ -50,7 +50,7 @@ Used to weight the output across the desired intervals.
 If \code{NULL} (default), counts are divided proportional to the interval sizes.}
 }
 \value{
-A data frame with 4 entries; \code{interval}, \code{lower_bound}, \code{upper_bound} and a
+A data frame with 4 entries; \code{interval}, \code{lower}, \code{upper} and a
 corresponding \code{count}.
 }
 \description{

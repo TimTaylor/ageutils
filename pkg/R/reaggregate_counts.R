@@ -41,7 +41,7 @@
 # -------------------------------------------------------------------------
 #' @return
 #'
-#' A data frame with 4 entries; `interval`, `lower_bound`, `upper_bound` and a
+#' A data frame with 4 entries; `interval`, `lower`, `upper` and a
 #' corresponding `count`.
 #'
 # -------------------------------------------------------------------------

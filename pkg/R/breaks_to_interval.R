@@ -29,8 +29,8 @@
 #' @return
 #'
 #' A [tibble][tibble::tbl_df-class] with an ordered factor column (`interval`),
-#' as well as columns corresponding to the explicit bounds (`lower_bound` and
-#' `upper_bound`). Note that even those these bounds are whole numbers they are
+#' as well as columns corresponding to the explicit bounds (`lower` and
+#' `upper`). Note that even those these bounds are whole numbers they are
 #' returned as `numeric` to allow the maximum upper bound to be given as `Inf`.
 #'
 # -------------------------------------------------------------------------
@@ -80,8 +80,8 @@ breaks_to_interval <- function(breaks, max_upper = Inf) {
     new_tibble(
         list(
             interval = intervals,
-            lower_bound = breaks,
-            upper_bound = upper
+            lower = breaks,
+            upper = upper
         )
     )
 }

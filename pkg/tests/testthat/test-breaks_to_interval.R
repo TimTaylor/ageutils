@@ -38,7 +38,7 @@ test_that("breaks_to_interval gives correct result", {
     upper <- c(0,10,1000,Inf)
     interval <- sprintf("[%.f, %.f)", lower, upper)
     interval <- factor(interval, levels = interval, ordered = TRUE)
-    expected <- tibble::tibble(interval, lower_bound=lower, upper_bound=upper)
+    expected <- tibble::tibble(interval, lower = lower, upper = upper)
 
     expect_equal(breaks_to_interval(brks), expected)
 
@@ -52,8 +52,8 @@ test_that("breaks_to_interval gives correct result", {
 
     expected <- tibble::tibble(
         interval = factor("[1, 2)", levels = "[1, 2)", ordered = TRUE),
-        lower_bound = 1,
-        upper_bound = 2
+        lower = 1,
+        upper = 2
     )
 
     expect_identical(breaks_to_interval(1, 2), expected)

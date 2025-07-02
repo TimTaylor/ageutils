@@ -1,5 +1,12 @@
 # ageutils (development version)
 
+## Breaking changes
+
+- `cut_ages()` and `breaks_to_interval()` now return columns named `lower` and
+  `upper` as opposed to `lower_bounds` and `upper_bound` respectively. This is
+  for consistency with the output of `reaggregate_counts()` and
+  `reaggregate_rates()` (as well as the convenience of brevity).
+
 # ageutils 0.0.9
 
 * Fix erroneous input assertion in `reaggregate_counts()` in relation to
