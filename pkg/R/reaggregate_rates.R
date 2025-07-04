@@ -192,14 +192,24 @@ reaggregate_rates <- function(
 }
 
 .reaggregate_rates <- function(bounds, rates, new_bounds, population_bounds, population_weights) {
-    . <- weight <- NULL
     all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
-    dat <- setDT(list(lower = bounds, rates = rates))
-    cut <- setDT(cut_ages(all_lower, breaks = bounds))
-    dat1 <- dat[cut, on = "lower"]
+    # vctrs::new_data_frame should be safe to use here due to earlier input
+    #   checks in the user facing function
+    dat <- new_data_frame(list(lower = bounds, rates = rates))
+    cut <- cut_ages(all_lower, breaks = bounds)
+    dat1 <- merge(cut, dat, by = "lower")
     dat2 <- .reaggregate_counts_unweighted(population_bounds, population_weights, all_lower)
-    set(dat1, j = "weight", value = dat2$count)
+    dat1$weight <- dat2$count
     cut2 <- cut_ages(all_lower, breaks = new_bounds)
-    set(dat1, j = "lower", value = cut2$lower)
-    dat1[, .(rate = sum(rates * weight) / sum(weight)), by = "lower"]
+    dat1$lower <- cut2$lower
+
+    # The following is optimised for performance for our use cases but is the
+    # equivalent (save output type) of
+    # setDT(dat1)[, .(rate = sum(rates * weight) / sum(weight)), by = "lower"][]
+    out <- .fgsum(dat1$rates * dat1$weight, by = dat1$lower, byname = "lower", sumname = "rate")
+    sw <- .fgsum(dat1$weight, by = dat1$lower, byname = "lower", sumname = "rate")
+    out$rate <- out$rate / sw$rate
+    out
+
+
 }

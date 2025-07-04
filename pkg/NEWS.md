@@ -19,8 +19,8 @@
 
 * Motivated by the recent bug reports from Neil, `reaggregate_counts()` and
   `reaggregate_rates()` have been refactored internally to use a simpler
-  approach. Whilst these functions are now a little less performant they are,
-  hopefully, easier to understand.
+  approach. Whilst these functions are now a little less performant for our
+  common use cases, they are, hopefully, easier to understand.
 
 # ageutils 0.0.9
 

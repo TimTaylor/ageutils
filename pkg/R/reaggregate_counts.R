@@ -228,36 +228,46 @@ reaggregate_counts <- function(
 # ------------------------------------------------------------------------- #
 
 .reaggregate_counts_unweighted <- function(bounds, counts, new_bounds) {
-    . <- count <- NULL
     all_lower <- sort(unique(c(bounds, new_bounds)))
-    dat <- setDT(list(lower = bounds, counts = counts))
-    cut <- setDT(cut_ages(all_lower, breaks = bounds))
-    dat <- dat[cut, on = "lower"]
-    out <- setDT(cut_ages(all_lower, breaks = new_bounds))
+
+    # vctrs::new_data_frame should be safe to use here due to earlier input
+    #   checks in the user facing function
+    dat <- new_data_frame(list(lower = bounds, counts = counts))
+    cut <- cut_ages(all_lower, breaks = bounds)
+    dat <- merge(cut, dat, by = "lower")
+    out <- cut_ages(all_lower, breaks = new_bounds)
     fraction <- (c(all_lower[-1L], NA) - all_lower) / (dat$upper - dat$lower)
     fraction[is.na(fraction)] <- 1
-    set(out, j = "count", value = fraction * dat$counts)
-    out[,.(count = sum(count)), keyby = "lower"][]
+    out$count <- fraction * dat$counts
+    # The following is optimised for performance for our use cases but is the
+    # equivalent (save output type) of
+    # setDT(out)[, .(count = sum(count)), by = "lower"][]
+    .fgsum(out$count, out$lower, byname = "lower", sumname = "count")
 }
 
 # -------------------------------------------------------------------------
 
 .reaggregate_counts_weighted <- function(bounds, counts, new_bounds, population_bounds, population_weights) {
-    `:=` <- lower <- . <- w <- ck <- NULL
     all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
-    dat <- setDT(list(lower = bounds, counts = counts))
-    dat10 <- setDT(cut_ages(all_lower, breaks = bounds))
-    dat0 <- dat[dat10, on = "lower"]
+    # vctrs::new_data_frame should be safe to use here due to earlier input
+    #   checks in the user facing function
+    dat <- new_data_frame(list(lower = bounds, counts = counts))
+    dat10 <- cut_ages(all_lower, breaks = bounds)
+    dat0 <- merge(dat10, dat, by = "lower")
 
     dat1 <- .reaggregate_counts_unweighted(population_bounds, population_weights, all_lower)
-    setnames(dat1, old = "count", new = "w")
+    names(dat1) <- c("lower", "w")
     dat3 <- cut_ages(all_lower, breaks = new_bounds)
 
-    out <- copy(dat0)
-    out[, lower := all_lower]
-    out <- dat1[out, on = "lower"]
-    set(out, j = "i", value = dat0$lower)
-    out <- out[, .(ck = counts * w/sum(w)), by = "i"]
-    set(out, j = "lower", value = dat3$lower)
-    out[, .(count = sum(ck)), keyby = "lower"][]
+    out <- dat0
+    out$lower <- all_lower
+    out <- merge(out, dat1, by = "lower")
+    out$i <- dat0$lower
+    # The following is optimised for performance for our use cases but is the
+    # equivalent (save output type) of
+    # out <- out[, .(ck = counts * w/sum(w)), by = "i"]
+    # set(out, j = "lower", value = dat3$lower)
+    # out[, .(count = sum(ck)), keyby = "lower"][]
+    out$ck <- out$counts * out$w / .fsum(out$w, out$i)
+    .fgsum(out$ck, dat3$lower, byname = "lower", sumname = "count")
 }
