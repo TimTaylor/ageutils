@@ -59,9 +59,7 @@ h2 {
 <p>
 <b>-- <kbd>R</kbd> --</b>
 <a href="#sec:man-reaggregate_counts"><code>reaggregate_counts()</code></a>
-<a href="#sec:man-reaggregate_counts"><code>reaggregate_counts.default()</code></a>
 <a href="#sec:man-reaggregate_rates"><code>reaggregate_rates()</code></a>
-<a href="#sec:man-reaggregate_rates"><code>reaggregate_rates.default()</code></a>
 </p>
 <h2 id="sec:man-breaks_to_interval">Convert breaks to an interval</h2>
 <h3 id="sec:description_1" class="unnumbered unlisted">Description</h3>
@@ -96,23 +94,23 @@ closed side of [x, y).
 </table>
 <h3 id="sec:value_1" class="unnumbered unlisted">Value</h3>
 <p>A <a href="https://rdrr.io/cran/tibble/man/tbl_df-class.html">tibble</a> with an ordered factor column (<code>interval</code>),
-as well as columns corresponding to the explicit bounds (<code>lower_bound</code> and
-<code>upper_bound</code>). Note that even those these bounds are whole numbers they are
+as well as columns corresponding to the explicit bounds (<code>lower</code> and
+<code>upper</code>). Note that even those these bounds are whole numbers they are
 returned as <code>numeric</code> to allow the maximum upper bound to be given as <code>Inf</code>.
 </p>
 <h3 id="sec:examples_1" class="unnumbered unlisted">Examples</h3>
 <pre><code class="language-r">breaks_to_interval(breaks = c(0, 1, 5, 15, 25, 45, 65))
 </code></pre>
 <pre><code>#&gt; # A tibble: 7 × 3
-#&gt;   interval  lower_bound upper_bound
-#&gt;   &lt;ord&gt;           &lt;dbl&gt;       &lt;dbl&gt;
-#&gt; 1 [0, 1)              0           1
-#&gt; 2 [1, 5)              1           5
-#&gt; 3 [5, 15)             5          15
-#&gt; 4 [15, 25)           15          25
-#&gt; 5 [25, 45)           25          45
-#&gt; 6 [45, 65)           45          65
-#&gt; 7 [65, Inf)          65         Inf
+#&gt;   interval  lower upper
+#&gt;   &lt;ord&gt;     &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 [0, 1)        0     1
+#&gt; 2 [1, 5)        1     5
+#&gt; 3 [5, 15)       5    15
+#&gt; 4 [15, 25)     15    25
+#&gt; 5 [25, 45)     25    45
+#&gt; 6 [45, 65)     45    65
+#&gt; 7 [65, Inf)    65   Inf
 </code></pre>
 <pre><code class="language-r">breaks_to_interval(
     breaks = c(0, 1, 5, 15, 25, 45, 65),
@@ -120,15 +118,15 @@ returned as <code>numeric</code> to allow the maximum upper bound to be given as
 )
 </code></pre>
 <pre><code>#&gt; # A tibble: 7 × 3
-#&gt;   interval  lower_bound upper_bound
-#&gt;   &lt;ord&gt;           &lt;dbl&gt;       &lt;dbl&gt;
-#&gt; 1 [0, 1)              0           1
-#&gt; 2 [1, 5)              1           5
-#&gt; 3 [5, 15)             5          15
-#&gt; 4 [15, 25)           15          25
-#&gt; 5 [25, 45)           25          45
-#&gt; 6 [45, 65)           45          65
-#&gt; 7 [65, 100)          65         100
+#&gt;   interval  lower upper
+#&gt;   &lt;ord&gt;     &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 [0, 1)        0     1
+#&gt; 2 [1, 5)        1     5
+#&gt; 3 [5, 15)       5    15
+#&gt; 4 [15, 25)     15    25
+#&gt; 5 [25, 45)     25    45
+#&gt; 6 [45, 65)     45    65
+#&gt; 7 [65, 100)    65   100
 </code></pre>
 <h2 id="sec:man-cut_ages">Cut integer age vectors</h2>
 <h3 id="sec:description_2" class="unnumbered unlisted">Description</h3>
@@ -176,10 +174,10 @@ closed side of [x, y).
 </table>
 <h3 id="sec:value_2" class="unnumbered unlisted">Value</h3>
 <p>A data frame with an ordered factor column (<code>interval</code>), as well as columns
-corresponding to the explicit bounds (<code>lower_bound</code> and <code>upper_bound</code>).
+corresponding to the explicit bounds (<code>lower</code> and <code>upper</code>).
 Internally both bound columns are stored as double but it can be taken as
-part of the function API that <code>lower_bound</code> is coercible to integer without
-any coercion to <code>NA_integer_</code>. Similarly all values of <code>upper_bound</code> apart
+part of the function API that <code>lower</code> is coercible to integer without
+any coercion to <code>NA_integer_</code>. Similarly all values of <code>upper</code> apart
 from those corresponding to <code>max_upper</code> can be assumed coercible to integer
 (<code>max_upper</code> may or may not depending on the given argument).
 </p>
@@ -187,34 +185,34 @@ from those corresponding to <code>max_upper</code> can be assumed coercible to i
 <pre><code class="language-r">cut_ages(ages = 0:9, breaks = c(0, 3, 5, 10))
 </code></pre>
 <pre><code>#&gt; # A tibble: 10 × 3
-#&gt;    interval lower_bound upper_bound
-#&gt;    &lt;ord&gt;          &lt;dbl&gt;       &lt;dbl&gt;
-#&gt;  1 [0, 3)             0           3
-#&gt;  2 [0, 3)             0           3
-#&gt;  3 [0, 3)             0           3
-#&gt;  4 [3, 5)             3           5
-#&gt;  5 [3, 5)             3           5
-#&gt;  6 [5, 10)            5          10
-#&gt;  7 [5, 10)            5          10
-#&gt;  8 [5, 10)            5          10
-#&gt;  9 [5, 10)            5          10
-#&gt; 10 [5, 10)            5          10
+#&gt;    interval lower upper
+#&gt;    &lt;ord&gt;    &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 [0, 3)       0     3
+#&gt;  2 [0, 3)       0     3
+#&gt;  3 [0, 3)       0     3
+#&gt;  4 [3, 5)       3     5
+#&gt;  5 [3, 5)       3     5
+#&gt;  6 [5, 10)      5    10
+#&gt;  7 [5, 10)      5    10
+#&gt;  8 [5, 10)      5    10
+#&gt;  9 [5, 10)      5    10
+#&gt; 10 [5, 10)      5    10
 </code></pre>
 <pre><code class="language-r">cut_ages(ages = 0:9, breaks = c(0, 5))
 </code></pre>
 <pre><code>#&gt; # A tibble: 10 × 3
-#&gt;    interval lower_bound upper_bound
-#&gt;    &lt;ord&gt;          &lt;dbl&gt;       &lt;dbl&gt;
-#&gt;  1 [0, 5)             0           5
-#&gt;  2 [0, 5)             0           5
-#&gt;  3 [0, 5)             0           5
-#&gt;  4 [0, 5)             0           5
-#&gt;  5 [0, 5)             0           5
-#&gt;  6 [5, Inf)           5         Inf
-#&gt;  7 [5, Inf)           5         Inf
-#&gt;  8 [5, Inf)           5         Inf
-#&gt;  9 [5, Inf)           5         Inf
-#&gt; 10 [5, Inf)           5         Inf
+#&gt;    interval lower upper
+#&gt;    &lt;ord&gt;    &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 [0, 5)       0     5
+#&gt;  2 [0, 5)       0     5
+#&gt;  3 [0, 5)       0     5
+#&gt;  4 [0, 5)       0     5
+#&gt;  5 [0, 5)       0     5
+#&gt;  6 [5, Inf)     5   Inf
+#&gt;  7 [5, Inf)     5   Inf
+#&gt;  8 [5, Inf)     5   Inf
+#&gt;  9 [5, Inf)     5   Inf
+#&gt; 10 [5, Inf)     5   Inf
 </code></pre>
 <pre><code class="language-r"># Note the following is comparable to a call to
 # cut(ages, right = FALSE, breaks = c(breaks, Inf))
@@ -223,36 +221,36 @@ breaks &lt;- c(0, 1, 10, 30)
 cut_ages(ages, breaks)
 </code></pre>
 <pre><code>#&gt; # A tibble: 10 × 3
-#&gt;    interval  lower_bound upper_bound
-#&gt;    &lt;ord&gt;           &lt;dbl&gt;       &lt;dbl&gt;
-#&gt;  1 [0, 1)              0           1
-#&gt;  2 [10, 30)           10          30
-#&gt;  3 [10, 30)           10          30
-#&gt;  4 [30, Inf)          30         Inf
-#&gt;  5 [30, Inf)          30         Inf
-#&gt;  6 [30, Inf)          30         Inf
-#&gt;  7 [30, Inf)          30         Inf
-#&gt;  8 [30, Inf)          30         Inf
-#&gt;  9 [30, Inf)          30         Inf
-#&gt; 10 [30, Inf)          30         Inf
+#&gt;    interval  lower upper
+#&gt;    &lt;ord&gt;     &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 [0, 1)        0     1
+#&gt;  2 [10, 30)     10    30
+#&gt;  3 [10, 30)     10    30
+#&gt;  4 [30, Inf)    30   Inf
+#&gt;  5 [30, Inf)    30   Inf
+#&gt;  6 [30, Inf)    30   Inf
+#&gt;  7 [30, Inf)    30   Inf
+#&gt;  8 [30, Inf)    30   Inf
+#&gt;  9 [30, Inf)    30   Inf
+#&gt; 10 [30, Inf)    30   Inf
 </code></pre>
 <pre><code class="language-r"># values above max_upper treated as NA
 cut_ages(ages = 0:10, breaks = c(0,5), max_upper = 7)
 </code></pre>
 <pre><code>#&gt; # A tibble: 11 × 3
-#&gt;    interval lower_bound upper_bound
-#&gt;    &lt;ord&gt;          &lt;dbl&gt;       &lt;dbl&gt;
-#&gt;  1 [0, 5)             0           5
-#&gt;  2 [0, 5)             0           5
-#&gt;  3 [0, 5)             0           5
-#&gt;  4 [0, 5)             0           5
-#&gt;  5 [0, 5)             0           5
-#&gt;  6 [5, 7)             5           7
-#&gt;  7 [5, 7)             5           7
-#&gt;  8 &lt;NA&gt;              NA          NA
-#&gt;  9 &lt;NA&gt;              NA          NA
-#&gt; 10 &lt;NA&gt;              NA          NA
-#&gt; 11 &lt;NA&gt;              NA          NA
+#&gt;    interval lower upper
+#&gt;    &lt;ord&gt;    &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 [0, 5)       0     5
+#&gt;  2 [0, 5)       0     5
+#&gt;  3 [0, 5)       0     5
+#&gt;  4 [0, 5)       0     5
+#&gt;  5 [0, 5)       0     5
+#&gt;  6 [5, 7)       5     7
+#&gt;  7 [5, 7)       5     7
+#&gt;  8 &lt;NA&gt;        NA    NA
+#&gt;  9 &lt;NA&gt;        NA    NA
+#&gt; 10 &lt;NA&gt;        NA    NA
+#&gt; 11 &lt;NA&gt;        NA    NA
 </code></pre>
 <h2 id="sec:man-pop_dat">Aggregated population data</h2>
 <h3 id="sec:description_3" class="unnumbered unlisted">Description</h3>
@@ -283,10 +281,7 @@ age categories across England and Wales.
 with optional weighting by a known population.
 </p>
 <h3 id="sec:usage_4" class="unnumbered unlisted">Usage</h3>
-<pre><code class="language-r">reaggregate_counts(...)
-
-## Default S3 method:
-reaggregate_counts(
+<pre><code class="language-r">reaggregate_counts(
   bounds,
   counts,
   new_bounds,
@@ -296,10 +291,6 @@ reaggregate_counts(
 )</code></pre>
 <h3 id="sec:arguments_3" class="unnumbered unlisted">Arguments</h3>
 <table role = "presentation">
-<tr><td><code>...</code></td>
-<td>
-<p>Further arguments passed to or from other methods.</p>
-</td></tr>
 <tr><td><code>bounds</code></td>
 <td>
 <p><code>[numeric]</code>
@@ -323,6 +314,10 @@ closed side of [x, y).
 </p>
 <p>The <em>desired</em> boundaries in (strictly) increasing order.</p>
 </td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Further arguments passed to or from other methods.</p>
+</td></tr>
 <tr><td><code>population_bounds</code></td>
 <td>
 <p><code>[numeric]</code>
@@ -342,7 +337,7 @@ closed side of [x, y).
 </td></tr>
 </table>
 <h3 id="sec:value_3" class="unnumbered unlisted">Value</h3>
-<p>A data frame with 4 entries; <code>interval</code>, <code>lower_bound</code>, <code>upper_bound</code> and a
+<p>A data frame with 4 entries; <code>interval</code>, <code>lower</code>, <code>upper</code> and a
 corresponding <code>count</code>.
 </p>
 <h3 id="sec:examples_3" class="unnumbered unlisted">Examples</h3>
@@ -394,10 +389,7 @@ with(
 with optional weighting by a known population.
 </p>
 <h3 id="sec:usage_5" class="unnumbered unlisted">Usage</h3>
-<pre><code class="language-r">reaggregate_rates(...)
-
-## Default S3 method:
-reaggregate_rates(
+<pre><code class="language-r">reaggregate_rates(
   bounds,
   rates,
   new_bounds,
@@ -407,10 +399,6 @@ reaggregate_rates(
 )</code></pre>
 <h3 id="sec:arguments_4" class="unnumbered unlisted">Arguments</h3>
 <table role = "presentation">
-<tr><td><code>...</code></td>
-<td>
-<p>Further arguments passed to or from other methods.</p>
-</td></tr>
 <tr><td><code>bounds</code></td>
 <td>
 <p><code>[numeric]</code>
@@ -434,6 +422,10 @@ closed side of [x, y).
 </p>
 <p>The <em>desired</em> boundaries in (strictly) increasing order.</p>
 </td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Further arguments passed to or from other methods.</p>
+</td></tr>
 <tr><td><code>population_bounds</code></td>
 <td>
 <p><code>[numeric]</code>
@@ -453,7 +445,7 @@ closed side of [x, y).
 </td></tr>
 </table>
 <h3 id="sec:value_4" class="unnumbered unlisted">Value</h3>
-<p>A data frame with 4 entries; <code>interval</code>, <code>lower_bound</code>, <code>upper_bound</code> and a
+<p>A data frame with 4 entries; <code>interval</code>, <code>lower</code>, <code>upper</code> and a
 corresponding <code>rate</code>.
 </p>
 <h3 id="sec:examples_4" class="unnumbered unlisted">Examples</h3>

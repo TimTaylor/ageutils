@@ -28,6 +28,13 @@
 <div class="body">
 <div id="TOC">
 <ul>
+<li><a href="#sec:ageutils-0-1-0">ageutils 0.1.0</a>
+<ul>
+<li><a href="#sec:fixes">Fixes</a></li>
+<li><a href="#sec:breaking-changes">Breaking changes</a></li>
+<li><a href="#sec:other">Other</a></li>
+</ul>
+</li>
 <li><a href="#sec:ageutils-0-0-9">ageutils 0.0.9</a></li>
 <li><a href="#sec:ageutils-0-0-8">ageutils 0.0.8</a></li>
 <li><a href="#sec:ageutils-0-0-7">ageutils 0.0.7</a></li>
@@ -39,6 +46,32 @@
 <li><a href="#sec:ageutils-0-0-1">ageutils 0.0.1</a></li>
 </ul>
 </div>
+<h2 id="sec:ageutils-0-1-0" class="unnumbered">ageutils 0.1.0</h2>
+<h3 id="sec:fixes" class="unnumbered">Fixes</h3>
+<ul>
+<li>Fix bug in the incorrect calculation of some counts in <code>reaggregate_rates()</code>.
+Thanks to Neil Wilkins for the report.</li>
+</ul>
+<h3 id="sec:breaking-changes" class="unnumbered">Breaking changes</h3>
+<ul>
+<li>
+<p><code>cut_ages()</code> and <code>breaks_to_interval()</code> now return columns named <code>lower</code> and
+<code>upper</code> as opposed to <code>lower_bounds</code> and <code>upper_bound</code> respectively. This is
+for consistency with the output of <code>reaggregate_counts()</code> and
+<code>reaggregate_rates()</code> (as well as the convenience of brevity).</p>
+</li>
+<li>
+<p><code>reaggregate_counts()</code> and <code>reaggregate_rates()</code> are no longer implemented as
+generics.</p>
+</li>
+</ul>
+<h3 id="sec:other" class="unnumbered">Other</h3>
+<ul>
+<li>Motivated by the recent bug reports from Neil, <code>reaggregate_counts()</code> and
+<code>reaggregate_rates()</code> have been refactored internally to use a simpler
+approach. Whilst these functions are now a little less performant for our
+common use cases, they are, hopefully, easier to understand.</li>
+</ul>
 <h2 id="sec:ageutils-0-0-9" class="unnumbered">ageutils 0.0.9</h2>
 <ul>
 <li>
