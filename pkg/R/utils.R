@@ -1,17 +1,3 @@
-stopf <- function(fmt, ..., .use_call = TRUE, .call = sys.call(-1L)) {
-    .call <- if (isTRUE(.use_call)) .call[1L] else NULL
-    msg <- sprintf(fmt, ...)
-    err <- simpleError(msg, .call)
-    stop(err)
-}
-
-warningf <- function(fmt, ..., .use_call = TRUE, .call = sys.call(-1L)) {
-    .call <- if (isTRUE(.use_call)) .call[1L] else NULL
-    msg <- sprintf(fmt, ...)
-    err <- simpleWarning(msg, .call)
-    warning(err)
-}
-
 # optimised grouped summation
 .fast_grouped_sum <- function(x, by, byname, sumname) {
     group_loc <- vec_group_loc(by)
