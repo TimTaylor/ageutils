@@ -73,12 +73,12 @@
 # -------------------------------------------------------------------------
 #' @export
 reaggregate_counts <- function(
-        bounds,
-        counts,
-        new_bounds,
-        ...,
-        population_bounds = NULL,
-        population_weights = NULL
+    bounds,
+    counts,
+    new_bounds,
+    ...,
+    population_bounds = NULL,
+    population_weights = NULL
 ) {
 
     check_dots_empty0(...)
