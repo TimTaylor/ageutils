@@ -242,7 +242,7 @@ reaggregate_counts <- function(
     # The following is optimised for performance for our use cases but is the
     # equivalent (save output type) of
     # setDT(out)[, .(count = sum(count)), by = "lower"][]
-    .fgsum(out$count, out$lower, byname = "lower", sumname = "count")
+    .fast_grouped_sum(out$count, out$lower, byname = "lower", sumname = "count")
 }
 
 # -------------------------------------------------------------------------
@@ -268,6 +268,6 @@ reaggregate_counts <- function(
     # out <- out[, .(ck = counts * w/sum(w)), by = "i"]
     # set(out, j = "lower", value = dat3$lower)
     # out[, .(count = sum(ck)), keyby = "lower"][]
-    out$ck <- out$counts * out$w / .fsum(out$w, out$i)
-    .fgsum(out$ck, dat3$lower, byname = "lower", sumname = "count")
+    out$ck <- out$counts * out$w / .ave_sum(out$w, out$i)
+    .fast_grouped_sum(out$ck, dat3$lower, byname = "lower", sumname = "count")
 }

@@ -13,7 +13,7 @@ warningf <- function(fmt, ..., .use_call = TRUE, .call = sys.call(-1L)) {
 }
 
 # optimised grouped summation
-.fgsum <- function(x, by, byname, sumname) {
+.fast_grouped_sum <- function(x, by, byname, sumname) {
     group_loc <- vec_group_loc(by)
     key <- group_loc$key
     loc <- group_loc$loc
@@ -27,7 +27,7 @@ warningf <- function(fmt, ..., .use_call = TRUE, .call = sys.call(-1L)) {
 }
 
 # optimised implementation of ave(x, by, FUN = sum)
-.fsum <- function(x, by) {
+.ave_sum <- function(x, by) {
     group_loc <- vec_group_loc(by)
     key <- group_loc$key
     loc <- group_loc$loc

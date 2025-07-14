@@ -206,8 +206,8 @@ reaggregate_rates <- function(
     # The following is optimised for performance for our use cases but is the
     # equivalent (save output type) of
     # setDT(dat1)[, .(rate = sum(rates * weight) / sum(weight)), by = "lower"][]
-    out <- .fgsum(dat1$rates * dat1$weight, by = dat1$lower, byname = "lower", sumname = "rate")
-    sw <- .fgsum(dat1$weight, by = dat1$lower, byname = "lower", sumname = "rate")
+    out <- .fast_grouped_sum(dat1$rates * dat1$weight, by = dat1$lower, byname = "lower", sumname = "rate")
+    sw <- .fast_grouped_sum(dat1$weight, by = dat1$lower, byname = "lower", sumname = "rate")
     out$rate <- out$rate / sw$rate
     out
 
