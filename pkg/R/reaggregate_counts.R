@@ -120,11 +120,11 @@ reaggregate_counts <- function(
     if (is.null(population_bounds)) {
 
         if (!is.null(population_weights) && length(population_weights) != length(new_bounds)) {
-            stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.")
+            stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.") # nolint: line_length_linter.
         }
 
         if (max(bounds) < max(new_bounds)) {
-            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`.")
+            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`.") # nolint: line_length_linter.
         }
 
         population_bounds <- new_bounds
@@ -145,7 +145,7 @@ reaggregate_counts <- function(
 
         if (max(bounds) > max(population_bounds)) {
             stop(
-                "The maximum value of `bounds` must be less than or equal to that of `population_bounds`."
+                "The maximum value of `bounds` must be less than or equal to that of `population_bounds`." # nolint: line_length_linter.
             )
         }
 

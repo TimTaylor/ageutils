@@ -1,3 +1,5 @@
+# nolint start. Don't lint Edwin's code as we want to keep it as was
+
 reaggregate_counts_edwin_unweighted <- function(bounds, counts, new_bounds) {
     # bounds <- c(0, 80, 150, 180)
     # counts <- c(10, 20, 30, 40)
@@ -77,6 +79,8 @@ reaggregate_rates_edwin_weighted <- function(bounds, rates, new_bounds, populati
         dplyr::summarise(rate = sum(rates * weight) / sum(weight), .by = c(lower))
 }
 
+# nolint end
+
 reaggregate_counts_fast <- function(
     bounds,
     counts,
@@ -89,7 +93,7 @@ reaggregate_counts_fast <- function(
     rlang::check_dots_empty0(...)
 
     # lower bounds checks
-    if (any(!is.finite(bounds)))
+    if (!all(is.finite(bounds)))
         stop("`bounds` must be a finite, numeric vector.")
 
     if (!length(bounds))
@@ -102,14 +106,14 @@ reaggregate_counts_fast <- function(
         stop("`bounds` must be non-negative.")
 
     # rates checks
-    if(!is.numeric(counts))
+    if (!is.numeric(counts))
         stop("`counts` must be numeric.")
 
     if (length(counts) != length(bounds))
         stop("`counts` must be the same length as `bounds`.")
 
     # new bounds checks
-    if (any(!is.finite(new_bounds)))
+    if (!all(is.finite(new_bounds)))
         stop("`new_bounds` must be a finite, numeric vector.")
 
     if (!length(new_bounds))
@@ -124,23 +128,19 @@ reaggregate_counts_fast <- function(
     # population bounds checks
     if (is.null(population_bounds)) {
 
-        if (!is.null(population_weights)) {
-            if (length(population_weights) != length(new_bounds)) {
-                stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`."
-                )
-            }
+        if (!is.null(population_weights) && length(population_weights) != length(new_bounds)) {
+                stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.") # nolint: line_length_linter.
         }
 
         if (max(bounds) < max(new_bounds)) {
-            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`."
-            )
+            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`.") # nolint: line_length_linter.
         }
 
         population_bounds <- new_bounds
 
     } else {
 
-        if (any(!is.finite(population_bounds)))
+        if (!all(is.finite(population_bounds)))
             stop("`population_bounds` must be a finite, numeric vector.")
 
         if (!length(population_bounds))
@@ -154,7 +154,7 @@ reaggregate_counts_fast <- function(
 
         if (max(bounds) > max(population_bounds)) {
             stop(
-                "The maximum value of `bounds` must be less than or equal to that of `population_bounds`."
+                "The maximum value of `bounds` must be less than or equal to that of `population_bounds`." # nolint: line_length_linter.
             )
         }
 
@@ -163,7 +163,7 @@ reaggregate_counts_fast <- function(
     # population_weights check
     if (!is.null(population_weights)) {
 
-        if (any(!is.finite(population_weights)) || any(population_weights < 0))
+        if (!all(is.finite(population_weights)) || any(population_weights < 0))
             stop("`population_weights` must be numeric, non-negative and finite.")
 
         if (length(population_weights) != length(population_bounds))
@@ -265,7 +265,7 @@ reaggregate_rates_fast <- function(
     rlang::check_dots_empty0(...)
 
     # lower bounds checks
-    if (any(!is.finite(bounds)))
+    if (!all(is.finite(bounds)))
         stop("`bounds` must be a finite, numeric vector.")
     if (!length(bounds))
         stop("`bounds` must be of non-zero length.")
@@ -275,13 +275,13 @@ reaggregate_rates_fast <- function(
         stop("`bounds` must be non-negative.")
 
     # rates checks
-    if(!is.numeric(rates))
+    if (!is.numeric(rates))
         stop("`rates` must be numeric.")
     if (length(rates) != length(bounds))
         stop("`rates` must be the same length as `bounds`.")
 
     # new bounds checks
-    if (any(!is.finite(new_bounds)))
+    if (!all(is.finite(new_bounds)))
         stop("`new_bounds` must be a finite, numeric vector.")
     if (!length(new_bounds))
         stop("`new_bounds` must be of non-zero length.")
@@ -293,14 +293,12 @@ reaggregate_rates_fast <- function(
     # population bounds checks
     if (is.null(population_bounds)) {
 
-        if (!is.null(population_weights)) {
-            if (length(population_weights) != length(new_bounds)) {
-                stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.")
-            }
+        if (!is.null(population_weights) && (length(population_weights) != length(new_bounds))) {
+            stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.") # nolint: line_length_linter.
         }
 
         if (max(bounds) < max(new_bounds)) {
-            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`."
+            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`." # nolint: line_length_linter
             )
         }
 
@@ -308,7 +306,7 @@ reaggregate_rates_fast <- function(
 
     } else {
 
-        if (any(!is.finite(population_bounds)))
+        if (!all(is.finite(population_bounds)))
             stop("`population_bounds` must be a finite, numeric vector.")
 
         if (!length(population_bounds))
@@ -321,14 +319,14 @@ reaggregate_rates_fast <- function(
             stop("`population_bounds` must be non-negative.")
 
         if (max(population_bounds) < max(new_bounds)) {
-            stop("The maximum value of `new_bounds` must be less than or equal to that of `population_bounds`.")
+            stop("The maximum value of `new_bounds` must be less than or equal to that of `population_bounds`.") # nolint: line_length_linter
         }
 
     }
 
     # population_weights check
     if (!is.null(population_weights)) {
-        if (any(!is.finite(population_weights)) || any(population_weights < 0))
+        if (!all(is.finite(population_weights)) || any(population_weights < 0))
             stop("`population_weights` must be numeric, non-negative and finite.")
         if (length(population_weights) != length(population_bounds))
             stop("`population_weights` must be the same length as `population_bounds`.")

@@ -23,7 +23,7 @@ test_that("reaggregate_rates without weights works", {
     dat <- reaggregate_rates(bounds, rates, new_bounds = c(0, 5))
     expect_equal(
         dat$rate[1],
-        ((bounds[3] - bounds[2]) * rates[2] + (bounds[2] - bounds[1]) * rates[1]) / (bounds[3] - bounds[1])
+        ((bounds[3] - bounds[2]) * rates[2] + (bounds[2] - bounds[1]) * rates[1]) / (bounds[3] - bounds[1]) # nolint: line_length_linter.
     )
 })
 

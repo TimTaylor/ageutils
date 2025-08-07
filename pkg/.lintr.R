@@ -76,7 +76,8 @@ linters <- all_linters(
 
 exclusions <- list(
     "R/defunct.R" = list(function_argument_linter = Inf),
-    "tests/testthat.R" = list(unused_import_linter = Inf)
+    "tests/testthat.R" = list(unused_import_linter = Inf),
+    "tests/testthat/test-reaggregate*" = list(expect_identical_linter = Inf)
 )
 
 

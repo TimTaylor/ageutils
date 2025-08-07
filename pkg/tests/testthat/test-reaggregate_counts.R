@@ -121,7 +121,7 @@ test_that("reaggregate_count works with weights and with the population_bounds e
 
 
 
-test_that("reaggregate_count matches Edwins and original implementation for simple example without weights", {
+test_that("reaggregate_count matches Edwins and original implementation for simple example without weights", { # nolint: line_length_linter.
 
     skip_if_not_installed("dplyr")
 

@@ -98,11 +98,11 @@ reaggregate_rates <- function(
     if (is.null(population_bounds)) {
 
         if (!is.null(population_weights) && length(population_weights) != length(new_bounds)) {
-            stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.")
+            stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.") # nolint: line_length_linter.
         }
 
         if (max(bounds) < max(new_bounds)) {
-            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`.")
+            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`.") # nolint: line_length_linter.
         }
 
         population_bounds <- new_bounds
@@ -122,7 +122,7 @@ reaggregate_rates <- function(
             stop("`population_bounds` must be non-negative.")
 
         if (max(population_bounds) < max(new_bounds)) {
-            stop("The maximum value of `new_bounds` must be less than or equal to that of `population_bounds`.")
+            stop("The maximum value of `new_bounds` must be less than or equal to that of `population_bounds`.") # nolint: line_length_linter.
         }
 
     }
@@ -161,7 +161,7 @@ reaggregate_rates <- function(
     # TODO - explain this!!!
     if (is.null(population_weights)) {
         population_weights <- pop_upper - population_bounds
-        population_weights[length(population_weights)] <- 1 # here the value is irrelevant as long as finite (I think)
+        population_weights[length(population_weights)] <- 1 # here the value is irrelevant as long as finite (I think) # nolint: line_length_linter.
     }
 
     # Do the stuff
@@ -203,7 +203,7 @@ reaggregate_rates <- function(
     # The following is optimised for performance for our use cases but is the
     # equivalent (save output type) of
     # setDT(dat1)[, .(rate = sum(rates * weight) / sum(weight)), by = "lower"][]
-    out <- .fast_grouped_sum(dat1$rates * dat1$weight, by = dat1$lower, byname = "lower", sumname = "rate")
+    out <- .fast_grouped_sum(dat1$rates * dat1$weight, by = dat1$lower, byname = "lower", sumname = "rate") # nolint: line_length_linter.
     sw <- .fast_grouped_sum(dat1$weight, by = dat1$lower, byname = "lower", sumname = "rate")
     out$rate <- out$rate / sw$rate
     out
