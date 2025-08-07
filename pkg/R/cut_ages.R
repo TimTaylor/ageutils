@@ -7,8 +7,8 @@
 #' `cut_ages()` provides categorisation of ages based on specified breaks
 #' which represent the left-hand interval limits. The resulting intervals span
 #' from the minimum break through to a specified `max_upper` and will always be
-#' closed on the left and open on the right. Ages below the minimum break, or
-#' above `max_upper` will be returned as NA.
+#' closed on the left and open on the right. Ages above `max_upper` will be
+#' returned as NA.
 #'
 # -------------------------------------------------------------------------
 #' @param ages `[numeric]`.
