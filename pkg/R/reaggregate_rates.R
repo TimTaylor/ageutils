@@ -79,7 +79,7 @@ reaggregate_rates <- function(
         stop("`bounds` must be non-negative.")
 
     # rates checks
-    if(!is.numeric(rates))
+    if (!is.numeric(rates))
         stop("`rates` must be numeric.")
     if (length(rates) != length(bounds))
         stop("`rates` must be the same length as `bounds`.")
@@ -97,15 +97,12 @@ reaggregate_rates <- function(
     # population bounds checks
     if (is.null(population_bounds)) {
 
-        if (!is.null(population_weights)) {
-            if (length(population_weights) != length(new_bounds)) {
-                stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.")
-            }
+        if (!is.null(population_weights) && length(population_weights) != length(new_bounds)) {
+            stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.")
         }
 
         if (max(bounds) < max(new_bounds)) {
-            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`."
-            )
+            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`.")
         }
 
         population_bounds <- new_bounds

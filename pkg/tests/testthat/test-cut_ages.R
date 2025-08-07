@@ -28,7 +28,7 @@ test_that("Errors work as expected", {
 
     # multiple limits with ages below minimum errors
     expect_error(cut_ages(c(1:5, 99:102), c(3L, 98L)))
-    expect_snapshot(error= TRUE, cut_ages(c(1:5, 99:102), c(3L, 98L)))
+    expect_snapshot(error = TRUE, cut_ages(c(1:5, 99:102), c(3L, 98L)))
 
     # NA handled correctly
     expect_error(cut_ages(c(NA_integer_, 2:5, 99:102), c(0L, 3L, 98L)))
@@ -103,8 +103,5 @@ test_that("cut_ages works with single age", {
         lower = 1,
         upper = 2
     )
-    expect_identical(tibble::validate_tibble(cut_ages(1,1,2)), expected)
+    expect_identical(tibble::validate_tibble(cut_ages(1, 1, 2)), expected)
 })
-
-
-

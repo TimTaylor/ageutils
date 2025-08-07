@@ -68,7 +68,7 @@
 cut_ages <- function(ages, breaks, max_upper = Inf) {
 
     # check max_upper
-    if(!is.numeric(max_upper) || length(max_upper) != 1L || is.na(max_upper) || max_upper <= 0)
+    if (!is.numeric(max_upper) || length(max_upper) != 1L || is.na(max_upper) || max_upper <= 0)
         stop("`max_upper` must be positive, numeric and of length 1.")
 
     # check breaks
@@ -97,7 +97,7 @@ cut_ages <- function(ages, breaks, max_upper = Inf) {
         stop("`ages` must be coercible to integer and not NA.")
 
     if (min_age < breaks[1L])
-        stop("`ages` must greater than or equal to the minimum value of `breaks`.");
+        stop("`ages` must greater than or equal to the minimum value of `breaks`.")
 
     # allow for breaks which do not start at zero
     lower <- c(0L, breaks)

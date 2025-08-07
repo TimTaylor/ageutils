@@ -142,7 +142,7 @@ test_that("reaggregate_count matches Edwins and original implementation for simp
         new_bounds = breaks
     )
 
-    current2 <- current[-c(1,3)]
+    current2 <- current[-c(1, 3)]
     expect_equal(
         current2,
         setNames(target, names(current2))
@@ -217,7 +217,7 @@ test_that("reaggregate_count matches Edwins for example with weights", {
         population_weights = population_weights
     )
 
-    current2 <- current[-c(1,3)]
+    current2 <- current[-c(1, 3)]
     expect_equal(
         current2,
         setNames(target, names(current2))
@@ -264,7 +264,7 @@ test_that("reaggregate_count matches Edwins for Neil's bug report", {
         population_weights = population_weights
     )
 
-    current2 <- current[-c(1,3)]
+    current2 <- current[-c(1, 3)]
     expect_equal(
         current2,
         setNames(target, names(current2))

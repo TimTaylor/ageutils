@@ -15,7 +15,7 @@ test_that("reaggregate_rates without weights works", {
     expect_identical(out[-1L], expected)
 
     out <- reaggregate_rates(bounds = bounds, rates = rates, new_bounds = 200)
-    expected <- tibble::tibble(lower = c(0,200), upper = c(200, Inf), rate = c(3.2, 5))
+    expected <- tibble::tibble(lower = c(0, 200), upper = c(200, Inf), rate = c(3.2, 5))
     expect_identical(out[-1L], expected)
 
     bounds <- c(0, 1, 5)
@@ -53,7 +53,7 @@ test_that("reaggregate_rates with weights works - example 1", {
         population_weights = population_weights
     )
 
-    current2 <- current[-c(1,3)]
+    current2 <- current[-c(1, 3)]
     expect_equal(
         current2,
         setNames(target, names(current2))
@@ -100,7 +100,7 @@ test_that("reaggregate_rates with weights works - example 2", {
         population_weights = population_weights
     )
 
-    current2 <- current[-c(1,3)]
+    current2 <- current[-c(1, 3)]
     expect_equal(
         current2,
         setNames(target, names(current2))
@@ -159,7 +159,7 @@ test_that("reaggregate_rates with weights works - example 3", {
         population_weights = population_weights
     )
 
-    current2 <- current[-c(1,3)]
+    current2 <- current[-c(1, 3)]
     expect_equal(
         current2,
         setNames(target, names(current2))
@@ -205,7 +205,7 @@ test_that("reaggregate_rates with weights works - example 4", {
         population_weights = population_weights
     )
 
-    current2 <- current[-c(1,3)]
+    current2 <- current[-c(1, 3)]
     expect_equal(
         current2,
         setNames(target, names(current2))
@@ -258,7 +258,7 @@ test_that("reaggregate_rates matches Edwins for Neil's bug report", {
         population_weights = population_weights
     )
 
-    current2 <- current[-c(1,3)]
+    current2 <- current[-c(1, 3)]
     expect_equal(
         current2,
         setNames(target, names(current2))

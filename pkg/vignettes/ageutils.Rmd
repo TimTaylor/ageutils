@@ -51,7 +51,7 @@ cut_ages(ages = 0:9, breaks = c(0, 5))
 Ages above `max_upper` will be returned as NA.
 
 ```{r}
-cut_ages(ages = 0:10, breaks = c(0,5), max_upper = 7)
+cut_ages(ages = 0:10, breaks = c(0, 5), max_upper = 7)
 ```
 
 Output is comparable to `cut` with `right = FALSE`:
@@ -146,7 +146,7 @@ As with `reaggregate_counts()` but set up for rates.
 ```{r}
 reaggregate_rates(
     bounds = c(0, 5, 10),
-    rates = c(0.1, 0.2 ,0.3),
+    rates = c(0.1, 0.2, 0.3),
     new_bounds = c(0, 2, 7, 10),
     population_bounds = dat$lower_bound,
     population_weights = dat$value

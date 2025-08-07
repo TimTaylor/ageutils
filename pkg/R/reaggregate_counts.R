@@ -97,7 +97,7 @@ reaggregate_counts <- function(
         stop("`bounds` must be non-negative.")
 
     # rates checks
-    if(!is.numeric(counts))
+    if (!is.numeric(counts))
         stop("`counts` must be numeric.")
 
     if (length(counts) != length(bounds))
@@ -119,16 +119,12 @@ reaggregate_counts <- function(
     # population bounds checks
     if (is.null(population_bounds)) {
 
-        if (!is.null(population_weights)) {
-            if (length(population_weights) != length(new_bounds)) {
-                stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`."
-                )
-            }
+        if (!is.null(population_weights) && length(population_weights) != length(new_bounds)) {
+            stop("When `population_bounds` is not specified, `population_weights` must be the same length as `new_bounds`.")
         }
 
         if (max(bounds) < max(new_bounds)) {
-            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`."
-            )
+            stop("Where `population_bounds` are not specified the maximum value of `new_bounds` must be less than or equal to that of `bounds`.")
         }
 
         population_bounds <- new_bounds
@@ -247,7 +243,13 @@ reaggregate_counts <- function(
 
 # -------------------------------------------------------------------------
 
-.reaggregate_counts_weighted <- function(bounds, counts, new_bounds, population_bounds, population_weights) {
+.reaggregate_counts_weighted <- function(
+    bounds,
+    counts,
+    new_bounds,
+    population_bounds,
+    population_weights
+) {
     all_lower <- sort(unique(c(bounds, new_bounds, population_bounds)))
     # vctrs::new_data_frame should be safe to use here due to earlier input
     #   checks in the user facing function

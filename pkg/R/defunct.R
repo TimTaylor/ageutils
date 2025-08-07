@@ -80,7 +80,7 @@ aggregate_age_counts <- function(
     counts,
     ages = seq_along(counts) - 1L,
     breaks
-){
+) {
     .Defunct(
         msg = "`aggregate_age_counts` was removed in the 0.0.8 release of ageutils."
     )

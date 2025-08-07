@@ -34,17 +34,17 @@ test_that("Errors work as expected", {
 test_that("breaks_to_interval gives correct result", {
 
     brks <- c(-55.3, 0, 10.3, 1000)
-    lower <- c(-55,0,10,1000)
-    upper <- c(0,10,1000,Inf)
+    lower <- c(-55, 0, 10, 1000)
+    upper <- c(0, 10, 1000, Inf)
     interval <- sprintf("[%.f, %.f)", lower, upper)
     interval <- factor(interval, levels = interval, ordered = TRUE)
     expected <- tibble::tibble(interval, lower = lower, upper = upper)
 
-    expect_equal(breaks_to_interval(brks), expected)
+    expect_identical(breaks_to_interval(brks), expected)
 
-    expect_equal(breaks_to_interval(brks), expected)
+    expect_identical(breaks_to_interval(brks), expected)
 
-    expect_equal(tibble::validate_tibble(breaks_to_interval(brks)), expected)
+    expect_identical(tibble::validate_tibble(breaks_to_interval(brks)), expected)
 
     brks[1L] <- -3
     expect_silent(breaks_to_interval(brks))
@@ -58,6 +58,6 @@ test_that("breaks_to_interval gives correct result", {
 
     expect_identical(breaks_to_interval(1, 2), expected)
 
-    expect_equal(tibble::validate_tibble(breaks_to_interval(1, 2)), expected)
+    expect_identical(tibble::validate_tibble(breaks_to_interval(1, 2)), expected)
 
 })
