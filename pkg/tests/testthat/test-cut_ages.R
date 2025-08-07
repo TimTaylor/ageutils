@@ -34,6 +34,11 @@ test_that("Errors work as expected", {
     expect_error(cut_ages(c(NA_integer_, 2:5, 99:102), c(0L, 3L, 98L)))
     expect_snapshot(error = TRUE, cut_ages(c(NA_integer_, 2:5, 99:102), c(0L, 3L, 98L)))
 
+    expect_error(cut_ages(1:10, breaks = c(2L, 9L), max_upper = 7L))
+    expect_snapshot(error = TRUE, cut_ages(1:10, breaks = c(2L, 9L), max_upper = 7L))
+    expect_error(cut_ages(1:10, breaks = c(9L, 2L)))
+    expect_snapshot(error = TRUE, cut_ages(1:10, breaks = c(9L, 2L)))
+
 })
 
 test_that("cut_ages works with single limit works", {

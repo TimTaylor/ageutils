@@ -86,3 +86,19 @@
       Error in `cut_ages()`:
       ! `ages` must be coercible to integer and not NA.
 
+---
+
+    Code
+      cut_ages(1:10, breaks = c(2L, 9L), max_upper = 7L)
+    Condition
+      Error in `cut_ages()`:
+      ! `max_upper` must be greater than all `breaks`.
+
+---
+
+    Code
+      cut_ages(1:10, breaks = c(9L, 2L))
+    Condition
+      Error in `cut_ages()`:
+      ! `breaks` must be in strictly increasing order.
+
