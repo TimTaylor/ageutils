@@ -13,3 +13,4 @@ artwork/*
 ^compile_commands\.json$
 ^\.cache$
 ^.clangd$
+.lintr.R
