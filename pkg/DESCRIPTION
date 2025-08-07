@@ -35,6 +35,7 @@ Imports:
     vctrs
 Suggests: 
     dplyr,
+    litedown,
     testthat (>= 3.0.0)
 Depends: 
     R (>= 3.5.0)
@@ -43,3 +44,4 @@ URL: https://timtaylor.github.io/ageutils/
 BugReports: https://github.com/TimTaylor/ageutils/issues
 Config/testthat/edition: 3
 Config/testthat/load-all: list(export_all = FALSE, helpers = FALSE)
+VignetteBuilder: litedown
