@@ -84,7 +84,7 @@ reaggregate_counts <- function(
     check_dots_empty0(...)
 
     # lower bounds checks
-    if (any(!is.finite(bounds)))
+    if (!all(is.finite(bounds)))
         stop("`bounds` must be a finite, numeric vector.")
 
     if (!length(bounds))
@@ -104,7 +104,7 @@ reaggregate_counts <- function(
         stop("`counts` must be the same length as `bounds`.")
 
     # new bounds checks
-    if (any(!is.finite(new_bounds)))
+    if (!all(is.finite(new_bounds)))
         stop("`new_bounds` must be a finite, numeric vector.")
 
     if (!length(new_bounds))
@@ -131,7 +131,7 @@ reaggregate_counts <- function(
 
     } else {
 
-        if (any(!is.finite(population_bounds)))
+        if (!all(is.finite(population_bounds)))
             stop("`population_bounds` must be a finite, numeric vector.")
 
         if (!length(population_bounds))
@@ -154,7 +154,7 @@ reaggregate_counts <- function(
     # population_weights check
     if (!is.null(population_weights)) {
 
-        if (any(!is.finite(population_weights)) || any(population_weights < 0))
+        if (!all(is.finite(population_weights)) || any(population_weights < 0))
             stop("`population_weights` must be numeric, non-negative and finite.")
 
         if (length(population_weights) != length(population_bounds))
