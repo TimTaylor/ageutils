@@ -28,6 +28,11 @@ License: GPL-2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Imports: 
+    rlang,
+    stats,
+    tibble,
+    vctrs
 Suggests: 
     dplyr,
     testthat (>= 3.0.0)
@@ -36,10 +41,5 @@ Depends:
 LazyData: true
 URL: https://timtaylor.github.io/ageutils/
 BugReports: https://github.com/TimTaylor/ageutils/issues
-Config/build/compilation-database: true
-Imports: 
-    rlang,
-    stats,
-    tibble,
-    vctrs
 Config/testthat/edition: 3
+Config/testthat/load-all: list(export_all = FALSE, helpers = FALSE)
