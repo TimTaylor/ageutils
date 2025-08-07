@@ -86,7 +86,7 @@ reaggregate_counts_fast <- function(
     population_weights = NULL
 ) {
 
-    check_dots_empty0(...)
+    rlang::check_dots_empty0(...)
 
     # lower bounds checks
     if (any(!is.finite(bounds)))
@@ -242,7 +242,7 @@ reaggregate_counts_fast <- function(
     interval <- sprintf("[%.f, %.f)", new_bounds, new_upper)
     interval <- factor(interval, levels = interval, ordered = TRUE)
 
-    new_tibble(
+    tibble::new_tibble(
         list(
             interval = interval,
             lower = new_bounds,
@@ -262,7 +262,7 @@ reaggregate_rates_fast <- function(
         population_weights = NULL
 ) {
 
-    check_dots_empty0(...)
+    rlang::check_dots_empty0(...)
 
     # lower bounds checks
     if (any(!is.finite(bounds)))
@@ -408,7 +408,7 @@ reaggregate_rates_fast <- function(
     interval <- sprintf("[%.f, %.f)", new_bounds, new_upper)
     interval <- factor(interval, levels = interval, ordered = TRUE)
 
-    new_tibble(
+    tibble::new_tibble(
         list(
             interval = interval,
             lower = new_bounds,
