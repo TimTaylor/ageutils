@@ -283,3 +283,453 @@ test_that("reaggregate_count matches Edwins for Neil's bug report", {
         target2
     )
 })
+
+
+test_that("reaggregate_counts errors as expected", {
+    bounds <- c(0, 80, 150, 180)
+    counts <- c(10, 20, 30, 40)
+    new_bounds <- c(0, 60, 150, 160, 180)
+    population_bounds <- c(0, 60, 150, 160, 175, 180)
+    population_weights <- c(10, 20, 30, 40, 50, 60)
+
+
+    expect_error(
+        reaggregate_counts(
+            bounds = c(0, 80, 150, Inf),
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = c(0, 80, 150, Inf),
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = integer(),
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = integer(),
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = rev(bounds),
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = rev(bounds),
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = c(-1, 80, 150, 180),
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = c(-1, 80, 150, 180),
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = letters,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = letters,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds[-1L],
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds[-1L],
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = c(0, 60, 150, 160, Inf),
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = c(0, 60, 150, 160, Inf),
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = integer(),
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = integer(),
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = rev(new_bounds),
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = rev(new_bounds),
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = c(-1, 60, 150, 160, 180),
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = c(-1, 60, 150, 160, 180),
+            population_bounds = population_bounds,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights[-1L]
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights[-1L]
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = NULL,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = NULL,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = c(0, 60, 150, 160, 181),
+            population_bounds = NULL,
+            population_weights = population_weights[-1L]
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = c(0, 60, 150, 160, 181),
+            population_bounds = NULL,
+            population_weights = population_weights[-1L]
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = Inf,
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = Inf,
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = numeric(),
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = numeric(),
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = rev(population_bounds),
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = rev(population_bounds),
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = c(-1, 60, 150, 160, 175, 180),
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = c(-1, 60, 150, 160, 175, 180),
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = c(0, 60, 150, 160, 175, 179),
+            population_weights = population_weights
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = c(0, 60, 150, 160, 175, 179),
+            population_weights = population_weights
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = c(10, 20, 30, 40, 50, Inf)
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = c(10, 20, 30, 40, 50, Inf)
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = c(-10, 20, 30, 40, 50, 60)
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = c(-10, 20, 30, 40, 50, 60)
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights[-1L]
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = population_weights[-1L]
+        )
+    )
+
+    expect_error(
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = numeric(length(population_bounds))
+        )
+    )
+    expect_snapshot(
+        error = TRUE,
+        reaggregate_counts(
+            bounds = bounds,
+            counts = counts,
+            new_bounds = new_bounds,
+            population_bounds = population_bounds,
+            population_weights = numeric(length(population_bounds))
+        )
+    )
+})
