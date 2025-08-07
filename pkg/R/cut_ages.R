@@ -39,8 +39,8 @@
 # -------------------------------------------------------------------------
 #' @return
 #'
-#' A data frame with an ordered factor column (`interval`), as well as columns
-#' corresponding to the explicit bounds (`lower` and `upper`).
+#' A [tibble][tibble::tbl_df-class] with an ordered factor column (`interval`),
+#' as well as columns corresponding to the explicit bounds (`lower` and `upper`).
 #' Internally both bound columns are stored as double but it can be taken as
 #' part of the function API that `lower` is coercible to integer without
 #' any coercion to `NA_integer_`. Similarly all values of `upper` apart

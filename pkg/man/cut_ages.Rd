@@ -33,8 +33,8 @@ Double values are rounded up to the nearest (numeric) integer.
 Defaults to \code{Inf}.}
 }
 \value{
-A data frame with an ordered factor column (\code{interval}), as well as columns
-corresponding to the explicit bounds (\code{lower} and \code{upper}).
+A \link[tibble:tbl_df-class]{tibble} with an ordered factor column (\code{interval}),
+as well as columns corresponding to the explicit bounds (\code{lower} and \code{upper}).
 Internally both bound columns are stored as double but it can be taken as
 part of the function API that \code{lower} is coercible to integer without
 any coercion to \code{NA_integer_}. Similarly all values of \code{upper} apart

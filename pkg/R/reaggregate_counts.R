@@ -41,8 +41,8 @@
 # -------------------------------------------------------------------------
 #' @return
 #'
-#' A data frame with 4 entries; `interval`, `lower`, `upper` and a
-#' corresponding `count`.
+#' A [tibble][tibble::tbl_df-class] with 4 entries; `interval`, `lower`, `upper`
+#' and a corresponding `count`.
 #'
 # -------------------------------------------------------------------------
 #' @examples
