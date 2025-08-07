@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="generator" content="litedown 0.7">
+<title>ageutils</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.13.67/css/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.13.67/css/callout.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.13.67/css/article.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.14/css/prism-xcode.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.13.67/js/sidenotes.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.13.67/js/copy-button.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.13.67/js/callout.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.13.67/js/toc-highlight.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+<div class="frontmatter">
+<div class="title"><h1>ageutils</h1></div>
+</div>
+<div class="body">
+<div id="TOC">
+<ul>
+<li><a href="#sec:cut-ages">cut_ages</a></li>
+<li><a href="#sec:breaks-to-interval">breaks_to_interval</a></li>
+<li><a href="#sec:reaggregate-counts">reaggregate_counts</a></li>
+<li><a href="#sec:reaggregate-rates">reaggregate_rates</a></li>
+</ul>
+</div>
+<p>ageutils provides a collection of efficient functions for working with
+individual ages and corresponding interval representations. These include:</p>
+<ul>
+<li><code>cut_ages()</code> for converting from an integer age to an interval range;</li>
+<li><code>breaks_to_interval()</code> which splits aggregated counts based on
+user-specified age distributions;</li>
+<li><code>reaggregate_age_counts()</code> and <code>reaggregate_age_rates()</code> for the
+reaggregation of counts (and rates) from one interval range to another.</li>
+</ul>
+<pre><code class="language-r">library(ageutils)
+</code></pre>
+<h2 id="sec:cut-ages">cut_ages</h2>
+<p><code>cut_ages()</code> provides categorisation of ages based on specified breaks which
+represent the left-hand interval limits.
+It returns a <a href="https://tibble.tidyverse.org/">tibble</a> with an ordered factor
+column (<code>interval</code>), as well as columns corresponding to the resulting bounds
+(<code>lower</code> and <code>upper</code>). The resulting intervals span from the minimum break
+through to a specified <code>max_upper</code> (defaulting to <code>Inf</code>) and will always be
+closed on the left and open on the right.</p>
+<pre><code class="language-r">cut_ages(ages = 0:9, breaks = c(0, 3, 5, 10))
+</code></pre>
+<pre><code>#&gt; # A tibble: 10 × 3
+#&gt;    interval lower upper
+#&gt;    &lt;ord&gt;    &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 [0, 3)       0     3
+#&gt;  2 [0, 3)       0     3
+#&gt;  3 [0, 3)       0     3
+#&gt;  4 [3, 5)       3     5
+#&gt;  5 [3, 5)       3     5
+#&gt;  6 [5, 10)      5    10
+#&gt;  7 [5, 10)      5    10
+#&gt;  8 [5, 10)      5    10
+#&gt;  9 [5, 10)      5    10
+#&gt; 10 [5, 10)      5    10
+</code></pre>
+<pre><code class="language-r">cut_ages(ages = 0:9, breaks = c(0, 5))
+</code></pre>
+<pre><code>#&gt; # A tibble: 10 × 3
+#&gt;    interval lower upper
+#&gt;    &lt;ord&gt;    &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 [0, 5)       0     5
+#&gt;  2 [0, 5)       0     5
+#&gt;  3 [0, 5)       0     5
+#&gt;  4 [0, 5)       0     5
+#&gt;  5 [0, 5)       0     5
+#&gt;  6 [5, Inf)     5   Inf
+#&gt;  7 [5, Inf)     5   Inf
+#&gt;  8 [5, Inf)     5   Inf
+#&gt;  9 [5, Inf)     5   Inf
+#&gt; 10 [5, Inf)     5   Inf
+</code></pre>
+<p>Ages above <code>max_upper</code> will be returned as NA.</p>
+<pre><code class="language-r">cut_ages(ages = 0:10, breaks = c(0, 5), max_upper = 7)
+</code></pre>
+<pre><code>#&gt; # A tibble: 11 × 3
+#&gt;    interval lower upper
+#&gt;    &lt;ord&gt;    &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 [0, 5)       0     5
+#&gt;  2 [0, 5)       0     5
+#&gt;  3 [0, 5)       0     5
+#&gt;  4 [0, 5)       0     5
+#&gt;  5 [0, 5)       0     5
+#&gt;  6 [5, 7)       5     7
+#&gt;  7 [5, 7)       5     7
+#&gt;  8 &lt;NA&gt;        NA    NA
+#&gt;  9 &lt;NA&gt;        NA    NA
+#&gt; 10 &lt;NA&gt;        NA    NA
+#&gt; 11 &lt;NA&gt;        NA    NA
+</code></pre>
+<p>Output is comparable to <code>cut</code> with <code>right = FALSE</code>:</p>
+<pre><code class="language-r">ages &lt;- seq.int(from = 0, by = 10, length.out = 10)
+breaks &lt;- c(0, 1, 10, 30)
+cut_ages(ages, breaks)
+</code></pre>
+<pre><code>#&gt; # A tibble: 10 × 3
+#&gt;    interval  lower upper
+#&gt;    &lt;ord&gt;     &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 [0, 1)        0     1
+#&gt;  2 [10, 30)     10    30
+#&gt;  3 [10, 30)     10    30
+#&gt;  4 [30, Inf)    30   Inf
+#&gt;  5 [30, Inf)    30   Inf
+#&gt;  6 [30, Inf)    30   Inf
+#&gt;  7 [30, Inf)    30   Inf
+#&gt;  8 [30, Inf)    30   Inf
+#&gt;  9 [30, Inf)    30   Inf
+#&gt; 10 [30, Inf)    30   Inf
+</code></pre>
+<pre><code class="language-r">cut(ages, right = FALSE, breaks = c(breaks, Inf))
+</code></pre>
+<pre><code>#&gt;  [1] [0,1)    [10,30)  [10,30)  [30,Inf) [30,Inf) [30,Inf) [30,Inf) [30,Inf)
+#&gt;  [9] [30,Inf) [30,Inf)
+#&gt; Levels: [0,1) [1,10) [10,30) [30,Inf)
+</code></pre>
+<div class="callout-note">
+<p>Internally both bound columns are stored as double but it can be taken as part
+of the function API that <code>lower</code> is coercible to integer without any coercion to
+<code>NA_integer_</code>. Similarly all values of <code>upper</code> apart from those corresponding to
+<code>max_upper</code> can be assumed coercible to integer (<code>max_upper</code> may or may not
+depending on the given argument).</p>
+</div>
+<h2 id="sec:breaks-to-interval">breaks_to_interval</h2>
+<p><code>breaks_to_interval()</code> takes a specified set of breaks representing the left
+hand limits of a closed open interval, i.e [x, y), and returns a tibble with an
+ordered factor column (<code>interval</code>), as well as columns corresponding to the
+explicit bounds (<code>lower</code> and <code>upper</code>).
+The resulting intervals span from the minimum break through to a specified
+<code>max_upper</code>.</p>
+<pre><code class="language-r">breaks_to_interval(breaks = c(0, 1, 5, 15, 25, 45, 65))
+</code></pre>
+<pre><code>#&gt; # A tibble: 7 × 3
+#&gt;   interval  lower upper
+#&gt;   &lt;ord&gt;     &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 [0, 1)        0     1
+#&gt; 2 [1, 5)        1     5
+#&gt; 3 [5, 15)       5    15
+#&gt; 4 [15, 25)     15    25
+#&gt; 5 [25, 45)     25    45
+#&gt; 6 [45, 65)     45    65
+#&gt; 7 [65, Inf)    65   Inf
+</code></pre>
+<pre><code class="language-r">breaks_to_interval(
+    breaks = c(0, 1, 5, 15, 25, 45, 65),
+    max_upper = 100
+)
+</code></pre>
+<pre><code>#&gt; # A tibble: 7 × 3
+#&gt;   interval  lower upper
+#&gt;   &lt;ord&gt;     &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 [0, 1)        0     1
+#&gt; 2 [1, 5)        1     5
+#&gt; 3 [5, 15)       5    15
+#&gt; 4 [15, 25)     15    25
+#&gt; 5 [25, 45)     25    45
+#&gt; 6 [45, 65)     45    65
+#&gt; 7 [65, 100)    65   100
+</code></pre>
+<h2 id="sec:reaggregate-counts">reaggregate_counts</h2>
+<p><code>reaggregate_counts()</code> converts population counts over one interval range to
+a different, user-specified, range. It returns a
+<a href="https://tibble.tidyverse.org/">tibble</a> with an ordered factor
+column (<code>interval</code>), columns corresponding to the resulting bounds
+(<code>lower</code> and <code>upper</code>) and the associated <code>count</code>.</p>
+<p>For a small illustration of the basic functionality we use data obtained from
+the 2021 UK census:</p>
+<pre><code class="language-r">head(pop_dat, 20)
+</code></pre>
+<pre><code>#&gt;    area_code         area_name age_category   value
+#&gt; 1  K04000001 England and Wales       [0, 5) 3232100
+#&gt; 2  K04000001 England and Wales      [5, 10) 3524600
+#&gt; 3  K04000001 England and Wales     [10, 15) 3595900
+#&gt; 4  K04000001 England and Wales     [15, 20) 3394700
+#&gt; 5  K04000001 England and Wales     [20, 25) 3602100
+#&gt; 6  K04000001 England and Wales     [25, 30) 3901800
+#&gt; 7  K04000001 England and Wales     [30, 35) 4148800
+#&gt; 8  K04000001 England and Wales     [35, 40) 3981600
+#&gt; 9  K04000001 England and Wales     [40, 45) 3755700
+#&gt; 10 K04000001 England and Wales     [45, 50) 3788700
+#&gt; 11 K04000001 England and Wales     [50, 55) 4123400
+#&gt; 12 K04000001 England and Wales     [55, 60) 4029000
+#&gt; 13 K04000001 England and Wales     [60, 65) 3455700
+#&gt; 14 K04000001 England and Wales     [65, 70) 2945100
+#&gt; 15 K04000001 England and Wales     [70, 75) 2978000
+#&gt; 16 K04000001 England and Wales     [75, 80) 2170300
+#&gt; 17 K04000001 England and Wales     [80, 85) 1517000
+#&gt; 18 K04000001 England and Wales     [85, 90)  925100
+#&gt; 19 K04000001 England and Wales    [90, Inf)  527900
+</code></pre>
+<p>Here, each row of the data is for the same region so we drop some unwanted
+columns before proceeding to pull out the lower bounds.</p>
+<pre><code class="language-r">dat &lt;- subset(pop_dat, select = c(age_category, value))
+dat &lt;- transform(
+    dat,
+    lower_bound = as.integer(sub(&quot;\\[([0-9]+), .+)&quot;, &quot;\\1&quot;, age_category))
+)
+</code></pre>
+<p>Now we recategorise to the desired age intervals</p>
+<pre><code class="language-r">with(
+    dat,
+    reaggregate_counts(
+        bounds = lower_bound,
+        counts = value,
+        new_bounds = c(0, 1, 5, 15, 25, 45, 65)
+    )
+)
+</code></pre>
+<pre><code>#&gt; # A tibble: 7 × 4
+#&gt;   interval  lower upper    count
+#&gt;   &lt;ord&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 [0, 1)        0     1   646420
+#&gt; 2 [1, 5)        1     5  2585680
+#&gt; 3 [5, 15)       5    15  7120500
+#&gt; 4 [15, 25)     15    25  6996800
+#&gt; 5 [25, 45)     25    45 15787900
+#&gt; 6 [45, 65)     45    65 15396800
+#&gt; 7 [65, Inf)    65   Inf 11063400
+</code></pre>
+<p>Similarly, let’s assume we have a population sample of 1000, with 600 known to
+be over the age of 50, the rest below. We can reaggregate these across 10 year
+intervals with based on the weightings of the census</p>
+<pre><code class="language-r">reaggregate_counts(
+    bounds             = c(0, 60),
+    counts             = c(400, 600),
+    new_bounds         = seq(from = 0, to = 90, by = 10),
+    population_bounds  = dat$lower_bound,
+    population_weights = dat$value
+)
+</code></pre>
+<pre><code>#&gt; # A tibble: 10 × 4
+#&gt;    interval  lower upper count
+#&gt;    &lt;ord&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 [0, 10)       0    10  60.0
+#&gt;  2 [10, 20)     10    20  62.0
+#&gt;  3 [20, 30)     20    30  66.6
+#&gt;  4 [30, 40)     30    40  72.1
+#&gt;  5 [40, 50)     40    50  66.9
+#&gt;  6 [50, 60)     50    60  72.3
+#&gt;  7 [60, 70)     60    70 265. 
+#&gt;  8 [70, 80)     70    80 213. 
+#&gt;  9 [80, 90)     80    90 101. 
+#&gt; 10 [90, Inf)    90   Inf  21.8
+</code></pre>
+<h2 id="sec:reaggregate-rates">reaggregate_rates</h2>
+<p>As with <code>reaggregate_counts()</code> but set up for rates.</p>
+<pre><code class="language-r">reaggregate_rates(
+    bounds = c(0, 5, 10),
+    rates = c(0.1, 0.2, 0.3),
+    new_bounds = c(0, 2, 7, 10),
+    population_bounds = dat$lower_bound,
+    population_weights = dat$value
+)
+</code></pre>
+<pre><code>#&gt; # A tibble: 4 × 4
+#&gt;   interval  lower upper  rate
+#&gt;   &lt;ord&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 [0, 2)        0     2 0.1  
+#&gt; 2 [2, 7)        2     7 0.142
+#&gt; 3 [7, 10)       7    10 0.2  
+#&gt; 4 [10, Inf)    10   Inf 0.3  
+</code></pre>
+<pre><code class="language-r">reaggregate_rates(
+    bounds = 0:99,
+    rates = rep(seq(25, 5, -5), each = 20),
+    new_bounds = c(0, 5, 15, 45, 65),
+    population_bounds = dat$lower_bound,
+    population_weights = dat$value
+)
+</code></pre>
+<pre><code>#&gt; # A tibble: 5 × 4
+#&gt;   interval  lower upper  rate
+#&gt;   &lt;ord&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 [0, 5)        0     5 25   
+#&gt; 2 [5, 15)       5    15 25   
+#&gt; 3 [15, 45)     15    45 19.9 
+#&gt; 4 [45, 65)     45    65 13.9 
+#&gt; 5 [65, Inf)    65   Inf  8.66
+</code></pre>
+</div>
+</body>
+</html>

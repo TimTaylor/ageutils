@@ -23,6 +23,7 @@
 </head>
 <body>
 <nav><p><a href="index.html">Home</a>
+<a href="articles.html">Articles</a>
 <a href="manual.html">Manual</a>
 <a href="news.html">News</a></p></nav>
 <div class="frontmatter">
@@ -133,8 +134,8 @@ returned as <code>numeric</code> to allow the maximum upper bound to be given as
 <p><code>cut_ages()</code> provides categorisation of ages based on specified breaks
 which represent the left-hand interval limits. The resulting intervals span
 from the minimum break through to a specified <code>max_upper</code> and will always be
-closed on the left and open on the right. Ages below the minimum break, or
-above <code>max_upper</code> will be returned as NA.
+closed on the left and open on the right. Ages above <code>max_upper</code> will be
+returned as NA.
 </p>
 <h3 id="sec:usage_2" class="unnumbered unlisted">Usage</h3>
 <pre><code class="language-r">cut_ages(ages, breaks, max_upper = Inf)</code></pre>
@@ -173,8 +174,8 @@ closed side of [x, y).
 </td></tr>
 </table>
 <h3 id="sec:value_2" class="unnumbered unlisted">Value</h3>
-<p>A data frame with an ordered factor column (<code>interval</code>), as well as columns
-corresponding to the explicit bounds (<code>lower</code> and <code>upper</code>).
+<p>A <a href="https://rdrr.io/cran/tibble/man/tbl_df-class.html">tibble</a> with an ordered factor column (<code>interval</code>),
+as well as columns corresponding to the explicit bounds (<code>lower</code> and <code>upper</code>).
 Internally both bound columns are stored as double but it can be taken as
 part of the function API that <code>lower</code> is coercible to integer without
 any coercion to <code>NA_integer_</code>. Similarly all values of <code>upper</code> apart
@@ -337,8 +338,8 @@ closed side of [x, y).
 </td></tr>
 </table>
 <h3 id="sec:value_3" class="unnumbered unlisted">Value</h3>
-<p>A data frame with 4 entries; <code>interval</code>, <code>lower</code>, <code>upper</code> and a
-corresponding <code>count</code>.
+<p>A <a href="https://rdrr.io/cran/tibble/man/tbl_df-class.html">tibble</a> with 4 entries; <code>interval</code>, <code>lower</code>, <code>upper</code>
+and a corresponding <code>count</code>.
 </p>
 <h3 id="sec:examples_3" class="unnumbered unlisted">Examples</h3>
 <pre><code class="language-r"># Reaggregating some data obtained from the 2021 UK census

@@ -1,0 +1,161 @@
+---
+title: "ageutils"
+output:
+    html:
+        meta:
+            css: ["@default@1.13.67", "@callout@1.13.67", "@article@1.13.67"]
+            js: ["@sidenotes@1.13.67", "@copy-button@1.13.67", "@callout@1.13.67", "@toc-highlight@1.13.67"]
+        options:
+            toc: true
+            js_highlight:
+                package: prism
+                version: 1.29.0
+        
+vignette: >
+  %\VignetteEngine{litedown::vignette}
+  %\VignetteIndexEntry{ageutils}
+---
+
+```{r, include = FALSE}
+litedown::reactor(print = NA)
+```
+
+ageutils provides a collection of efficient functions for working with 
+individual ages and corresponding interval representations. These include:
+
+-   `cut_ages()` for converting from an integer age to an interval range;
+-   `breaks_to_interval()` which splits aggregated counts based on
+    user-specified age distributions;
+-   `reaggregate_age_counts()` and `reaggregate_age_rates()` for the
+    reaggregation of counts (and rates) from one interval range to another.
+
+```{r}
+library(ageutils)
+```
+
+## cut_ages
+
+`cut_ages()` provides categorisation of ages based on specified breaks which
+represent the left-hand interval limits. 
+It returns a [tibble](https://tibble.tidyverse.org/) with an ordered factor
+column (`interval`), as well as columns corresponding to the resulting bounds
+(`lower` and `upper`). The resulting intervals span from the minimum break
+through to a specified `max_upper` (defaulting to `Inf`) and will always be
+closed on the left and open on the right.
+
+```{r}
+cut_ages(ages = 0:9, breaks = c(0, 3, 5, 10))
+cut_ages(ages = 0:9, breaks = c(0, 5))
+```
+
+Ages above `max_upper` will be returned as NA.
+
+```{r}
+cut_ages(ages = 0:10, breaks = c(0, 5), max_upper = 7)
+```
+
+Output is comparable to `cut` with `right = FALSE`:
+
+```{r}
+ages <- seq.int(from = 0, by = 10, length.out = 10)
+breaks <- c(0, 1, 10, 30)
+cut_ages(ages, breaks)
+cut(ages, right = FALSE, breaks = c(breaks, Inf))
+```
+
+::: callout-note
+Internally both bound columns are stored as double but it can be taken as part
+of the function API that `lower` is coercible to integer without any coercion to
+`NA_integer_`. Similarly all values of `upper` apart from those corresponding to
+`max_upper` can be assumed coercible to integer (`max_upper` may or may not
+depending on the given argument).
+:::
+
+## breaks_to_interval
+
+`breaks_to_interval()` takes a specified set of breaks representing the left
+hand limits of a closed open interval, i.e \[x, y), and returns a tibble with an
+ordered factor column (`interval`), as well as columns corresponding to the
+explicit bounds (`lower` and `upper`).
+The resulting intervals span from the minimum break through to a specified
+`max_upper`.
+
+```{r}
+breaks_to_interval(breaks = c(0, 1, 5, 15, 25, 45, 65))
+breaks_to_interval(
+    breaks = c(0, 1, 5, 15, 25, 45, 65),
+    max_upper = 100
+)
+```
+
+## reaggregate_counts
+`reaggregate_counts()` converts population counts over one interval range to
+a different, user-specified, range. It returns a
+[tibble](https://tibble.tidyverse.org/) with an ordered factor
+column (`interval`), columns corresponding to the resulting bounds
+(`lower` and `upper`) and the associated `count`.
+
+For a small illustration of the basic functionality we use data obtained from
+the 2021 UK census:
+
+```{r}
+head(pop_dat, 20)
+```
+
+Here, each row of the data is for the same region so we drop some unwanted
+columns before proceeding to pull out the lower bounds. 
+
+```{r}
+dat <- subset(pop_dat, select = c(age_category, value))
+dat <- transform(
+    dat,
+    lower_bound = as.integer(sub("\\[([0-9]+), .+)", "\\1", age_category))
+)
+```
+
+Now we recategorise to the desired age intervals
+
+```{r}
+with(
+    dat,
+    reaggregate_counts(
+        bounds = lower_bound,
+        counts = value,
+        new_bounds = c(0, 1, 5, 15, 25, 45, 65)
+    )
+)
+```
+
+Similarly, let's assume we have a population sample of 1000, with 600 known to 
+be over the age of 50, the rest below. We can reaggregate these across 10 year
+intervals with based on the weightings of the census
+
+```{r}
+reaggregate_counts(
+    bounds             = c(0, 60),
+    counts             = c(400, 600),
+    new_bounds         = seq(from = 0, to = 90, by = 10),
+    population_bounds  = dat$lower_bound,
+    population_weights = dat$value
+)
+```
+
+## reaggregate_rates
+As with `reaggregate_counts()` but set up for rates. 
+
+```{r}
+reaggregate_rates(
+    bounds = c(0, 5, 10),
+    rates = c(0.1, 0.2, 0.3),
+    new_bounds = c(0, 2, 7, 10),
+    population_bounds = dat$lower_bound,
+    population_weights = dat$value
+)
+reaggregate_rates(
+    bounds = 0:99,
+    rates = rep(seq(25, 5, -5), each = 20),
+    new_bounds = c(0, 5, 15, 45, 65),
+    population_bounds = dat$lower_bound,
+    population_weights = dat$value
+)
+```

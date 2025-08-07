@@ -23,11 +23,12 @@
 </head>
 <body>
 <nav><p><a href="index.html">Home</a>
+<a href="articles.html">Articles</a>
 <a href="manual.html">Manual</a>
 <a href="news.html">News</a></p></nav>
 <div class="frontmatter">
 <div class="title"><h1>ageutils: Collection of Functions for Working with Age Intervals</h1></div>
-<div class="date"><h3>2025-07-08</h3></div>
+<div class="date"><h3>2025-08-07</h3></div>
 </div>
 <div class="body">
 <table class="table-full"><tbody>
@@ -37,7 +38,7 @@
 </tr>
 <tr>
 <td>Version</td>
-<td>0.1.0</td>
+<td>0.1.0.9000</td>
 </tr>
 <tr>
 <td>Description</td>
@@ -61,6 +62,7 @@ vctrs</td>
 <tr>
 <td>Suggests</td>
 <td>dplyr,
+litedown,
 testthat (&gt;= 3.0.0)</td>
 </tr>
 <tr>
@@ -76,6 +78,10 @@ testthat (&gt;= 3.0.0)</td>
 <td><a href="https://github.com/TimTaylor/ageutils/issues">https://github.com/TimTaylor/ageutils/issues</a></td>
 </tr>
 <tr>
+<td>VignetteBuilder</td>
+<td>litedown</td>
+</tr>
+<tr>
 <td>Author</td>
 <td>Tim Taylor <a href="https://orcid.org/0000-0002-8587-7113"><img src="https://cloud.r-project.org/web/orcid.svg" alt="ORCID iD" class="orcid" /></a> [aut, cre, cph], Edwin van Leeuwen <a href="https://orcid.org/0000-0002-2383-5305"><img src="https://cloud.r-project.org/web/orcid.svg" alt="ORCID iD" class="orcid" /></a> [aut]</td>
 </tr>
@@ -84,11 +90,15 @@ testthat (&gt;= 3.0.0)</td>
 <!-- badges: start -->
 <p><a href="https://CRAN.R-project.org/package=ageutils" class="pkgdown-release"><img src="https://www.r-pkg.org/badges/version/ageutils" alt="CRAN status" /></a></p>
 <!-- badges: end -->
-<p>NOTE: ageutils is still somewhat experimental in nature and should be treated as
-such until the 0.1.0 release.</p>
-<p>You can install the latest release of ageutils from <a href="https://cran.r-project.org/">CRAN</a> with:</p>
+<p>You can install the latest release of ageutils from
+<a href="https://cran.r-project.org/">CRAN</a> with:</p>
 <pre><code class="language-r">install.packages(&quot;ageutils&quot;)
 </code></pre>
+<h2 id="sec:vignettes">Vignettes</h2>
+<p>A brief overview of ageutils can be found in the included vignette</p>
+<ul>
+<li><a href="doc/ageutils.html">ageutils</a> (source: <a href="doc/ageutils.Rmd">ageutils.Rmd</a>)</li>
+</ul>
 </div>
 <footer><div class="flex-col">
 <p>Developed by Tim Taylor and Edwin van Leeuwen</p>
