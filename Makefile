@@ -1,3 +1,5 @@
+ROOT_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+
 .PHONY: doc pkg install check cran test manual revdep site clean readme
 
 doc: pkg/README.md
@@ -12,10 +14,9 @@ install: pkg
 
 check: pkg
 	R CMD check *.tar.gz
-	TZ=NZ R CMD check *.tar.gz
 
 cran: pkg
-	R CMD check --as-cran *.tar.gz
+	Rdevel CMD check --as-cran *.tar.gz
 
 test: doc
 	R -s -e "testthat::test_local('pkg')"
@@ -37,17 +38,34 @@ pkg/README.md: pkg/README.Rmd
 README.md: pkg/README.md
 	cp pkg/README.md README.md
 
-
 site: install
 	mkdir -p sitebuild
 	rm -rf sitebuild/* docs
 	cp -r site/* sitebuild/
-	cd sitebuild; Rscript -e "litedown::fuse('_footer.Rmd', '.md')"
-	cd sitebuild; Rscript -e "litedown::fuse_site()"
-	cd sitebuild; rm -f *.Rmd *.yml _*
+	cd sitebuild && Rscript -e "litedown::fuse('_footer.Rmd', '.md')"
+	cd sitebuild && Rscript -e "litedown::fuse_site()"
+	cd sitebuild && rm -f *.Rmd *.yml _*
 	cp -r sitebuild docs
 	rm -rf sitebuild
 	xdg-open docs/index.html
+
+
+pushsite: readme install
+	$(eval TMP := $(shell mktemp -d))
+	cp -r . $(TMP)
+	cd $(TMP) && git checkout pages && git pull origin pages && git rm -rf . && git clean --force -d
+	mkdir -p sitebuild
+	rm -rf sitebuild/* docs
+	cp -r site/* sitebuild/
+	cd sitebuild && Rscript -e "litedown::fuse('_footer.Rmd', '.md')"
+	cd sitebuild && Rscript -e "litedown::fuse_site()"
+	cd sitebuild && rm -f *.Rmd *.yml _*
+	cp -r sitebuild docs
+	cp -r sitebuild/* $(TMP)/
+	rm -rf sitebuild
+	cd $(TMP) && git add . && git commit -m "build" && git push origin pages
+	xdg-open docs/index.html
+
 
 clean:
 	rm -rf *.Rcheck
@@ -56,4 +74,6 @@ clean:
 	rm -f manual.pdf
 	rm -f pkg/src/*.o
 	rm -f pkg/src/*.so
+
+
 
