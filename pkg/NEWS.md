@@ -1,3 +1,7 @@
+# ageutils (development version)
+
+* Small tweaks to vignette css and js.
+
 # ageutils 0.1.1
 
 * Added an introductory vignette.

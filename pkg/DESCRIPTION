@@ -1,7 +1,7 @@
 Package: ageutils
 Type: Package
 Title: Collection of Functions for Working with Age Intervals
-Version: 0.1.1
+Version: 0.1.1.9000
 Authors@R: 
     c(
       person(
@@ -27,7 +27,7 @@ Description: Provides a collection of efficient functions for working with
 License: GPL-2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports: 
     rlang,
     stats,

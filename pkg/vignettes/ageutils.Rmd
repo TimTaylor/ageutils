@@ -3,8 +3,9 @@ title: "ageutils"
 output:
     html:
         meta:
-            css: ["@default@1.13.67", "@callout@1.13.67", "@article@1.13.67"]
-            js: ["@sidenotes@1.13.67", "@copy-button@1.13.67", "@callout@1.13.67", "@toc-highlight@1.13.67"]
+            css: ["@default@1.14.24", "@callout@1.14.24", "@copy-button@1.14.24", "@article@1.14.24", "assets/tweaks.css"]
+            js: ["@callout@1.14.24", "@copy-button@1.14.24", "@toc-highlight@1.14.24", "@sidenotes@1.14.24"]
+            lang: en
         options:
             toc: true
             js_highlight:
@@ -14,6 +15,7 @@ output:
 vignette: >
   %\VignetteEngine{litedown::vignette}
   %\VignetteIndexEntry{ageutils}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
