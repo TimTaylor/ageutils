@@ -1,4 +1,4 @@
-# ageutils (development version)
+# ageutils 0.1.2
 
 * Small tweaks to vignette css and js.
 
